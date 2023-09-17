@@ -1,9 +1,8 @@
 import Phaser from "phaser";
-import { pictureGroup } from "./picture-group"; 
+import { pictureGroup } from "./picture-group";
 import { preload } from "./picture-group";
 import { create } from "./picture-group";
 import { update } from "./picture-group";
-
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;

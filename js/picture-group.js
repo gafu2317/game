@@ -106,7 +106,5 @@ export function create() {
 export function update() {}
 
 export function pictureGroup() {
-  // 2, Phaser3オブジェクトを作る
   let phaser = new Phaser.Game(config);
 }
-
