@@ -71,7 +71,7 @@ export function create() {
   humanImage.setDisplaySize(70, 135);
 
   // pin1がクリックされたときの処理
-  pin1.on("pointerdown", function () {
+  pin1.on("pointerdown", () => {
     // 画像を右にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
