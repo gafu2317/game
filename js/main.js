@@ -1,12 +1,15 @@
 import Phaser from "phaser";
 import { pictureGroup } from "./picture-group"; 
+import { preload } from "./picture-group";
+import { create } from "./picture-group";
+import { update } from "./picture-group";
 
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
 
 // 1, Phaser3の設定データ
-const config = {
+export const config = {
   type: Phaser.AUTO,
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
