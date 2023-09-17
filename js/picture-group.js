@@ -1,4 +1,3 @@
-import { config } from "./main.js";
 export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("tresure", "/img/treasurechest.png");
@@ -104,9 +103,3 @@ export function create() {
 }
 
 export function update() {}
-
-export function pictureGroup() {
-  // 2, Phaser3オブジェクトを作る
-  let phaser = new Phaser.Game(config);
-}
-
