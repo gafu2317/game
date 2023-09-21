@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import { create, preload, update } from "./picture-group";
+import { createActoin, preloadActoin, updateActoin } from "./actoin-group";
+
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
