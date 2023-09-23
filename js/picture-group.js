@@ -4,7 +4,7 @@ export function preload() {
   this.load.image("wallX", "/img/wallX.png");
   this.load.image("wallY", "/img/wallY.png");
   this.load.image("rock", "/img/rock.png");
-  this.load.image("background", "/img/wall3.png"); //建物内の背景
+  this.load.image("background", "/img/wall3.png"); // 建物内の背景
   this.load.image("pin", "./img/pin.png");
 
   this.load.spritesheet("wolf", "/img/transparentWolf.png", {
