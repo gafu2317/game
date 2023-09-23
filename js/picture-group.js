@@ -40,8 +40,8 @@ export function create() {
   walls = this.physics.add.staticGroup();
   
   for (var j = 3; j < 10; j++) {
-    walls.create(850, j * 60, 'wallX').setScale(0.04);//壁右
-    walls.create(150, j * 60, 'wallX').setScale(0.04);//壁左
+    walls.create(850, j * 60, 'wallX').setScale(0.04);// 壁右
+    walls.create(150, j * 60, 'wallX').setScale(0.04);// 壁左
   }
   for (var i = 2; i < 9; i++) {
     walls.create(i * 100, 600, "wallY").setScale(0.04);//床
@@ -58,6 +58,8 @@ export function create() {
   pin1.setDisplaySize(50, 300);
   pin1.setRotation(Math.PI + 0.04); // ラジアン単位で回転角度を指定
   pin1.setInteractive(); // 画像をクリック可能にする
+
+  const pin2 = pins.create(360, 465, "pin"); //左のピン
   const pin2 = pins.create(360, 465, "pin"); //左のピン
   pin2.setDisplaySize(50, 300);
   pin2.setRotation(Math.PI + 0.04);
@@ -84,6 +86,10 @@ export function create() {
   this.physics.add.collider(pins , rocks);//ピンと岩の衝突
   this.physics.add.collider(walls, wolfImage);//壁と狼の衝突
   this.physics.add.collider(rocks, wolfImage);//岩と狼の衝突
+
+  this.physics.add.collider(wolfImage,rocks);
+  this.physics.add.collider(wolfImage,walls);
+  this.physics.add.collider(rocks,pins);
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
