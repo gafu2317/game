@@ -70,19 +70,19 @@ export function create() {
   const humanImage = this.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
 
-  // pin1がクリックされたときの処理
-  pin1.on("pointerdown", () => {
-    // 画像を右にアニメーションで動かす
-    this.tweens.add({
-      targets: pin1,
-      x: 800, // 移動先のX座標
-      duration: 1000, // アニメーションの時間（ミリ秒）
-      onComplete: function () {
-        // アニメーションが完了したら画像を消す
-        pin1.destroy();
-      },
-    });
-  });
+  // // pin1がクリックされたときの処理
+  // pin1.on("pointerdown", () => {
+  //   // 画像を右にアニメーションで動かす
+  //   this.tweens.add({
+  //     targets: pin1,
+  //     x: 800, // 移動先のX座標
+  //     duration: 1000, // アニメーションの時間（ミリ秒）
+  //     onComplete: function () {
+  //       // アニメーションが完了したら画像を消す
+  //       pin1.destroy();
+  //     },
+  //   });
+  // });
 
   // アニメーションを設定
   this.anims.create({

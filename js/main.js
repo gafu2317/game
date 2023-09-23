@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { create, preload, update } from "./picture-group";
-import { createActoin, preloadActoin, updateActoin } from "./actoin-group";
-
+import { createActoin, preloadActoin, updateActoin } from "./action-group";
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
@@ -12,9 +11,18 @@ export const config = {
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
   scene: {
-    preload: preload, // 素材の読み込み時の関数
-    create: create, // 画面が作られた時の関数
-    update: update, // 連続実行される関数
+    preload: () => {
+      preload(); // 素材の読み込み時の関数
+      preloadAction();
+    },
+    create: () => {
+      create(); // 画面が作られた時の関数
+      createActoin();
+    },
+    update: () => {
+      update(); // 連続実行される関数
+      updateActoin();
+    },
   },
   fps: {
     target: 24, // フレームレート
