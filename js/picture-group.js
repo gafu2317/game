@@ -39,8 +39,8 @@ export function create() {
   walls = this.physics.add.staticGroup();
   
   for (var j = 3; j < 10; j++) {
-    walls.create(850, j * 60, 'wallX').setScale(0.04);//壁右
-    walls.create(150, j * 60, 'wallX').setScale(0.04);//壁左
+    walls.create(850, j * 60, 'wallX').setScale(0.04);// 壁右
+    walls.create(150, j * 60, 'wallX').setScale(0.04);// 壁左
   }
   for (var i = 2; i < 9; i++) {
     walls.create(i * 100, 600, "wallY").setScale(0.04);//床
