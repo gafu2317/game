@@ -24,12 +24,12 @@ var wolfImage;
 var pin3;
 
 export function create() {
-  const sabakuImage = this.add.image(500, 300, "sabaku");
+  const sabakuImage = this.add.image(500, 300, "sabaku");//背景
   sabakuImage.setDisplaySize(1000, 600);
 
   for (var i = 3.2; i < 10; i++) {
     for (var j = 3; j < 10; j++) {
-      var image = this.add.image(i * 80, j * 60, "background"); //背景
+      var image = this.add.image(i * 80, j * 60, "background"); //ステージ背景
       image.setScale(0.09);
     }
   }
@@ -58,20 +58,22 @@ export function create() {
   pin2.setDisplaySize(50, 300);
   pin2.setRotation(Math.PI + 0.04);
   pin2.setInteractive(); // 画像をクリック可能にする
-  pin3 = this.physics.add.image(500, 310, "pin"); //上のピン
+  pin3 = this.physics.add.staticGroup();
+  pin3 = this.add.image(500, 310, "pin"); //上のピン
   pin3.setDisplaySize(50, 300);
   pin3.setRotation(Math.PI / 2 + 0.04);
   pin3.setInteractive(); // 画像をクリック可能にする
 
 
-  rocks =  this.physics.add.image(500, 240, "rock");
+  rocks =  this.physics.add.image(500, 240, "rock");//岩を追加
   rocks.setDisplaySize(150, 150);
-  rocks.setBounce(0.2);
+  rocks.setBounce(0.2);//岩の跳ね返り
+  rocks.setCollideWorldBounds(true);//岩と画面の衝突
   
-  wolfImage = this.physics.add.sprite(500, 523, "wolf");
+  wolfImage = this.physics.add.sprite(500, 523, "wolf");//狼を追加
   wolfImage.setDisplaySize(213, 102);
-  wolfImage.setBounce(0.2);
-  wolfImage.setCollideWorldBounds(true);
+  wolfImage.setBounce(0.2);//狼の跳ね返り
+  wolfImage.setCollideWorldBounds(true);//狼と画面の衝突
   
   const humanImage = this.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
