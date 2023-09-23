@@ -21,7 +21,8 @@ export function preload() {
 var walls;
 var rocks;
 var wolfImage;
-var pin3;
+var pins;
+
 
 export function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");//背景
@@ -50,16 +51,18 @@ export function create() {
     walls.create(i * 100 + 4, 321, "wallY").setScale(0.04);//足場左
     walls.create(i * 100 + 490, 321, "wallY").setScale(0.04);//足場右
   }
-  const pin1 = this.add.image(640, 465, "pin"); //右のピン
+
+  pins = this.physics.add.staticGroup();//グループの作成
+
+  const pin1 = pins.create(640, 465, "pin"); //右のピン
   pin1.setDisplaySize(50, 300);
   pin1.setRotation(Math.PI + 0.04); // ラジアン単位で回転角度を指定
   pin1.setInteractive(); // 画像をクリック可能にする
-  const pin2 = this.add.image(360, 465, "pin"); //左のピン
+  const pin2 = pins.create(360, 465, "pin"); //左のピン
   pin2.setDisplaySize(50, 300);
   pin2.setRotation(Math.PI + 0.04);
   pin2.setInteractive(); // 画像をクリック可能にする
-  pin3 = this.physics.add.staticGroup();
-  pin3 = this.add.image(500, 310, "pin"); //上のピン
+  const pin3 = pins.create(500, 310, "pin"); //上のピン
   pin3.setDisplaySize(50, 300);
   pin3.setRotation(Math.PI / 2 + 0.04);
   pin3.setInteractive(); // 画像をクリック可能にする
@@ -78,7 +81,7 @@ export function create() {
   const humanImage = this.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
   
-  this.physics.add.collider(pin3 , rocks);//ピンと岩の衝突
+  this.physics.add.collider(pins , rocks);//ピンと岩の衝突
   this.physics.add.collider(walls, wolfImage);//壁と狼の衝突
   this.physics.add.collider(rocks, wolfImage);//岩と狼の衝突
 
