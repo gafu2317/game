@@ -19,6 +19,9 @@ export function preload() {
 }
 
 var walls;
+var rocks;
+var wolfImage;
+var pin3;
 
 export function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
@@ -55,20 +58,27 @@ export function create() {
   pin2.setDisplaySize(50, 300);
   pin2.setRotation(Math.PI + 0.04);
   pin2.setInteractive(); // 画像をクリック可能にする
-  const pin3 = this.add.image(500, 310, "pin"); //上のピン
+  pin3 = this.physics.add.image(500, 310, "pin"); //上のピン
   pin3.setDisplaySize(50, 300);
   pin3.setRotation(Math.PI / 2 + 0.04);
   pin3.setInteractive(); // 画像をクリック可能にする
 
-  const rock = this.add.image(500, 240, "rock");
-  rock.setDisplaySize(150, 150);
 
-  const wolfImage = this.add.sprite(500, 523, "wolf");
+  rocks =  this.physics.add.image(500, 240, "rock");
+  rocks.setDisplaySize(150, 150);
+  rocks.setBounce(0.2);
+  
+  wolfImage = this.physics.add.sprite(500, 523, "wolf");
   wolfImage.setDisplaySize(213, 102);
-
+  wolfImage.setBounce(0.2);
+  wolfImage.setCollideWorldBounds(true);
+  
   const humanImage = this.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
-
+  
+  this.physics.add.collider(pin3 , rocks);//ピンと岩の衝突
+  this.physics.add.collider(walls, wolfImage);//壁と狼の衝突
+  this.physics.add.collider(rocks, wolfImage);//岩と狼の衝突
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
