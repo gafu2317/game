@@ -1,6 +1,6 @@
 export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
-  this.load.image("tresure", "/img/treasurechest.png");
+  this.load.image("treasure", "/img/treasurechest.png");
   this.load.image("wallX", "/img/wallX.png");
   this.load.image("wallY", "/img/wallY.png");
   this.load.image("rock", "/img/rock.png");
@@ -18,6 +18,8 @@ export function preload() {
   });
 }
 
+var walls;
+
 export function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
@@ -28,25 +30,22 @@ export function create() {
       image.setScale(0.09);
     }
   }
-  const tresure = this.add.image(720, 520, "tresure");
-  tresure.setDisplaySize(150, 150);
+  const treasure = this.add.image(720, 520, "treasure");
+  treasure.setDisplaySize(150, 150);
+
+  walls = this.physics.add.staticGroup();
+  
   for (var j = 3; j < 10; j++) {
-    var image = this.add.image(850, j * 60, "wallX"); //壁右
-    image.setScale(0.04);
-    var image = this.add.image(150, j * 60, "wallX"); //壁左
-    image.setScale(0.04);
+    walls.create(850, j * 60, 'wallX').setScale(0.04);//壁右
+    walls.create(150, j * 60, 'wallX').setScale(0.04);//壁左
   }
   for (var i = 2; i < 9; i++) {
-    var image = this.add.image(i * 100, 600, "wallY"); //床
-    image.setScale(0.04);
-    var image = this.add.image(i * 100, 132, "wallY"); //天井
-    image.setScale(0.04);
+    walls.create(i * 100, 600, "wallY").setScale(0.04);//床
+    walls.create(i * 100, 132, "wallY").setScale(0.04);//天井
   }
   for (var i = 2; i < 4; i++) {
-    var image = this.add.image(i * 100 + 4, 321, "wallY"); //足場左
-    image.setScale(0.04);
-    var image = this.add.image(i * 100 + 490, 321, "wallY"); //足場右
-    image.setScale(0.04);
+    walls.create(i * 100 + 4, 321, "wallY").setScale(0.04);//足場左
+    walls.create(i * 100 + 490, 321, "wallY").setScale(0.04);//足場右
   }
   const pin1 = this.add.image(640, 465, "pin"); //右のピン
   pin1.setDisplaySize(50, 300);
@@ -61,7 +60,7 @@ export function create() {
   pin3.setRotation(Math.PI / 2 + 0.04);
   pin3.setInteractive(); // 画像をクリック可能にする
 
-  const rock = this.add.image(500, 240, "rock"); //右のピン
+  const rock = this.add.image(500, 240, "rock");
   rock.setDisplaySize(150, 150);
 
   const wolfImage = this.add.sprite(500, 523, "wolf");
@@ -72,14 +71,42 @@ export function create() {
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
-    // 画像を右にアニメーションで動かす
+    // 画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
-      x: 800, // 移動先のX座標
+      y: 800, // 移動先のy座標
       duration: 1000, // アニメーションの時間（ミリ秒）
       onComplete: function () {
         // アニメーションが完了したら画像を消す
         pin1.destroy();
+      },
+    });
+  });
+
+  //pin2がクリックされたときの処理
+  pin2.on("pointerdown" , () => {
+    //画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: pin2,
+      y: 800, //移動先のy座標
+      duration: 1000, //アニメーションの時間（ミリ秒）
+      onComplete: function () {
+        //アニメーションが完了したら画像を消す
+        pin2.destroy();
+      },
+    });
+  });
+
+  //pin3がクリックされたときの処理
+  pin3.on("pointerdown" , () => {
+    //画像を右にアニメーションで動かす
+    this.tweens.add({
+      targets:pin3,
+      x: 1200, //移動先のx座標
+      duration: 1500, //アニメーションの時間（ミリ秒）
+      onComplete: function () {
+        //アニメーションが完了したら画像を消す
+        pin3.destroy();
       },
     });
   });
