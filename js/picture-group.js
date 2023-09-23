@@ -60,7 +60,6 @@ export function create() {
   pin1.setInteractive(); // 画像をクリック可能にする
 
   const pin2 = pins.create(360, 465, "pin"); //左のピン
-  const pin2 = pins.create(360, 465, "pin"); //左のピン
   pin2.setDisplaySize(50, 300);
   pin2.setRotation(Math.PI + 0.04);
   pin2.setInteractive(); // 画像をクリック可能にする
