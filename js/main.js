@@ -10,6 +10,7 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
+
   scene: {
     preload: () => {
       preload(); // 素材の読み込み時の関数
@@ -24,6 +25,7 @@ export const config = {
       updateActoin();
     },
   },
+
   fps: {
     target: 24, // フレームレート
     forceSetTimeOut: true,
