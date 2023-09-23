@@ -1,3 +1,6 @@
+/**
+ * @type {Phaser.Types.Scenes.ScenePreloadCallback}
+ */
 export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("treasure", "/img/treasurechest.png");
@@ -22,7 +25,9 @@ var walls;
 var rocks;
 var wolfImage;
 var pins;
-
+/**
+ * @type {Phaser.Types.Scenes.SceneCreateCallback}
+ */
 export function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
@@ -39,16 +44,16 @@ export function create() {
   walls = this.physics.add.staticGroup();
   
   for (var j = 3; j < 10; j++) {
-    walls.create(850, j * 60, 'wallX').setScale(0.04);// 壁右
-    walls.create(150, j * 60, 'wallX').setScale(0.04);// 壁左
+    walls.create(850, j * 60, "wallX").setScale(0.04); // 壁右
+    walls.create(150, j * 60, "wallX").setScale(0.04); // 壁左
   }
   for (var i = 2; i < 9; i++) {
-    walls.create(i * 100, 600, "wallY").setScale(0.04);//床
-    walls.create(i * 100, 132, "wallY").setScale(0.04);//天井
+    walls.create(i * 100, 600, "wallY").setScale(0.04); //床
+    walls.create(i * 100, 132, "wallY").setScale(0.04); //天井
   }
   for (var i = 2; i < 4; i++) {
-    walls.create(i * 100 + 4, 321, "wallY").setScale(0.04);//足場左
-    walls.create(i * 100 + 490, 321, "wallY").setScale(0.04);//足場右
+    walls.create(i * 100 + 4, 321, "wallY").setScale(0.04); //足場左
+    walls.create(i * 100 + 490, 321, "wallY").setScale(0.04); //足場右
   }
 
   // グループの作成
@@ -83,9 +88,9 @@ export function create() {
   const humanImage = this.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
 
-  this.physics.add.collider(wolfImage,rocks);
-  this.physics.add.collider(wolfImage,walls);
-  this.physics.add.collider(rocks,pins);
+  this.physics.add.collider(wolfImage, rocks);
+  this.physics.add.collider(wolfImage, walls);
+  this.physics.add.collider(rocks, pins);
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
@@ -102,7 +107,7 @@ export function create() {
   });
 
   //pin2がクリックされたときの処理
-  pin2.on("pointerdown" , () => {
+  pin2.on("pointerdown", () => {
     //画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin2,
@@ -116,10 +121,10 @@ export function create() {
   });
 
   //pin3がクリックされたときの処理
-  pin3.on("pointerdown" , () => {
+  pin3.on("pointerdown", () => {
     //画像を右にアニメーションで動かす
     this.tweens.add({
-      targets:pin3,
+      targets: pin3,
       x: 1200, //移動先のx座標
       duration: 1500, //アニメーションの時間（ミリ秒）
       onComplete: function () {
