@@ -4,6 +4,9 @@ import { create, preload, update } from "./picture-group";
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
 // 1, Phaser3の設定データ
+/**
+ * @type {Phaser.Types.Core.GameConfig}
+ */
 export const config = {
   type: Phaser.AUTO,
   width: D_WIDTH, // ゲーム画面の横幅
@@ -23,7 +26,7 @@ export const config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: false, // スプライトに緑の枠を表示しない
+      debug: true, // スプライトに緑の枠を表示しない
       gravity: { y: 300 }, // 重力の方向とその強さ
     },
   },
