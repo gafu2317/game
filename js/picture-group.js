@@ -92,7 +92,7 @@ export function create() {
     pin3 を擬似的に 90 度回転
     setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
    */
-  pin3.setSize(pin3.height, pin3.width);
+  pin3.setSize(pin3.height, pin3.width*0.2);
   pin3.setRotation((1 / 2) * halfRotationDegree);
 
   pin3.setDisplaySize(50, 310);
@@ -102,21 +102,36 @@ export function create() {
   pin3.body.setAllowGravity(false);
 
   rocks = this.physics.add.image(500, 200, "rock");
+  rocks.setSize(rocks.width*0.9, rocks.height*0.9)
   rocks.setDisplaySize(150, 150);
-  rocks.setBounce(0.2);
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
   wolfImage.setDisplaySize(213, 102);
-  wolfImage.setBounce(0.2);
   wolfImage.setCollideWorldBounds(true);
 
-  const humanImage = this.add.sprite(250, 523, "human");
+  const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
+  humanImage.setCollideWorldBounds(true); 
+  humanImage.setSize(humanImage.width*0.8, humanImage.height*0.7)
 
-  this.physics.add.collider(wolfImage,rocks);
+  this.physics.add.collider(wolfImage,rocks,hitrocks,null,this);
   this.physics.add.collider(wolfImage,walls);
   this.physics.add.collider(rocks,pins);
+  this.physics.add.collider(humanImage,wolfImage,hithuman,null,this);
+  this.physics.add.collider(humanImage,walls);
+
+  //岩と狼がぶつかったときの処理
+  function hitrocks(wolfImage,rocks) {
+  wolfImage.destroy();
+  rocks.destroy();
+}
+  //狼と人間がぶつかったときの処理
+  function hithuman(humanImage,wolfImage) {
+  humanImage.destroy();
+  }
+  //人間と宝がぶつかったときの処
+
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
