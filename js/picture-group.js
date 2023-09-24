@@ -36,21 +36,21 @@ export function create() {
   const treasure = this.physics.add.image(720, 520, "treasure");
   treasure.setDisplaySize(150, 150);
   treasure.setCollideWorldBounds(true);
-  treasure.setSize(treasure.width*0.7, treasure.height*0.7)
+  treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
 
   walls = this.physics.add.staticGroup();
 
   for (var j = 3; j < 10; j++) {
-    walls.create(850, j * 60, 'wallX2');// 壁右
-    walls.create(150, j * 60, 'wallX2');// 壁左
+    walls.create(850, j * 60, "wallX2"); // 壁右
+    walls.create(150, j * 60, "wallX2"); // 壁左
   }
   for (var i = 2; i < 9; i++) {
-    walls.create(i * 100, 600, "wallY2");//床
-    walls.create(i * 100, 132, "wallY2");//天井
+    walls.create(i * 100, 600, "wallY2"); //床
+    walls.create(i * 100, 132, "wallY2"); //天井
   }
   for (var i = 2; i < 4; i++) {
-    walls.create(i * 100 + 4, 321, "wallY2");//足場左
-    walls.create(i * 100 + 490, 321, "wallY2");//足場右
+    walls.create(i * 100 + 4, 321, "wallY2"); //足場左
+    walls.create(i * 100 + 490, 321, "wallY2"); //足場右
   }
 
   // 動的グループの作成
@@ -94,7 +94,7 @@ export function create() {
     pin3 を擬似的に 90 度回転
     setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
    */
-  pin3.setSize(pin3.height, pin3.width*0.2);
+  pin3.setSize(pin3.height, pin3.width * 0.2);
   pin3.setRotation((1 / 2) * halfRotationDegree);
 
   pin3.setDisplaySize(50, 310);
@@ -104,7 +104,7 @@ export function create() {
   pin3.body.setAllowGravity(false);
 
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width*0.9, rocks.height*0.9)
+  rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 
@@ -114,30 +114,41 @@ export function create() {
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
-  humanImage.setCollideWorldBounds(true); 
-  humanImage.setSize(humanImage.width*0.8, humanImage.height*0.7)
+  humanImage.setCollideWorldBounds(true);
+  humanImage.setSize(humanImage.width * 0.8, humanImage.height * 0.7);
 
-  this.physics.add.collider(wolfImage,rocks,hitrocks,null,this);
-  this.physics.add.collider(wolfImage,walls);
-  this.physics.add.collider(rocks,pins);
-  this.physics.add.collider(humanImage,wolfImage,hithuman,null,this);
-  this.physics.add.collider(humanImage,walls);
-  this.physics.add.collider(treasure,walls);
+  this.physics.add.collider(wolfImage, rocks, hitrocks, null, this);
+  this.physics.add.collider(wolfImage, walls);
+  this.physics.add.collider(rocks, pins);
+  this.physics.add.collider(rocks, walls);
+  this.physics.add.collider(humanImage, wolfImage, hithuman, null, this);
+  this.physics.add.collider(humanImage, walls);
+  this.physics.add.collider(treasure, walls);
+  this.physics.add.collider(treasure, humanImage, hittreasure, null, this);
 
+  let wolf = 1; //狼がいるかどうか
   //岩と狼がぶつかったときの処理
-  function hitrocks(wolfImage,rocks) {
-  wolfImage.destroy();
-  rocks.destroy();
-}
-  //狼と人間がぶつかったときの処理
-  function hithuman(humanImage,wolfImage) {
-  humanImage.destroy();
+  function hitrocks(wolfImage, rocks) {
+    wolfImage.destroy();
+    rocks.destroy();
+    wolf = 0;
   }
-  //人間と宝がぶつかったときの処
 
+  //狼と人間がぶつかったときの処理
+  function hithuman(humanImage, wolfImage) {
+    humanImage.destroy();
+    //ここにゲームオーバーの処理を入れる
+  }
+  //人間と宝がぶつかったときの処理
+  function hittreasure(humanImage, treasure) {
+    //ここにゲームクリアの処理を入れる
+  }
+
+  let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
+    pinsClicked++; //カウンターを増やす
     // 画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
@@ -146,31 +157,54 @@ export function create() {
       onComplete: function () {
         // アニメーションが完了したら画像を消す
         pin1.destroy();
+        if (pinsClicked === 2 && wolf === 0) {
+          //pin1とpin2が両方消えたら人間を右に移動
+          this.tweens.add({
+            targets: humanImage,
+            x: 700, // 移動先のx座標
+            duration: 3000, // アニメーションの時間（ミリ秒）
+          });
+        }
       },
     });
   });
 
   //pin2がクリックされたときの処理
-  pin2.on("pointerdown" , () => {
+  pin2.on("pointerdown", () => {
+    pinsClicked++; //カウンターを増やす
     //画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin2,
       y: 800, //移動先のy座標
       duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: function () {
+      onComplete: () => {
         //アニメーションが完了したら画像を消す
         pin2.destroy();
+        //狼を左にアニメーションで動かす
+        this.tweens.add({
+          targets: wolfImage,
+          x: 300, //移動先のx座標
+          duration: 1000, //アニメーションの時間（ミリ秒）
+        });
+        if (pinsClicked === 2 && wolf === 0) {
+          // pin1とpin2が両方消えたら人間を右に移動
+          this.tweens.add({
+            targets: humanImage,
+            x: 700, // 移動先のx座標
+            duration: 3000, // アニメーションの時間（ミリ秒）
+          });
+        }
       },
     });
   });
 
   //pin3がクリックされたときの処理
-  pin3.on("pointerdown" , () => {
+  pin3.on("pointerdown", () => {
     //画像を右にアニメーションで動かす
     this.tweens.add({
-      targets:pin3,
+      targets: pin3,
       x: 1200, //移動先のx座標
-      duration: 1500, //アニメーションの時間（ミリ秒）
+      duration: 1000, //アニメーションの時間（ミリ秒）
       onComplete: function () {
         //アニメーションが完了したら画像を消す
         pin3.destroy();
