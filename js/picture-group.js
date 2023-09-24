@@ -38,7 +38,7 @@ export function create() {
   treasure.setDisplaySize(150, 150);
 
   walls = this.physics.add.staticGroup();
-  
+
   for (var j = 3; j < 10; j++) {
     walls.create(850, j * 60, 'wallX').setScale(0.04);// 壁右
     walls.create(150, j * 60, 'wallX').setScale(0.04);// 壁左
@@ -52,22 +52,56 @@ export function create() {
     walls.create(i * 100 + 490, 321, "wallY").setScale(0.04);//足場右
   }
 
-  pins = this.physics.add.staticGroup();//グループの作成
+  // 動的グループの作成
+  pins = this.physics.add.group();
 
-  const pin1 = pins.create(640, 465, "pin"); //右のピン
+  const halfRotationDegree = Math.PI + 0.04;
+
+  // ピンの追加
+  /**
+   * @type {Phaser.Physics.Arcade.Image}
+   */
+  const pin1 = pins.create(640, 465, "pin");
   pin1.setDisplaySize(50, 300);
-  pin1.setRotation(Math.PI + 0.04); // ラジアン単位で回転角度を指定
-  pin1.setInteractive(); // 画像をクリック可能にする
+  // 他の物体と衝突しても動かないようにした
+  pin1.setImmovable(true);
+  pin1.setInteractive();
+  pin1.setRotation(halfRotationDegree);
+  /*
+  ? 重力加速度と速さをリセットしてもなぜか効果がなく
+  ? 重力の干渉を受けないようにするために setAllowGravity を false にするしかなかった
+   */
+  // pin1.setGravityY(0);
+  // pin1.setVelocity(0);
+  pin1.body.setAllowGravity(false);
 
+  /**
+   * @type {Phaser.Physics.Arcade.Image}
+   */
   const pin2 = pins.create(360, 465, "pin"); //左のピン
   pin2.setDisplaySize(50, 300);
-  pin2.setRotation(Math.PI + 0.04);
   pin2.setInteractive(); // 画像をクリック可能にする
-  const pin3 = pins.create(500, 310, "pin"); //上のピン
-  pin3.setDisplaySize(50, 300);
-  pin3.setRotation(Math.PI / 2 + 0.04);
-  pin3.setInteractive(); // 画像をクリック可能にする
 
+  pin2.setImmovable(true);
+  pin2.body.setAllowGravity(false);
+  pin2.setRotation(halfRotationDegree);
+
+  /**
+   * @type {Phaser.Physics.Arcade.Image}
+   */
+  const pin3 = pins.create(500, 310, "pin");
+  /*
+    pin3 を擬似的に 90 度回転
+    setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
+   */
+  pin3.setSize(pin3.height, pin3.width);
+  pin3.setRotation((1 / 2) * halfRotationDegree);
+
+  pin3.setDisplaySize(50, 310);
+  // 画像をクリック可能にする
+  pin3.setInteractive();
+  pin3.setImmovable(true);
+  pin3.body.setAllowGravity(false);
 
   rocks =  this.physics.add.image(500, 240, "rock");//岩を追加
   rocks.setDisplaySize(150, 150);
