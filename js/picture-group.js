@@ -33,8 +33,10 @@ export function create() {
       image.setScale(0.09);
     }
   }
-  const treasure = this.add.image(720, 520, "treasure");
+  const treasure = this.physics.add.image(720, 520, "treasure");
   treasure.setDisplaySize(150, 150);
+  treasure.setCollideWorldBounds(true);
+  treasure.setSize(treasure.width*0.7, treasure.height*0.7)
 
   walls = this.physics.add.staticGroup();
 
@@ -120,6 +122,7 @@ export function create() {
   this.physics.add.collider(rocks,pins);
   this.physics.add.collider(humanImage,wolfImage,hithuman,null,this);
   this.physics.add.collider(humanImage,walls);
+  this.physics.add.collider(treasure,walls);
 
   //岩と狼がぶつかったときの処理
   function hitrocks(wolfImage,rocks) {
