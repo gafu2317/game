@@ -1,8 +1,8 @@
 export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("treasure", "/img/treasurechest.png");
-  this.load.image("wallX", "/img/wallX.png");
-  this.load.image("wallY", "/img/wallY.png");
+  this.load.image("wallX2", "/img/wallX2.png");
+  this.load.image("wallY2", "/img/wallY2.png");
   this.load.image("rock", "/img/rock.png");
   this.load.image("background", "/img/wall3.png"); // 建物内の背景
   this.load.image("pin", "./img/pin.png");
@@ -39,16 +39,16 @@ export function create() {
   walls = this.physics.add.staticGroup();
 
   for (var j = 3; j < 10; j++) {
-    walls.create(850, j * 60, 'wallX').setScale(0.04);// 壁右
-    walls.create(150, j * 60, 'wallX').setScale(0.04);// 壁左
+    walls.create(850, j * 60, 'wallX2');// 壁右
+    walls.create(150, j * 60, 'wallX2');// 壁左
   }
   for (var i = 2; i < 9; i++) {
-    walls.create(i * 100, 600, "wallY").setScale(0.04);//床
-    walls.create(i * 100, 132, "wallY").setScale(0.04);//天井
+    walls.create(i * 100, 600, "wallY2");//床
+    walls.create(i * 100, 132, "wallY2");//天井
   }
   for (var i = 2; i < 4; i++) {
-    walls.create(i * 100 + 4, 321, "wallY").setScale(0.04);//足場左
-    walls.create(i * 100 + 490, 321, "wallY").setScale(0.04);//足場右
+    walls.create(i * 100 + 4, 321, "wallY2");//足場左
+    walls.create(i * 100 + 490, 321, "wallY2");//足場右
   }
 
   // 動的グループの作成
