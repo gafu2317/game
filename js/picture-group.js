@@ -154,7 +154,7 @@ export function create() {
       targets: pin1,
       y: 800, // 移動先のy座標
       duration: 1000, // アニメーションの時間（ミリ秒）
-      onComplete: function () {
+      onComplete:  () => {
         // アニメーションが完了したら画像を消す
         pin1.destroy();
         if (pinsClicked === 2 && wolf === 0) {
@@ -168,6 +168,8 @@ export function create() {
       },
     });
   });
+
+console.log(pinsClicked);
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
