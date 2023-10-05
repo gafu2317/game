@@ -27,7 +27,7 @@ export const config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: true, // スプライトに緑の枠を表示しない
+      debug: false, // スプライトに緑の枠を表示しない
       gravity: { y: 300 }, // 重力の方向とその強さ
     },
   },
