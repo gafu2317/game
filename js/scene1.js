@@ -1,6 +1,15 @@
-import Phaser from "phaser";
-const Scene1 = new Phaser.Scene('Scene1');
-export function preload() {
+/**
+ * @type {Phaser.Types.Scenes.SettingsConfig}
+ */
+export const scene1 = {
+  preload: preload, // 素材の読み込み時の関数
+  create: create, // 画面が作られた時の関数
+  update: update, // 連続実行される関数
+  key: "scene1",
+  active: false,
+};
+
+function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("treasure", "/img/treasurechest.png");
   this.load.image("wallX2", "/img/wallX2.png");
@@ -25,7 +34,7 @@ var rocks;
 var wolfImage;
 var pins;
 
-export function create() {
+function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
 
@@ -137,47 +146,43 @@ export function create() {
   }
 
   var redtext = {
-    fontSize: '100px', // フォントサイズ
-    fill: '#FF0000', // テキストの色
-    fontStyle: 'bold' // 太文字のスタイル
-};
-var whiteText = {
-  fontSize: '60px', // フォントサイズ
-  fill: '#FFFFFF', // テキストの色
-  fontStyle: 'bold' // 太文字のスタイル
-};
+    fontSize: "100px", // フォントサイズ
+    fill: "#FF0000", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
+  var whiteText = {
+    fontSize: "60px", // フォントサイズ
+    fill: "#FFFFFF", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
 
-var graphics = this.add.graphics();//暗転用のグラフィックス
-var gameoverText
-var restartText
- // 画面全体に配置
- graphics.fillStyle(0x000000, 0.6); // 色と透明度を指定
- graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
- graphics.setDepth(-1);//通常時は背面に置く
- 
-
+  var graphics = this.add.graphics(); //暗転用のグラフィックス
+  var gameoverText;
+  var restartText;
+  // 画面全体に配置
+  graphics.fillStyle(0x000000, 0.6); // 色と透明度を指定
+  graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
+  graphics.setDepth(-1); //通常時は背面に置く
 
   //狼と人間がぶつかったときの処理
   function hithuman(humanImage, wolfImage) {
     humanImage.destroy();
-    gameoverText = this.add.text(230,70, 'GAME OVER',redtext); //ゲームオーバーの表示
+    gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
-    restartText = this.add.text(390, 200, 'リトライ', whiteText);
+    restartText = this.add.text(390, 200, "リトライ", whiteText);
     restartText.setInteractive(); // テキストをクリック可能にする
-    restartText.on('pointerdown', () => {
+    restartText.on("pointerdown", () => {
       gameoverText.setVisible(false); // ゲームオーバーテキストを非表示
       restartText.setVisible(false); // リスタートテキストを非表示
-      this.scene.restart('Scene1');// ここでゲームの初期状態に戻す処理を行う
-  });
+      this.scene.restart("Scene1"); // ここでゲームの初期状態に戻す処理を行う
+    });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-   var gameclearText = this.add.text(220, 70, 'GAME CLEAR', redtext);//ゲームクリアの表示
+    var gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
   }
-
-
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
 
@@ -189,7 +194,7 @@ var restartText
       targets: pin1,
       y: 800, // 移動先のy座標
       duration: 1000, // アニメーションの時間（ミリ秒）
-      onComplete:  () => {
+      onComplete: () => {
         // アニメーションが完了したら画像を消す
         pin1.destroy();
         if (pinsClicked === 2 && wolf === 0) {
@@ -204,7 +209,7 @@ var restartText
     });
   });
 
-console.log(pinsClicked);
+  console.log(pinsClicked);
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
@@ -267,5 +272,4 @@ console.log(pinsClicked);
   humanImage.play("humanAnimation"); // アニメーションを再生
 }
 
-export function update() {}
-export default Scene1;
+function update() {}
