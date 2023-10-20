@@ -138,6 +138,15 @@ export function create() {
   function hithuman(humanImage, wolfImage) {
     humanImage.destroy();
     //ここにゲームオーバーの処理を入れる
+    function startGame() {
+      this.scene.start('GameScene'); // 'GameScene'はゲームプレイシーンの名前
+    }
+    const startButton = this.add.text(400, 300, 'Start Game', {
+      fontSize: '24px',
+      fill: '#fff',
+    });
+    startButton.setInteractive();
+    startButton.on('pointerdown', startGame, this);
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
