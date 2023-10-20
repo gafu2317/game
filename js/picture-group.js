@@ -1,4 +1,4 @@
-export function preload() {
+  export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("treasure", "/img/treasurechest.png");
   this.load.image("wallX2", "/img/wallX2.png");
