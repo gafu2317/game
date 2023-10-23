@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import Scene1 from "./picture-group";
-// import { create, preload, update } from "./picture-group";
+import Scene1 from "./picture-group.js";
+import { create, preload, update } from "./picture-group";
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
@@ -14,7 +14,6 @@ export const config = {
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
   scene: Scene1,
-
   scene: {
     preload: preload, // 素材の読み込み時の関数
     create: create, // 画面が作られた時の関数
