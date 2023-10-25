@@ -38,6 +38,19 @@ function create(){
 
   const tower = this.add.image(500, 300, "tower");
 
+  let escapeKey;
+  let spaceKey;
+  //escキーを押すとホームに戻る処理
+  const input = this.input;
+  escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+  escapeKey.on("down", () => {
+    this.scene.start("start-menu");
+  });
+//spaceキーを押すとやり直しができる処理
+  spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  spaceKey.on("down", () => {
+this.scene.restart();
+  })
 }
 
 function update(){

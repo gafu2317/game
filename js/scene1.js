@@ -33,8 +33,6 @@ var walls;
 var rocks;
 var wolfImage;
 var pins;
-let escapeKey;
-let spaceKey;
 
 function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
@@ -146,13 +144,15 @@ function create() {
     rocks.destroy();
     wolf = 0;
   }
+
+  let escapeKey;
+  let spaceKey;
   //escキーを押すとホームに戻る処理
   const input = this.input;
   escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
   escapeKey.on("down", () => {
     this.scene.start("start-menu");
   });
-
 //spaceキーを押すとやり直しができる処理
   spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   spaceKey.on("down", () => {
@@ -189,10 +189,10 @@ this.scene.restart();
     restartText.setInteractive(); // テキストをクリック可能にする
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
-      this.scene.restart("Scene1"); // ここでゲームの初期状態に戻す処理を行う
+      this.scene.restart("Scene1"); // ゲームの初期状態に戻す処理
     });
     returnMenuText.on("pointerdown", () => {
-      this.scene.start("start-menu"); // ここでゲームの初期状態に戻す処理を行う
+      this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
