@@ -159,6 +159,8 @@ function create() {
   var graphics = this.add.graphics(); //暗転用のグラフィックス
   var gameoverText;
   var restartText;
+  var gameclearText;
+  var nextText;
   // 画面全体に配置
   graphics.fillStyle(0x000000, 0.6); // 色と透明度を指定
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
@@ -181,7 +183,28 @@ function create() {
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-    var gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
+    gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
+    restartText = this.add.text(250,200,"リトライ",whiteText);
+    nextText = this.add.text(530,200,"次へ",whiteText);
+    restartText.setInteractive();//テキストをクリック可能にする
+    nextText.setInteractive();
+    restartText.on("pointerdown",() => {
+      gameclearText.setVisible(false); // ゲームクリアテキストを非表示
+      restartText.setVisible(false); // リスタートテキストを非表示
+      nextText.setVisible(false); // ネクストテキストを非表示
+      this.scene.restart("Scene1"); // ここでゲームの初期状態に戻す処理を行う
+    });
+    nextText.on("pointerdown",() => {
+      gameclearText.setVisible(false); // ゲームクリアテキストを非表示
+      restartText.setVisible(false); // リスタートテキストを非表示
+      nextText.setVisible(false); // ネクストテキストを非表示
+      this.scene.start("scene3"); // ここでゲームを次のステージに移す処理を行う
+
+    })
+    nextText.setDepth(1);
+    gameclearText.setDepth(1);
+    restartText.setDepth(1);
+    graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
   }
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
