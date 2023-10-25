@@ -1,4 +1,6 @@
-  export function preload() {
+import Phaser from "phaser";
+const Scene1 = new Phaser.Scene('Scene1');
+export function preload() {
   this.load.image("sabaku", "/img/sabaku.png");
   this.load.image("treasure", "/img/treasurechest.png");
   this.load.image("wallX2", "/img/wallX2.png");
@@ -163,10 +165,10 @@ var restartText
     gameoverText.setDepth(1);
     restartText = this.add.text(390, 200, 'リトライ', whiteText);
     restartText.setInteractive(); // テキストをクリック可能にする
-    restartText.on('pointerdown', function () {
+    restartText.on('pointerdown', () => {
       gameoverText.setVisible(false); // ゲームオーバーテキストを非表示
       restartText.setVisible(false); // リスタートテキストを非表示
-      // ここでゲームの初期状態に戻す処理を行う
+      this.scene.restart('Scene1');// ここでゲームの初期状態に戻す処理を行う
   });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
@@ -267,3 +269,4 @@ console.log(pinsClicked);
 }
 
 export function update() {}
+export default Scene1;
