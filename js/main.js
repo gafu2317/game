@@ -1,6 +1,7 @@
 import Phaser from "phaser";
-import Scene1 from "./picture-group.js";
-import { create, preload, update } from "./picture-group";
+import { scene1 } from "./scene1";
+import { scene2 } from "./scene2";
+import { startMenu } from "./start-menu";
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
@@ -13,16 +14,15 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: Scene1,
-  scene: {
-    preload: preload, // 素材の読み込み時の関数
-    create: create, // 画面が作られた時の関数
-    update: update, // 連続実行される関数
-  },
+  scene: [startMenu, scene1, scene2],
 
   fps: {
     target: 24, // フレームレート
     forceSetTimeOut: true,
+  },
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
   physics: {
     default: "arcade",

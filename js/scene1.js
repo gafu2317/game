@@ -1,20 +1,29 @@
-import Phaser from "phaser";
-const Scene1 = new Phaser.Scene("Scene1");
-export function preload() {
-  this.load.image("sabaku", "/img/sabaku.png");
-  this.load.image("treasure", "/img/treasurechest.png");
-  this.load.image("wallX2", "/img/wallX2.png");
-  this.load.image("wallY2", "/img/wallY2.png");
-  this.load.image("rock", "/img/rock.png");
-  this.load.image("background", "/img/wall3.png"); // 建物内の背景
-  this.load.image("pin", "./img/pin.png");
+/**
+ * @type {Phaser.Types.Scenes.SettingsConfig}
+ */
+export const scene1 = {
+  preload: preload, // 素材の読み込み時の関数
+  create: create, // 画面が作られた時の関数
+  update: update, // 連続実行される関数
+  key: "scene1",
+  active: false,
+};
 
-  this.load.spritesheet("wolf", "/img/transparentWolf.png", {
+function preload() {
+  this.load.image("sabaku", "/img/pin/sabaku.png");
+  this.load.image("treasure", "/img/pin/treasurechest.png");
+  this.load.image("wallX2", "/img/pin/wallX2.png");
+  this.load.image("wallY2", "/img/pin/wallY2.png");
+  this.load.image("rock", "/img/pin/rock.png");
+  this.load.image("background", "/img/pin/wall3.png"); // 建物内の背景
+  this.load.image("pin", "./img/pin/pin.png");
+
+  this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
     frameHeight: 204, // 1フレームの高さ
   });
 
-  this.load.spritesheet("human", "/img/human.png", {
+  this.load.spritesheet("human", "/img/pin/human.png", {
     frameWidth: 146, // 1フレームの幅
     frameHeight: 286, // 1フレームの高さ
   });
@@ -25,7 +34,7 @@ var rocks;
 var wolfImage;
 var pins;
 
-export function create() {
+function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
 
@@ -263,5 +272,4 @@ export function create() {
   humanImage.play("humanAnimation"); // アニメーションを再生
 }
 
-export function update() {}
-export default Scene1;
+function update() {}
