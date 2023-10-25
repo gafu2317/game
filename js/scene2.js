@@ -10,7 +10,20 @@ export const scene1 = {
 };
 
 function preload(){
-  this.load.image("", "/img/sabaku.png");
+  this.load.image("", "/img/tower/tower.png");
+  this.load.image("", "/img/tower/tower2.png");
+  this.load.image("", "/img/tower/towerBack.png");
+  this.load.image("", "/img/tower/towerWall2.png");
+  this.load.image("", "/img/tower/BlackItem.png");
+  this.load.image("", "/img/tower/WhiteItem.png");
+  this.load.image("", "/img/tower/gun.png");
+  this.load.image("", "/img/tower/stick.png");
+  this.load.image("", "/img/tower/sword.png");
+  this.load.image("", "/img/tower/poison.png");
+  this.load.image("", "/img/tower/dragon.png");
+  this.load.image("", "/img/tower/golem.png");
+  this.load.image("", "/img/tower/slime.png");
+
 }
 
 function create(){
