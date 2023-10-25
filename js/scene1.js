@@ -33,6 +33,8 @@ var walls;
 var rocks;
 var wolfImage;
 var pins;
+let escapeKey;
+let spaceKey;
 
 function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
@@ -144,6 +146,18 @@ function create() {
     rocks.destroy();
     wolf = 0;
   }
+  //escキーを押すとホームに戻る処理
+  const input = this.input;
+  escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+  escapeKey.on("down", () => {
+    this.scene.start("start-menu");
+  });
+
+//spaceキーを押すとやり直しができる処理
+  spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  spaceKey.on("down", () => {
+this.scene.restart();
+  })
 
   var redtext = {
     fontSize: "100px", // フォントサイズ
@@ -159,6 +173,7 @@ function create() {
   var graphics = this.add.graphics(); //暗転用のグラフィックス
   var gameoverText;
   var restartText;
+  var returnMenuText;
   // 画面全体に配置
   graphics.fillStyle(0x000000, 0.6); // 色と透明度を指定
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
@@ -170,14 +185,18 @@ function create() {
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
     restartText = this.add.text(390, 200, "リトライ", whiteText);
+    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
     restartText.setInteractive(); // テキストをクリック可能にする
+    returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
-      gameoverText.setVisible(false); // ゲームオーバーテキストを非表示
-      restartText.setVisible(false); // リスタートテキストを非表示
       this.scene.restart("Scene1"); // ここでゲームの初期状態に戻す処理を行う
+    });
+    returnMenuText.on("pointerdown", () => {
+      this.scene.start("start-menu"); // ここでゲームの初期状態に戻す処理を行う
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
+    returnMenuText.setDepth(1);
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
@@ -272,4 +291,7 @@ function create() {
   humanImage.play("humanAnimation"); // アニメーションを再生
 }
 
-function update() {}
+function update() {
+ 
+}
+
