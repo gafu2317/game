@@ -10,20 +10,20 @@ export const scene1 = {
 };
 
 function preload() {
-  this.load.image("sabaku", "/img/sabaku.png");
-  this.load.image("treasure", "/img/treasurechest.png");
-  this.load.image("wallX2", "/img/wallX2.png");
-  this.load.image("wallY2", "/img/wallY2.png");
-  this.load.image("rock", "/img/rock.png");
-  this.load.image("background", "/img/wall3.png"); // 建物内の背景
-  this.load.image("pin", "./img/pin.png");
+  this.load.image("sabaku", "/img/pin/sabaku.png");
+  this.load.image("treasure", "/img/pin/treasurechest.png");
+  this.load.image("wallX2", "/img/pin/wallX2.png");
+  this.load.image("wallY2", "/img/pin/wallY2.png");
+  this.load.image("rock", "/img/pin/rock.png");
+  this.load.image("background", "/img/pin/wall3.png"); // 建物内の背景
+  this.load.image("pin", "./img/pin/pin.png");
 
-  this.load.spritesheet("wolf", "/img/transparentWolf.png", {
+  this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
     frameHeight: 204, // 1フレームの高さ
   });
 
-  this.load.spritesheet("human", "/img/human.png", {
+  this.load.spritesheet("human", "/img/pin/human.png", {
     frameWidth: 146, // 1フレームの幅
     frameHeight: 286, // 1フレームの高さ
   });
