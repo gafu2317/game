@@ -8,12 +8,20 @@ export const startMenu = {
 };
 
 function create() {
-  let text = this.add
-    .text(100, 100, "ゲームスタート")
+  let pintext = this.add
+    .text(100, 100, "ピンゲームスタート")
     .setFontSize(32)
     .setColor("#ff0");
-  text.setInteractive();
-  text.on("pointerdown", () => {
+  pintext.setInteractive();
+  pintext.on("pointerdown", () => {
     this.scene.start("scene1");
+  });
+  let towertext = this.add
+    .text(100, 200, "タワーゲームスタート")
+    .setFontSize(32)
+    .setColor("#ff0");
+  towertext.setInteractive();
+  towertext.on("pointerdown", () => {
+    this.scene.start("scene2");
   });
 }

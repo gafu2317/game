@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { scene1 } from "./scene1";
+import { scene2 } from "./scene2";
 import { startMenu } from "./start-menu";
 
 const D_WIDTH = 1000;
@@ -13,11 +14,15 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: [startMenu, scene1],
+  scene: [startMenu, scene1, scene2],
 
   fps: {
     target: 24, // フレームレート
     forceSetTimeOut: true,
+  },
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
   physics: {
     default: "arcade",
