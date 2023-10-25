@@ -20,11 +20,12 @@ export function preload() {
   });
 }
 
+var walls;
+var rocks;
+var wolfImage;
+var pins;
+
 export function create() {
-  var walls;
-  var rocks;
-  var wolfImage;
-  var pins;
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
 
@@ -70,9 +71,9 @@ export function create() {
   pin1.setInteractive();
   pin1.setRotation(halfRotationDegree);
   /*
-    ? 重力加速度と速さをリセットしてもなぜか効果がなく
-    ? 重力の干渉を受けないようにするために setAllowGravity を false にするしかなかった
-    */
+  ? 重力加速度と速さをリセットしてもなぜか効果がなく
+  ? 重力の干渉を受けないようにするために setAllowGravity を false にするしかなかった
+   */
   // pin1.setGravityY(0);
   // pin1.setVelocity(0);
   pin1.body.setAllowGravity(false);
@@ -92,9 +93,9 @@ export function create() {
    */
   const pin3 = pins.create(500, 310, "pin");
   /*
-      pin3 を擬似的に 90 度回転
-      setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
-    */
+    pin3 を擬似的に 90 度回転
+    setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
+   */
   pin3.setSize(pin3.height, pin3.width * 0.2);
   pin3.setRotation((1 / 2) * halfRotationDegree);
 
@@ -199,7 +200,7 @@ export function create() {
     });
   });
 
-  cnsole.log(pinsClicked);
+  console.log(pinsClicked);
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
@@ -261,5 +262,6 @@ export function create() {
   });
   humanImage.play("humanAnimation"); // アニメーションを再生
 }
+
 export function update() {}
 export default Scene1;
