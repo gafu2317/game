@@ -13,7 +13,7 @@ function preload(){
   // this.load.image("", "/img/tower/tower.png");タワーの画像（ボツ）
   this.load.image("tower", "/img/tower/tower2.png");
   this.load.image("inner-tower", "/img/tower/towerWall2.png");
-  this.load.image("background", "/img/tower/towerBack10-6.jpg");
+  this.load.image("yozora", "/img/tower/towerBack10-6.jpg");
   //hはhealの略、bはbuffの略、dはdebuffの略
   this.load.image("item-h-black", "/img/tower/BlackItem.png");
   this.load.image("item-h-white", "/img/tower/WhiteItem.png");
@@ -33,11 +33,24 @@ function preload(){
 }
 
 function create(){
-  const background = this.add.image(500, 300, "background");
+  const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
 
   const tower = this.add.image(500, 300, "tower");
 
+  let escapeKey;
+  let spaceKey;
+  //escキーを押すとホームに戻る処理
+  const input = this.input;
+  escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+  escapeKey.on("down", () => {
+    this.scene.start("start-menu");
+  });
+//spaceキーを押すとやり直しができる処理
+  spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  spaceKey.on("down", () => {
+this.scene.restart();
+  })
 }
 
 function update(){
