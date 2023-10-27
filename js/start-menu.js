@@ -25,7 +25,7 @@ function create() {
     .setPadding(10, 5) // 背景の余白を調整
   pintext.setInteractive();
   pintext.on("pointerdown", () => {
-    this.scene.start("scene1");
+    this.scene.start("pinstage1");
   });
 
   let towertext = this.add
@@ -37,6 +37,6 @@ function create() {
     .setPadding(10, 5) // 背景の余白を調整
   towertext.setInteractive();
   towertext.on("pointerdown", () => {
-    this.scene.start("scene2");
+    this.scene.start("towerstage1");
   });
 }

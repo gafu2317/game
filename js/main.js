@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { scene1 } from "./scene1";
-import { scene2 } from "./scene2";
+import { pinstage1 } from "./pin-stage1";
+import { towerstage1 } from "./tower-stage1";
 import { startMenu } from "./start-menu";
 
 const D_WIDTH = 1000;
@@ -14,7 +14,7 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: [startMenu, scene1, scene2],
+  scene: [startMenu, pinstage1, towerstage1],
 
   fps: {
     target: 24, // フレームレート

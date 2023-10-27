@@ -1,11 +1,11 @@
 /**
  * @type {Phaser.Types.Scenes.SettingsConfig}
  */
-export const scene1 = {
+export const pinstage1 = {
   preload: preload, // 素材の読み込み時の関数
   create: create, // 画面が作られた時の関数
   update: update, // 連続実行される関数
-  key: "scene1",
+  key: "pinstage1",
   active: false,
 };
 
@@ -189,7 +189,7 @@ this.scene.restart();
     restartText.setInteractive(); // テキストをクリック可能にする
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
-      this.scene.restart("Scene1"); // ゲームの初期状態に戻す処理
+      this.scene.restart(); // ゲームの初期状態に戻す処理
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
