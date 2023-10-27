@@ -35,9 +35,8 @@ function preload(){
 function create(){
   const background = this.add.image(500, 300, "background");
   background.setDisplaySize(1000, 600);
-
+  
   const tower = this.add.image(500, 300, "tower");
-
 }
 
 function update(){
