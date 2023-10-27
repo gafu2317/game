@@ -1,11 +1,11 @@
 /**
  * @type {Phaser.Types.Scenes.SettingsConfig}
  */
-export const scene2 = {
+export const towerstage1 = {
   preload: preload, // 素材の読み込み時の関数
   create: create, // 画面が作られた時の関数
   update: update, // 連続実行される関数
-  key: "scene2",
+  key: "towerstage1",
   active: false,
 };
 
