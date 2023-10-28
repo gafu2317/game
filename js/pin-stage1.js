@@ -292,6 +292,6 @@ this.scene.restart();
 }
 
 function update() {
- 
+
 }
 
