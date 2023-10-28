@@ -35,6 +35,8 @@ function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
   
+  const towers = this.physics.add.staticGroup();
+
   // 同じ画像を何回も配置する
   for (let i = 0; i < 1; i++) {
     const x = 120; // X座標
@@ -161,15 +163,19 @@ function create() {
   let whiteItemPoint = 200; //プラス
   let gunItemPoint = 2; //かける
   let stickItemPoint = 3; //かける
-  let swordItemPoint = 4; //かける
+  let swordItem1Point = 4; //かける
+  let swordItem2Point = 4; //かける
   let poisonItemPoint = 100; //マイナス
-  let slimeEnemyPoint = 100; //敵の攻撃力
-  let golemEnemyPoint = 5000; //敵の攻撃力
+  let slimeEnemy1Point = 100; //敵の攻撃力
+  let slimeEnemy2Point = 100; //敵の攻撃力
+  let slimeEnemy3Point = 100; //敵の攻撃力
+  let golemEnemy1Point = 5000; //敵の攻撃力
+  let golemEnemy2Point = 5000; //敵の攻撃力
+  let golemEnemy3Point = 5000; //敵の攻撃力
   let dragonEnemyPoint = 10000; //敵の攻撃力
   
-  const towers = this.physics.add.staticGroup();
   
-  humanPoint = humanPoint - 10;
+  humanPoint = humanPoint - 10;//テスト用
   console.log(humanPoint);
   
   //アイテムと人間があたったときの処理
@@ -189,26 +195,57 @@ function create() {
     humanPoint = humanPoint * stickItemPoint;
     stickItem.destroy();
   });
-  this.physics.add.collider(human, swordItem, function () {
-    humanPoint = humanPoint * swordItemPoint;
-    swordItem.destroy();
+  this.physics.add.collider(human, swordItem1, function () {
+    humanPoint = humanPoint * swordItem1Point;
+    swordItem1.destroy();
+  });
+  this.physics.add.collider(human, swordItem2, function () {
+    humanPoint = humanPoint * swordItem2Point;
+    swordItem2.destroy();
   });
   this.physics.add.collider(human, poisonItem, function () {
     humanPoint = humanPoint - poisonItemPoint;
     poisonItem.destroy();
   });
-  this.physics.add.collider(human, slime, function () {
-    humanPoint = humanPoint - slimeEnemyPoint;
-    slime.destroy();
+  this.physics.add.collider(human, slime1, function () {
+    humanPoint = humanPoint - slimeEnemy1Point;
+    slime1.destroy();
   });
-  this.physics.add.collider(human, golem, function () {
-    humanPoint = humanPoint - golemEnemyPoint;
-    golem.destroy();
+  this.physics.add.collider(human, slime2, function () {
+    humanPoint = humanPoint - slimeEnemy2Point;
+    slime2.destroy();
+  });
+  this.physics.add.collider(human, slime3, function () {
+    humanPoint = humanPoint - slimeEnemy3Point;
+    slime3.destroy();
+  });
+  this.physics.add.collider(human, golem1, function () {
+    humanPoint = humanPoint - golemEnemy1Point;
+    golem1.destroy();
+  });
+  this.physics.add.collider(human, golem2, function () {
+    humanPoint = humanPoint - golemEnemy2Point;
+    golem2.destroy();
+  });
+  this.physics.add.collider(human, golem3, function () {
+    humanPoint = humanPoint - golemEnemy3Point;
+    golem3.destroy();
   });
   this.physics.add.collider(human, dragon, function () {
     humanPoint = humanPoint - dragonEnemyPoint;
     dragon.destroy();
   });
+
+  let redtext = {
+    fontSize: "100px", // フォントサイズ
+    fill: "#FF0000", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
+  let  whiteText = {
+    fontSize: "60px", // フォントサイズ
+    fill: "#FFFFFF", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
 
   //ゲームオーバーの処理
   let graphics = this.add.graphics(); //暗転用のグラフィックス
@@ -223,11 +260,10 @@ function create() {
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
   graphics.setDepth(-1); //通常時は背面に置く
   if (humanPoint <= 0) {
-    this.scene.start("start-menu");
-    gameoverText = this.add.text(230, 70, "GAME OVER"); //ゲームオーバーの表示
+    gameoverText = this.add.text(230, 70, "GAME OVER",redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
-    restartText = this.add.text(390, 200, "リトライ");
-    returnMenuText = this.add.text(420, 300, "ホーム");
+    restartText = this.add.text(390, 200, "リトライ",whiteText);
+    returnMenuText = this.add.text(420, 300, "ホーム",whiteText);
     restartText.setInteractive(); // テキストをクリック可能にする
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
@@ -244,7 +280,6 @@ function create() {
 
   //ゲームクリアの処理
   if (humanPoint >= 10000) {
-    this.scene.start("start-menu");
     gameclearText = this.add.text(230, 70, "GAME CLESR"); //ゲームクリアの表示
     gameclearText.setDepth(1);
     restartText = this.add.text(390, 200, "リトライ");
