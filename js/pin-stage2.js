@@ -1,4 +1,4 @@
-/**git
+/**
  * @type {Phaser.Types.Scenes.SettingsConfig}
  */
 export const pinstage2 = {
