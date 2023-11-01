@@ -3,7 +3,7 @@ import { pinstage1 } from "./pin-stage1";
 import { pinstage2 } from "./pin-stage2";
 import { towerstage1 } from "./tower-stage1";
 import { startMenu } from "./start-menu";
-import { pinstage2 } from "./pin-stage2";
+
 
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;

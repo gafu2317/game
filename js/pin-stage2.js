@@ -36,7 +36,7 @@ export const pinstage2 = {
   
   function create() {
     const sabakuImage = this.add.image(500, 300, "sabaku");
-    sabakuImage.setDisplaySize(500, 300);
+    sabakuImage.setDisplaySize(1000, 600);
   
     for (var i = 3.2; i < 10; i++) {
       for (var j = 3; j < 10; j++) {
