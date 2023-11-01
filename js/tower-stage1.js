@@ -120,44 +120,185 @@ function create() {
   let dragon;
   
   //一段タワー(下から)
-  human = this.add.image(120, 555, "human");
+  human = this.add.sprite(120, 555, "human");
   human.setScale(0.4);
+  
   //二段タワー
   slime1 = this.add.image(320, 570,"enemy-slime");
   slime1.setScale(0.1);
+  slime1.setInteractive();
   whiteItem = this.add.image(320, 445,"item-h-white");
   whiteItem.setScale(0.07);
+  whiteItem.setInteractive();
   //三段タワー
   poisonItem = this.add.image(520, 550,"item-d-poison");
   poisonItem.setScale(0.07);
+  poisonItem.setInteractive();
   slime2 = this.add.image(520, 463,"enemy-slime");
   slime2.setScale(0.1);
+  slime2.setInteractive();
   swordItem1 = this.add.image(520, 337,"item-b-sword");
   swordItem1.setScale(0.07)
   swordItem1.setRotation(Math.PI * 11/9);
+  swordItem1.setInteractive();
   //四段タワー
   golem1 = this.add.image(720,551,"enemy-golem");
   golem1.setScale(0.55);
+  golem1.setInteractive();
   golem2 = this.add.image(720,444,"enemy-golem");
   golem2.setScale(0.55);
+  golem2.setInteractive();
   gunItem =this.add.image(720,340,"item-b-gun");
   gunItem.setScale(0.048);
+  gunItem.setInteractive();
   slime3 = this.add.image(720, 246,"enemy-slime");
   slime3.setScale(0.1);
+  slime3.setInteractive();
   //五段タワー
   blackItem = this.add.image(920,550,"item-h-black");
   blackItem.setScale(0.07);
+  blackItem.setInteractive();
   swordItem2 = this.add.image(920, 445,"item-b-sword");
   swordItem2.setScale(0.07);
+  swordItem2.setInteractive();
   swordItem2.setRotation(Math.PI * 11/9);
   golem3 = this.add.image(920,335,"enemy-golem");
   golem3.setScale(0.55);
+  golem3.setInteractive();
   stickItem = this.add.image(920, 230,"item-b-stick");
   stickItem.setScale(0.05);
   stickItem.setRotation(Math.PI * 3/10);
+  stickItem.setInteractive();
   dragon = this.add.image(920, 125, "enemy-dragon"); 
   dragon.setScale(0.1);
+  dragon.setInteractive();
   
+  slime1.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*0,
+      y: 555 - 108*0, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  whiteItem.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*0,
+      y: 555 - 108*1, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  poisonItem.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*1,
+      y: 555 - 108*0, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  slime2.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*1,
+      y: 555 - 108*1, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  swordItem1.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*1,
+      y: 555 - 108*2, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  golem1.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*2,
+      y: 555 - 108*0, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  golem2.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*2,
+      y: 555 - 108*1, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  gunItem.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*2,
+      y: 555 - 108*2, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  slime3.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*2,
+      y: 555 - 108*3, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  blackItem.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*3,
+      y: 555 - 108*0, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  swordItem2.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*3,
+      y: 555 - 108*1, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  golem3.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*3,
+      y: 555 - 108*2, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  stickItem.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*3,
+      y: 555 - 108*3, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
+  dragon.on("pointerdown", () => {
+    // 画像を下にアニメーションで動かす
+    this.tweens.add({
+      targets: human,
+      x: 320 + 200*3,
+      y: 555 - 108*4, // 移動先のy座標
+      duration: 0, // アニメーションの時間（ミリ秒）
+    })
+  })
   let humanPoint = 10; //人間の攻撃力
   let blackItemPoint = 100; //プラス
   let whiteItemPoint = 200; //プラス
@@ -175,7 +316,7 @@ function create() {
   let dragonEnemyPoint = 10000; //敵の攻撃力
   
   
-  humanPoint = humanPoint - 10;//テスト用
+  humanPoint = humanPoint - 0;//テスト用
   console.log(humanPoint);
   
   //アイテムと人間があたったときの処理
