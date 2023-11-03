@@ -32,77 +32,7 @@ function preload() {
 }
 
 function create() {
-  const background = this.add.image(500, 300, "yozora");
-  background.setDisplaySize(1000, 600);
-  
-  const towers = this.physics.add.staticGroup();
 
-  // 同じ画像を何回も配置する
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//一段タワー
-  
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//二段タワー
-  
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//三段タワー
-  
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//四段タワー
-  
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower");
-    image.setScale(0.03);
-  }//五段タワー
-  
   let human; 
   let blackItem; 
   let whiteItem; 
@@ -135,106 +65,35 @@ function create() {
   let golem3Point = 5000; //敵の攻撃力
   let dragonPoint = 10000; //敵の攻撃力
 
-  humanPoint = humanPoint - 0;//テスト用
-  console.log(humanPoint);
 
-  //一段タワー(下から)
+  const background = this.add.image(500, 300, "yozora");
+  background.setDisplaySize(1000, 600);
+
+  // 同じ画像を何回も配置する
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < i; j++) {
+      const x = 120 + 200*(i-1); // X座標
+      const y = 540 + j * -108; // Y座標
+      const innnerTower = this.add.image(x, y, "inner-tower"); //背景
+      innnerTower.setScale(0.03, 0.0265);
+      const tower = this.add.image(x, y, "tower"); 
+      tower.setScale(0.03);
+    }
+  }
+  //タワーに画像を配置する
+  //タワーに配置する画像の配列
+  const imagekey = [
+    ["human"],//一段
+    ["enemy-slime", "item-h-white"],//二段
+    ["item-d-poison", "enemy-slime", "enemy-slime"],//三段
+    ["enemy-golem", ],//四段
+    [],//五段
+  ];
   human = this.physics.add.sprite(120, 555, "human");
   human.setScale(0.35);
   human.body.setAllowGravity(false);
   const humantext = this.add.text(120, 555-human.width/3.5, humanPoint,{fontSize: "20px", fill: "#000000", });
   humantext.setOrigin(0.5, 0.5);
-  //二段タワー
-  slime1 = this.physics.add.image(320, 570,"enemy-slime");
-  slime1.setScale(0.1);
-  slime1.setInteractive();
-  slime1.body.setAllowGravity(false);
-  const slime1text = this.add.text(320, 570-human.width/3.5, "-"+slime1Point,{fontSize: "20px", fill: "#000000",});
-  slime1text.setOrigin(0.5, 0.5);
-  whiteItem = this.physics.add.image(320, 445,"item-h-white");
-  whiteItem.setScale(0.07);
-  whiteItem.setInteractive();
-  whiteItem.body.setAllowGravity(false);
-  const whiteItemtext = this.add.text(320, 445-human.width/3.5, "+"+whiteItemPoint,{fontSize: "20px", fill: "#000000",});
-  whiteItemtext.setOrigin(0.5, 0.5);
-  //三段タワー
-  poisonItem = this.physics.add.image(520, 550,"item-d-poison");
-  poisonItem.setScale(0.07);
-  poisonItem.setInteractive();
-  poisonItem.body.setAllowGravity(false);
-  const poisonItemtext = this.add.text(520, 550-human.width/3.5, "-"+poisonItemPoint,{fontSize: "20px", fill: "#000000",});
-  poisonItemtext.setOrigin(0.5, 0.5);
-  slime2 = this.physics.add.image(520, 463,"enemy-slime");
-  slime2.setScale(0.1);
-  slime2.setInteractive();
-  slime2.body.setAllowGravity(false);
-  const slime2text = this.add.text(520, 463-human.width/3.5, "-"+slime2Point,{fontSize: "20px", fill: "#000000",});
-  slime2text.setOrigin(0.5, 0.5);
-  swordItem1 = this.physics.add.image(520, 337,"item-b-sword");
-  swordItem1.setScale(0.07)
-  swordItem1.setRotation(Math.PI * 11/9);
-  swordItem1.setInteractive();
-  swordItem1.body.setAllowGravity(false);
-  const swordItem1text = this.add.text(520, 337-human.width/3.5, "×"+swordItem1Point,{fontSize: "20px", fill: "#000000",});
-  swordItem1text.setOrigin(0.5, 0.5);
-  //四段タワー
-  golem1 = this.physics.add.image(720,551,"enemy-golem");
-  golem1.setScale(0.55);
-  golem1.setInteractive();
-  golem1.body.setAllowGravity(false);
-  const golem1text = this.add.text(720,551-human.width/3.5, "-"+golem1Point,{fontSize: "20px", fill: "#000000",});
-  golem1text.setOrigin(0.5, 0.5);
-  golem2 = this.physics.add.image(720,444,"enemy-golem");
-  golem2.setScale(0.55);
-  golem2.setInteractive();
-  golem2.body.setAllowGravity(false);
-  const golem2text = this.add.text(720,444-human.width/3.5, "-"+golem2Point,{fontSize: "20px", fill: "#000000",});
-  golem2text.setOrigin(0.5, 0.5);
-  gunItem =this.physics.add.image(720,340,"item-b-gun");
-  gunItem.setScale(0.048);
-  gunItem.setInteractive();
-  gunItem.body.setAllowGravity(false);
-  const gunItemtext = this.add.text(720,340-human.width/3.5, "×"+gunItemPoint,{fontSize: "20px", fill: "#000000",});
-  gunItemtext.setOrigin(0.5, 0.5);
-  slime3 = this.physics.add.image(720, 246,"enemy-slime");
-  slime3.setScale(0.1);
-  slime3.setInteractive();
-  slime3.body.setAllowGravity(false);
-  const slime3text = this.add.text(720, 246-human.width/3.5, "-"+slime3Point,{fontSize: "20px", fill: "#000000",});
-  slime3text.setOrigin(0.5, 0.5);
-  //五段タワー
-  blackItem = this.physics.add.image(920,550,"item-h-black");
-  blackItem.setScale(0.07);
-  blackItem.setInteractive();
-  blackItem.body.setAllowGravity(false);
-  const blackItemtext = this.add.text(920,550-human.width/3.5, "+"+blackItemPoint,{fontSize: "20px", fill: "#000000",});
-  blackItemtext.setOrigin(0.5, 0.5);
-  swordItem2 = this.physics.add.image(920, 445,"item-b-sword");
-  swordItem2.setScale(0.07);
-  swordItem2.setInteractive();
-  swordItem2.setRotation(Math.PI * 11/9);
-  swordItem2.body.setAllowGravity(false);
-  const swordItem2text = this.add.text(920, 445-human.width/3.5, "×"+swordItem2Point,{fontSize: "20px", fill: "#000000",});
-  swordItem2text.setOrigin(0.5, 0.5);
-  golem3 = this.physics.add.image(920,335,"enemy-golem");
-  golem3.setScale(0.55);
-  golem3.setInteractive();
-  golem3.body.setAllowGravity(false);
-  const golem3text = this.add.text(920,335-human.width/3.5, "-"+golem3Point,{fontSize: "20px", fill: "#000000",});
-  golem3text.setOrigin(0.5, 0.5);
-  stickItem = this.physics.add.image(920, 230,"item-b-stick");
-  stickItem.setScale(0.05);
-  stickItem.setRotation(Math.PI * 3/10);
-  stickItem.setInteractive();
-  stickItem.body.setAllowGravity(false);
-  const stickItemtext = this.add.text(920, 230-human.width/3.5, "×"+stickItemPoint,{fontSize: "20px", fill: "#000000",});
-  stickItemtext.setOrigin(0.5, 0.5);
-  dragon = this.physics.add.image(920, 125, "enemy-dragon"); 
-  dragon.setScale(0.1);
-  dragon.setInteractive();
-  dragon.body.setAllowGravity(false);
-  const dragontext = this.add.text(920, 125-human.width/3.5, "-"+dragonPoint,{fontSize: "20px", fill: "#000000",});
-  dragontext.setOrigin(0.5, 0.5);
   
   slime1.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
@@ -244,7 +103,6 @@ function create() {
       y: 555 - 108*0, // 移動先のy座標
       duration: 0, // アニメーションの時間（ミリ秒）
     })
-
   })
   whiteItem.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
@@ -513,6 +371,10 @@ function create() {
   });
 
 
+
+
+  humanPoint = humanPoint - 0;//テスト用
+  console.log(humanPoint);
 }
 
 function update() {}
