@@ -15,7 +15,7 @@ export const config = {
   type: Phaser.AUTO,
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
-  antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
+  antialias: true, // アンチエイリアスを無効にするらしい（分ってない）
   scene: [towerstage1,startMenu, pinstage1, pinstage2],
 
 
