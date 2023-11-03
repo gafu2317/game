@@ -116,14 +116,14 @@ function create() {
   pin3.body.setAllowGravity(false);
 
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width * 0.5, rocks.height * 0.5);
+  rocks.setSize(rocks.width, rocks.height);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
   wolfImage.setDisplaySize(128, 61);
   wolfImage.setCollideWorldBounds(true);
-wolfImage.setSize(wolfImage.width,wolfImage.height);
+  wolfImage.setSize(wolfImage.width,wolfImage.height);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
