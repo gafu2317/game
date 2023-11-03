@@ -49,11 +49,6 @@ export const pinstage2 = {
     treasure.setDisplaySize(150, 150);
     treasure.setCollideWorldBounds(true);
     treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
-
-    const meat = this.physics.add.image(100,520,"meat");
-    meat.setDisplaySize(150, 150);
-    meat.setCollideWorldBounds(true);
-    meat.setSize(meat.width * 0.4, meat.height * 0.4);
   
     walls = this.physics.add.staticGroup();
   
@@ -128,7 +123,6 @@ export const pinstage2 = {
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
     wolfImage.setDisplaySize(213, 102);
     wolfImage.setCollideWorldBounds(true);
-    wolf.setSize(wolf.width * 0.6, wolf.height * 0.6);
   
     const humanImage = this.physics.add.sprite(250, 523, "human");
     humanImage.setDisplaySize(70, 135);
