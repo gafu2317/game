@@ -49,6 +49,7 @@ function create() {
   treasure.setCollideWorldBounds(true);
   treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
 
+  //静的グループの作成
   walls = this.physics.add.staticGroup();
 
   for (var j = 3; j < 10; j++) {
@@ -115,7 +116,7 @@ function create() {
   pin3.body.setAllowGravity(false);
 
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
+  rocks.setSize(rocks.width * 0.5, rocks.height * 0.5);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 

@@ -17,7 +17,7 @@ export const pinstage2 = {
     this.load.image("rock", "/img/pin/rock.png");
     this.load.image("background", "/img/pin/wall2.png"); // 建物内の背景
     this.load.image("pin", "./img/pin/pin.png");
-    this.load.image("niku","./img/pin/niku.png");
+    this.load.image("meat","./img/pin/meat.png");
   
     this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
       frameWidth: 427, // 1フレームの幅
@@ -31,7 +31,7 @@ export const pinstage2 = {
   }
   
   var walls;
-  var rocks;
+  var meats;
   var wolfImage;
   var pins;
   
@@ -50,10 +50,10 @@ export const pinstage2 = {
     treasure.setCollideWorldBounds(true);
     treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
 
-    const niku = this.physics.add.image(400,520,"niku");
-    niku.setDisplaySize(150, 150);
-    niku.setCollideWorldBounds(true);
-    niku.setSize(niku.width * 0.4, niku.height * 0.4);
+    const meat = this.physics.add.image(100,520,"meat");
+    meat.setDisplaySize(150, 150);
+    meat.setCollideWorldBounds(true);
+    meat.setSize(meat.width * 0.4, meat.height * 0.4);
   
     walls = this.physics.add.staticGroup();
   
@@ -66,8 +66,8 @@ export const pinstage2 = {
       walls.create(i * 100, 132, "wallY2"); //天井
     }
     for (var i = 2; i < 4; i++) {
-      walls.create(i * 100 + 4, 321, "wallY2"); //足場左
-      walls.create(i * 100 + 490, 321, "wallY2"); //足場右
+      walls.create(i * 100 + 4, 300, "wallY2"); //足場左
+      walls.create(i * 100 + 490, 300, "wallY2"); //足場右
     }
   
     // 動的グループの作成
@@ -120,10 +120,10 @@ export const pinstage2 = {
     pin3.setImmovable(true);
     pin3.body.setAllowGravity(false);
   
-    rocks = this.physics.add.image(500, 200, "rock");
-    rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
-    rocks.setDisplaySize(150, 150);
-    rocks.setCollideWorldBounds(true);
+    meats = this.physics.add.image(500, 200, "meat");
+    meats.setSize(meats.width * 0.9, meats.height * 0.9);
+    meats.setDisplaySize(150, 150);
+    meats.setCollideWorldBounds(true);
   
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
     wolfImage.setDisplaySize(213, 102);
@@ -135,20 +135,20 @@ export const pinstage2 = {
     humanImage.setCollideWorldBounds(true);
     humanImage.setSize(humanImage.width * 0.8, humanImage.height * 0.7);
   
-    this.physics.add.collider(wolfImage, rocks, hitrocks, null, this);
+    this.physics.add.collider(wolfImage, meat, hitmeat, null, this);
     this.physics.add.collider(wolfImage, walls);
-    this.physics.add.collider(rocks, pins);
-    this.physics.add.collider(rocks, walls);
+    this.physics.add.collider(meat, pins);
+    this.physics.add.collider(meat, walls);
     this.physics.add.collider(humanImage, wolfImage, hithuman, null, this);
     this.physics.add.collider(humanImage, walls);
     this.physics.add.collider(treasure, walls);
     this.physics.add.collider(treasure, humanImage, hittreasure, null, this);
   
+  
     let wolf = 1; //狼がいるかどうか
-    //岩と狼がぶつかったときの処理
-    function hitrocks(wolfImage, rocks) {
-      wolfImage.destroy();
-      rocks.destroy();
+    //肉と狼がぶつかったときの処理
+    function hitmeat(wolfImage, meat) {
+      meat.destroy();
       wolf = 0;
     }
     let escapeKey;
@@ -207,12 +207,26 @@ export const pinstage2 = {
     function hittreasure(humanImage, treasure) {
       var gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
     }
+
+    //オオカミと肉がぶつかったときの処理
+    function hitmeat(wolfImage,meat){
+      if (pin2Clicked === 1 && wolf === 0) {
+        //pin1とpin2が両方消えたら人間を右に移動
+        this.tweens.add({
+          targets: wolfImage,
+          x: 100, // 移動先のx座標
+          duration: 3000, // アニメーションの時間（ミリ秒）
+        });
+      }
+    }
   
-    let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
+    let pin1Clicked = 0; //pin1のクリック
+    let pin2Clicked = 0; //pin2のクリック
+    let pin3Clicked = 0; //pin3のクリック
   
     // pin1がクリックされたときの処理
     pin1.on("pointerdown", () => {
-      pinsClicked++; //カウンターを増やす
+      pin1Clicked++; //カウンターを増やす
       // 画像を下にアニメーションで動かす
       this.tweens.add({
         targets: pin1,
@@ -221,8 +235,8 @@ export const pinstage2 = {
         onComplete: () => {
           // アニメーションが完了したら画像を消す
           pin1.destroy();
-          if (pinsClicked === 2 && wolf === 0) {
-            //pin1とpin2が両方消えたら人間を右に移動
+          if (pin1Clicked === 1 && pin3Clicked === 1 && meat === 0) {
+            //pin1とpin2とpin3が両方消えたら人間を右に移動
             this.tweens.add({
               targets: humanImage,
               x: 700, // 移動先のx座標
@@ -233,11 +247,11 @@ export const pinstage2 = {
       });
     });
   
-    console.log(pinsClicked);
+    console.log(pin1Clicked);
   
     //pin2がクリックされたときの処理
     pin2.on("pointerdown", () => {
-      pinsClicked++; //カウンターを増やす
+      pin2Clicked++; //カウンターを増やす
       //画像を下にアニメーションで動かす
       this.tweens.add({
         targets: pin2,
@@ -249,23 +263,16 @@ export const pinstage2 = {
           //狼を左にアニメーションで動かす
           this.tweens.add({
             targets: wolfImage,
-            x: 300, //移動先のx座標
+            x: 100, //移動先のx座標
             duration: 1000, //アニメーションの時間（ミリ秒）
           });
-          if (pinsClicked === 2 && wolf === 0) {
-            // pin1とpin2が両方消えたら人間を右に移動
-            this.tweens.add({
-              targets: humanImage,
-              x: 700, // 移動先のx座標
-              duration: 3000, // アニメーションの時間（ミリ秒）
-            });
-          }
         },
       });
     });
   
     //pin3がクリックされたときの処理
     pin3.on("pointerdown", () => {
+      pin3Clicked++;//カウンターを増やす
       //画像を右にアニメーションで動かす
       this.tweens.add({
         targets: pin3,
@@ -275,6 +282,9 @@ export const pinstage2 = {
           //アニメーションが完了したら画像を消す
           pin3.destroy();
         },
+        targets:humanImage,
+        x: 800, //移動先のx座標
+        duration: 1000, //アニメーションに時間（ミリ秒）
       });
     });
   
