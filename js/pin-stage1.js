@@ -121,9 +121,9 @@ function create() {
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
-  wolfImage.setDisplaySize(213, 102);
+  wolfImage.setDisplaySize(128, 61);
   wolfImage.setCollideWorldBounds(true);
-  wolf.setSize(wolf.width * 0.6, wolf.height * 0.6);
+  wolfImage.setSize(wolfImage.width,wolfImage.height);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
