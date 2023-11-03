@@ -15,8 +15,9 @@ export const pinstage2 = {
     this.load.image("wallX2", "/img/pin/wallX2.png");
     this.load.image("wallY2", "/img/pin/wallY2.png");
     this.load.image("rock", "/img/pin/rock.png");
-    this.load.image("background", "/img/pin/wall3.png"); // 建物内の背景
+    this.load.image("background", "/img/pin/wall2.png"); // 建物内の背景
     this.load.image("pin", "./img/pin/pin.png");
+    this.load.image("niku","./img/pin/niku.png");
   
     this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
       frameWidth: 427, // 1フレームの幅
@@ -44,10 +45,15 @@ export const pinstage2 = {
         image.setScale(0.09);
       }
     }
-    const treasure = this.physics.add.image(720, 520, "treasure");
+    const treasure = this.physics.add.image(800, 520, "treasure");
     treasure.setDisplaySize(150, 150);
     treasure.setCollideWorldBounds(true);
     treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
+
+    const niku = this.physics.add.image(400,520,"niku");
+    niku.setDisplaySize(150, 150);
+    niku.setCollideWorldBounds(true);
+    niku.setSize(niku.width * 0.4, niku.height * 0.4);
   
     walls = this.physics.add.staticGroup();
   
@@ -122,6 +128,7 @@ export const pinstage2 = {
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
     wolfImage.setDisplaySize(213, 102);
     wolfImage.setCollideWorldBounds(true);
+    wolf.setSize(wolf.width * 0.6, wolf.height * 0.6);
   
     const humanImage = this.physics.add.sprite(250, 523, "human");
     humanImage.setDisplaySize(70, 135);

@@ -122,6 +122,7 @@ function create() {
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
   wolfImage.setDisplaySize(213, 102);
   wolfImage.setCollideWorldBounds(true);
+  wolf.setSize(wolf.width * 0.6, wolf.height * 0.6);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
@@ -202,13 +203,16 @@ this.scene.restart();
   function hittreasure(humanImage, treasure) {
     gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
     gameclearText.setDepth(1);
-    nextText = this.add.text(390,200,"次へ",whiteText);
+    nextText = this.add.text(420,200,"次へ",whiteText);
     returnMenuText = this.add.text(420,300,"ホーム",whiteText);
     nextText.setInteractive();
     returnMenuText.setInteractive();
     nextText.on("pointerdown",() => {
       this.scene.start("pinstage2");//次のステージへ移動する処理
     });
+    returnMenuText.on("pointrdown",() => {
+      this.scene.start("start-menu");//ホーム画面に移動する処理
+    })
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
