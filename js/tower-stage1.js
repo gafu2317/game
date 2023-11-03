@@ -37,71 +37,17 @@ function create() {
   
   const towers = this.physics.add.staticGroup();
 
-  // 同じ画像を何回も配置する
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
+   // 同じ画像を何回も配置する
+    for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < i; j++) {
+      const x = 120 + 200*(i-1); // X座標
+      const y = 540 + j * -108; // Y座標
+      const innnerTower = this.add.image(x, y, "inner-tower"); //背景
+      innnerTower.setScale(0.03, 0.0265);
+      const tower = this.add.image(x, y, "tower"); 
+      tower.setScale(0.03);
+    }
   }
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//一段タワー
-  
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//二段タワー
-  
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//三段タワー
-  
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//四段タワー
-  
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower");
-    image.setScale(0.03);
-  }//五段タワー
   
   let human; 
   let blackItem; 
