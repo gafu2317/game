@@ -390,10 +390,6 @@ function update() {
     })
   })
 
-  humanPoint = humanPoint - 0;//テスト用
-  console.log(humanPoint);
-
-
   
   let redtext = {
     fontSize: "100px", // フォントサイズ
@@ -471,5 +467,6 @@ function update() {
     this.scene.restart();
   });
 
-
+  humanPoint = humanPoint - 0;//テスト用
+  console.log(humanPoint);
 }
