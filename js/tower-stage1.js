@@ -31,148 +31,237 @@ function preload() {
   });
 }
 
+let human; 
+let blackItem; 
+let whiteItem; 
+let gunItem; 
+let stickItem; 
+let swordItem1; 
+let swordItem2; 
+let poisonItem; 
+let slime1;
+let slime2; 
+let slime3;
+let golem1;
+let golem2;
+let golem3;
+let dragon;
+
+let humanPoint = 10; //人間の攻撃力
+let blackItemPoint = 100; //プラス
+let whiteItemPoint = 200; //プラス
+let gunItemPoint = 2; //かける
+let stickItemPoint = 3; //かける
+let swordItem1Point = 4; //かける
+let swordItem2Point = 4; //かける
+let poisonItemPoint = 100; //マイナス
+let slime1Point = 100; //敵の攻撃力
+let slime2Point = 100; //敵の攻撃力
+let slime3Point = 100; //敵の攻撃力
+let golem1Point = 5000; //敵の攻撃力
+let golem2Point = 5000; //敵の攻撃力
+let golem3Point = 5000; //敵の攻撃力
+let dragonPoint = 10000; //敵の攻撃力
+
+
+
 function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
   
   const towers = this.physics.add.staticGroup();
 
-  // 同じ画像を何回も配置する
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
+   // 同じ画像を何回も配置する
+    for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < i; j++) {
+      const x = 120 + 200*(i-1); // X座標
+      const y = 540 + j * -108; // Y座標
+      const innnerTower = this.add.image(x, y, "inner-tower"); //背景
+      innnerTower.setScale(0.03, 0.0265);
+      const tower = this.add.image(x, y, "tower"); 
+      tower.setScale(0.03);
+    }
   }
-  for (let i = 0; i < 1; i++) {
-    const x = 120; // X座標
-    const y = 540; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//一段タワー
   
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 2; i++) {
-    const x = 320; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//二段タワー
-  
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 3; i++) {
-    const x = 520; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//三段タワー
-  
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 4; i++) {
-    const x = 720; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower"); 
-    image.setScale(0.03);
-  }//四段タワー
-  
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    var image = this.add.image(x, y, "inner-tower"); //背景
-    image.setScale(0.03, 0.0265);
-  }
-  for (let i = 0; i < 5; i++) {
-    const x = 920; // X座標
-    const y = 540 + i * -108; // Y座標
-    const image = towers.create(x, y, "tower");
-    image.setScale(0.03);
-  }//五段タワー
-  
-  let human; 
-  let blackItem; 
-  let whiteItem; 
-  let gunItem; 
-  let stickItem; 
-  let swordItem1; 
-  let swordItem2; 
-  let poisonItem; 
-  let slime1;
-  let slime2; 
-  let slime3;
-  let golem1;
-  let golem2;
-  let golem3;
-  let dragon;
-  
+
+
+
+
   //一段タワー(下から)
-  human = this.add.sprite(120, 555, "human");
-  human.setScale(0.4);
-  
+  human = this.physics.add.sprite(120, 555, "human");
+  human.setScale(0.35);
+  human.body.setAllowGravity(false);
+  const humantext = this.add.text(120, 555-human.width/3.5, humanPoint,{fontSize: "20px", fill: "#000000", });
+  humantext.setOrigin(0.5, 0.5);
   //二段タワー
-  slime1 = this.add.image(320, 570,"enemy-slime");
+  slime1 = this.physics.add.image(320, 570,"enemy-slime");
   slime1.setScale(0.1);
   slime1.setInteractive();
-  whiteItem = this.add.image(320, 445,"item-h-white");
+  slime1.body.setAllowGravity(false);
+  const slime1text = this.add.text(320, 570-human.width/3.5, "-"+slime1Point,{fontSize: "20px", fill: "#000000",});
+  slime1text.setOrigin(0.5, 0.5);
+  whiteItem = this.physics.add.image(320, 445,"item-h-white");
   whiteItem.setScale(0.07);
   whiteItem.setInteractive();
+  whiteItem.body.setAllowGravity(false);
+  const whiteItemtext = this.add.text(320, 445-human.width/3.5, "+"+whiteItemPoint,{fontSize: "20px", fill: "#000000",});
+  whiteItemtext.setOrigin(0.5, 0.5);
   //三段タワー
-  poisonItem = this.add.image(520, 550,"item-d-poison");
+  poisonItem = this.physics.add.image(520, 550,"item-d-poison");
   poisonItem.setScale(0.07);
   poisonItem.setInteractive();
-  slime2 = this.add.image(520, 463,"enemy-slime");
+  poisonItem.body.setAllowGravity(false);
+  const poisonItemtext = this.add.text(520, 550-human.width/3.5, "-"+poisonItemPoint,{fontSize: "20px", fill: "#000000",});
+  poisonItemtext.setOrigin(0.5, 0.5);
+  slime2 = this.physics.add.image(520, 463,"enemy-slime");
   slime2.setScale(0.1);
   slime2.setInteractive();
-  swordItem1 = this.add.image(520, 337,"item-b-sword");
+  slime2.body.setAllowGravity(false);
+  const slime2text = this.add.text(520, 463-human.width/3.5, "-"+slime2Point,{fontSize: "20px", fill: "#000000",});
+  slime2text.setOrigin(0.5, 0.5);
+  swordItem1 = this.physics.add.image(520, 337,"item-b-sword");
   swordItem1.setScale(0.07)
   swordItem1.setRotation(Math.PI * 11/9);
   swordItem1.setInteractive();
+  swordItem1.body.setAllowGravity(false);
+  const swordItem1text = this.add.text(520, 337-human.width/3.5, "×"+swordItem1Point,{fontSize: "20px", fill: "#000000",});
+  swordItem1text.setOrigin(0.5, 0.5);
   //四段タワー
-  golem1 = this.add.image(720,551,"enemy-golem");
+  golem1 = this.physics.add.image(720,551,"enemy-golem");
   golem1.setScale(0.55);
   golem1.setInteractive();
-  golem2 = this.add.image(720,444,"enemy-golem");
+  golem1.body.setAllowGravity(false);
+  const golem1text = this.add.text(720,551-human.width/3.5, "-"+golem1Point,{fontSize: "20px", fill: "#000000",});
+  golem1text.setOrigin(0.5, 0.5);
+  golem2 = this.physics.add.image(720,444,"enemy-golem");
   golem2.setScale(0.55);
   golem2.setInteractive();
-  gunItem =this.add.image(720,340,"item-b-gun");
+  golem2.body.setAllowGravity(false);
+  const golem2text = this.add.text(720,444-human.width/3.5, "-"+golem2Point,{fontSize: "20px", fill: "#000000",});
+  golem2text.setOrigin(0.5, 0.5);
+  gunItem =this.physics.add.image(720,340,"item-b-gun");
   gunItem.setScale(0.048);
   gunItem.setInteractive();
-  slime3 = this.add.image(720, 246,"enemy-slime");
+  gunItem.body.setAllowGravity(false);
+  const gunItemtext = this.add.text(720,340-human.width/3.5, "×"+gunItemPoint,{fontSize: "20px", fill: "#000000",});
+  gunItemtext.setOrigin(0.5, 0.5);
+  slime3 = this.physics.add.image(720, 246,"enemy-slime");
   slime3.setScale(0.1);
   slime3.setInteractive();
+  slime3.body.setAllowGravity(false);
+  const slime3text = this.add.text(720, 246-human.width/3.5, "-"+slime3Point,{fontSize: "20px", fill: "#000000",});
+  slime3text.setOrigin(0.5, 0.5);
   //五段タワー
-  blackItem = this.add.image(920,550,"item-h-black");
+  blackItem = this.physics.add.image(920,550,"item-h-black");
   blackItem.setScale(0.07);
   blackItem.setInteractive();
-  swordItem2 = this.add.image(920, 445,"item-b-sword");
+  blackItem.body.setAllowGravity(false);
+  const blackItemtext = this.add.text(920,550-human.width/3.5, "+"+blackItemPoint,{fontSize: "20px", fill: "#000000",});
+  blackItemtext.setOrigin(0.5, 0.5);
+  swordItem2 = this.physics.add.image(920, 445,"item-b-sword");
   swordItem2.setScale(0.07);
   swordItem2.setInteractive();
   swordItem2.setRotation(Math.PI * 11/9);
-  golem3 = this.add.image(920,335,"enemy-golem");
+  swordItem2.body.setAllowGravity(false);
+  const swordItem2text = this.add.text(920, 445-human.width/3.5, "×"+swordItem2Point,{fontSize: "20px", fill: "#000000",});
+  swordItem2text.setOrigin(0.5, 0.5);
+  golem3 = this.physics.add.image(920,335,"enemy-golem");
   golem3.setScale(0.55);
   golem3.setInteractive();
-  stickItem = this.add.image(920, 230,"item-b-stick");
+  golem3.body.setAllowGravity(false);
+  const golem3text = this.add.text(920,335-human.width/3.5, "-"+golem3Point,{fontSize: "20px", fill: "#000000",});
+  golem3text.setOrigin(0.5, 0.5);
+  stickItem = this.physics.add.image(920, 230,"item-b-stick");
   stickItem.setScale(0.05);
   stickItem.setRotation(Math.PI * 3/10);
   stickItem.setInteractive();
-  dragon = this.add.image(920, 125, "enemy-dragon"); 
+  stickItem.body.setAllowGravity(false);
+  const stickItemtext = this.add.text(920, 230-human.width/3.5, "×"+stickItemPoint,{fontSize: "20px", fill: "#000000",});
+  stickItemtext.setOrigin(0.5, 0.5);
+  dragon = this.physics.add.image(920, 125, "enemy-dragon"); 
   dragon.setScale(0.1);
   dragon.setInteractive();
-  
+  dragon.body.setAllowGravity(false);
+  const dragontext = this.add.text(920, 125-human.width/3.5, "-"+dragonPoint,{fontSize: "20px", fill: "#000000",});
+  dragontext.setOrigin(0.5, 0.5);
+
+      //アイテムと人間があたったときの処理
+      this.physics.add.collider(human, blackItem, function () {
+        humanPoint += blackItemPoint;
+        blackItem.destroy();
+        blackItemtext.destroy();
+      });
+      this.physics.add.collider(human, whiteItem, function () {
+        humanPoint = humanPoint + whiteItemPoint;
+        whiteItem.destroy();
+        whiteItemtext.destroy();
+      });
+      this.physics.add.collider(human, gunItem, function () {
+        humanPoint = humanPoint * gunItemPoint;
+        gunItem.destroy();
+        gunItemtext.destroy();
+      });
+      this.physics.add.collider(human, stickItem, function () {
+        humanPoint = humanPoint * stickItemPoint;
+        stickItem.destroy();
+        stickItemtext.destroy();
+      });
+      this.physics.add.collider(human, swordItem1, function () {
+        humanPoint = humanPoint * swordItem1Point;
+        swordItem1.destroy();
+        swordItem1text.destroy();
+      });
+      this.physics.add.collider(human, swordItem2, function () {
+        humanPoint = humanPoint * swordItem2Point;
+        swordItem2.destroy();
+        swordItem2text.destroy();
+      });
+      this.physics.add.collider(human, poisonItem, function () {
+        humanPoint = humanPoint - poisonItemPoint;
+        poisonItem.destroy();
+        poisonItemtext.destroy();
+      });
+      this.physics.add.collider(human, slime1, function () {
+        humanPoint = humanPoint - slime1Point;
+        slime1.destroy();
+        slime1text.destroy();
+      });
+      this.physics.add.collider(human, slime2, function () {
+        humanPoint = humanPoint - slime2Point;
+        slime2.destroy();
+        slime2text.destroy();
+      });
+      this.physics.add.collider(human, slime3, function () {
+        humanPoint = humanPoint - slime3Point;
+        slime3.destroy();
+        slime3text.destroy();
+      });
+      this.physics.add.collider(human, golem1, function () {
+        humanPoint = humanPoint - golem1Point;
+        golem1.destroy();
+        golem1text.destroy();
+      });
+      this.physics.add.collider(human, golem2, function () {
+        humanPoint = humanPoint - golem2Point;
+        golem2.destroy();
+        golem2text.destroy();
+      });
+      this.physics.add.collider(human, golem3, function () {
+        humanPoint = humanPoint - golem3Point;
+        golem3.destroy();
+        golem3text.destroy();
+      });
+      this.physics.add.collider(human, dragon, function () {
+        humanPoint = humanPoint - dragonPoint;
+        dragon.destroy();
+        dragontext.destroy();
+      });
+}
+
+
+
+
+function update() {
   slime1.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
     this.tweens.add({
@@ -295,88 +384,17 @@ function create() {
     this.tweens.add({
       targets: human,
       x: 320 + 200*3,
+
       y: 555 - 108*4, // 移動先のy座標
       duration: 0, // アニメーションの時間（ミリ秒）
     })
   })
-  let humanPoint = 10; //人間の攻撃力
-  let blackItemPoint = 100; //プラス
-  let whiteItemPoint = 200; //プラス
-  let gunItemPoint = 2; //かける
-  let stickItemPoint = 3; //かける
-  let swordItem1Point = 4; //かける
-  let swordItem2Point = 4; //かける
-  let poisonItemPoint = 100; //マイナス
-  let slimeEnemy1Point = 100; //敵の攻撃力
-  let slimeEnemy2Point = 100; //敵の攻撃力
-  let slimeEnemy3Point = 100; //敵の攻撃力
-  let golemEnemy1Point = 5000; //敵の攻撃力
-  let golemEnemy2Point = 5000; //敵の攻撃力
-  let golemEnemy3Point = 5000; //敵の攻撃力
-  let dragonEnemyPoint = 10000; //敵の攻撃力
-  
-  
+
   humanPoint = humanPoint - 0;//テスト用
   console.log(humanPoint);
-  
-  //アイテムと人間があたったときの処理
-  this.physics.add.collider(human, blackItem, function () {
-    humanPoint = humanPoint + blackItemPoint;
-    blackItem.destroy();
-  });
-  this.physics.add.collider(human, whiteItem, function () {
-    humanPoint = humanPoint + whiteItemPoint;
-    whiteItem.destroy();
-  });
-  this.physics.add.collider(human, gunItem, function () {
-    humanPoint = humanPoint * gunItemPoint;
-    gunItem.destroy();
-  });
-  this.physics.add.collider(human, stickItem, function () {
-    humanPoint = humanPoint * stickItemPoint;
-    stickItem.destroy();
-  });
-  this.physics.add.collider(human, swordItem1, function () {
-    humanPoint = humanPoint * swordItem1Point;
-    swordItem1.destroy();
-  });
-  this.physics.add.collider(human, swordItem2, function () {
-    humanPoint = humanPoint * swordItem2Point;
-    swordItem2.destroy();
-  });
-  this.physics.add.collider(human, poisonItem, function () {
-    humanPoint = humanPoint - poisonItemPoint;
-    poisonItem.destroy();
-  });
-  this.physics.add.collider(human, slime1, function () {
-    humanPoint = humanPoint - slimeEnemy1Point;
-    slime1.destroy();
-  });
-  this.physics.add.collider(human, slime2, function () {
-    humanPoint = humanPoint - slimeEnemy2Point;
-    slime2.destroy();
-  });
-  this.physics.add.collider(human, slime3, function () {
-    humanPoint = humanPoint - slimeEnemy3Point;
-    slime3.destroy();
-  });
-  this.physics.add.collider(human, golem1, function () {
-    humanPoint = humanPoint - golemEnemy1Point;
-    golem1.destroy();
-  });
-  this.physics.add.collider(human, golem2, function () {
-    humanPoint = humanPoint - golemEnemy2Point;
-    golem2.destroy();
-  });
-  this.physics.add.collider(human, golem3, function () {
-    humanPoint = humanPoint - golemEnemy3Point;
-    golem3.destroy();
-  });
-  this.physics.add.collider(human, dragon, function () {
-    humanPoint = humanPoint - dragonEnemyPoint;
-    dragon.destroy();
-  });
 
+
+  
   let redtext = {
     fontSize: "100px", // フォントサイズ
     fill: "#FF0000", // テキストの色
@@ -417,6 +435,7 @@ function create() {
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
     console.log(gameoverText);
+    humanPoint = 10;
   }
 
   //ゲームクリアの処理
@@ -451,6 +470,6 @@ function create() {
   spaceKey.on("down", () => {
     this.scene.restart();
   });
-}
 
-function update() {}
+
+}
