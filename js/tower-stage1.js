@@ -63,9 +63,6 @@ let golem2Point = 5000; //敵の攻撃力
 let golem3Point = 5000; //敵の攻撃力
 let dragonPoint = 10000; //敵の攻撃力
 
-let humanX = 120;
-let humanY = 555;
-
 //敵やアイテムの存在の判別
 let blackItemDestroyed = false;
 let whiteItemDestroyed = false;
@@ -108,10 +105,10 @@ function create() {
 
 
   //一段タワー(下から)
-  human = this.physics.add.sprite(humanX, humanY, "human");
+  human = this.physics.add.sprite(120, 555, "human");
   human.setScale(0.35);
   human.body.setAllowGravity(false);
-  const humantext = this.add.text(humanX, humanY-human.width/3.5, humanPoint,{fontSize: "20px", fill: "#000000", });
+  const humantext = this.add.text(120, 555-human.width/3.5, humanPoint,{fontSize: "20px", fill: "#000000", });
   humantext.setOrigin(0.5, 0.5);
   //二段タワー
   slime1 = this.physics.add.image(320, 570,"enemy-slime");
