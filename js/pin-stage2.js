@@ -22,6 +22,11 @@ export const pinstage2 = {
       frameWidth: 427, // 1フレームの幅
       frameHeight: 204, // 1フレームの高さ
     });
+
+    this.load.spritesheet("wolf2", "/img/pin/ wolf2.png", {
+      frameWidth: 427, // 1フレームの幅
+      frameHeight: 204, // 1フレームの高さ
+    });
   
     this.load.spritesheet("human", "/img/pin/human.png", {
       frameWidth: 146, // 1フレームの幅
@@ -32,6 +37,7 @@ export const pinstage2 = {
   var walls;
   var meats;
   var wolfImage;
+  var wolf2Image;
   var pins;
   
   function create() {
@@ -60,8 +66,8 @@ export const pinstage2 = {
       walls.create(i * 100, 132, "wallY2"); //天井
     }
     for (var i = 2; i < 4; i++) {
-      walls.create(i * 100 + 4, 270, "wallY2"); //足場左
-      walls.create(i * 100 + 490, 270, "wallY2"); //足場右
+      walls.create(i * 100 + 4, 400, "wallY2"); //足場左
+      walls.create(i * 100 + 490, 400, "wallY2"); //足場右
     }
   
     // 動的グループの作成
@@ -73,8 +79,8 @@ export const pinstage2 = {
     /**
      * @type {Phaser.Physics.Arcade.Image}
      */
-    const pin1 = pins.create(640, 465, "pin");
-    pin1.setDisplaySize(50, 300);
+    const pin1 = pins.create(640, 465, "pin"); //右のピン
+    pin1.setDisplaySize(33, 200);
     // 他の物体と衝突しても動かないようにした
     pin1.setImmovable(true);
     pin1.setInteractive();
@@ -91,7 +97,7 @@ export const pinstage2 = {
      * @type {Phaser.Physics.Arcade.Image}
      */
     const pin2 = pins.create(360, 465, "pin"); //左のピン
-    pin2.setDisplaySize(50, 300);
+    pin2.setDisplaySize(33, 200);
     pin2.setInteractive(); // 画像をクリック可能にする
     pin2.setImmovable(true);
     pin2.body.setAllowGravity(false);
@@ -100,29 +106,28 @@ export const pinstage2 = {
     /**
      * @type {Phaser.Physics.Arcade.Image}
      */
-    const pin3 = pins.create(500, 310, "pin");
+    const pin3 = pins.create(500, 400, "pin"); //上のピン
     /*
       pin3 を擬似的に 90 度回転
       setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
      */
-    pin3.setSize(pin3.height, pin3.width * 0.2);
+    pin3.setSize(pin3.height, pin3.width);
     pin3.setRotation((1 / 2) * halfRotationDegree);
-  
-    pin3.setDisplaySize(50, 310);
+    pin3.setDisplaySize(50, 300);
     // 画像をクリック可能にする
     pin3.setInteractive();
     pin3.setImmovable(true);
     pin3.body.setAllowGravity(false);
   
-    meats = this.physics.add.image(500, 200, "meat");
-    meats.setSize(meats.width, meats.height);
-    meats.setDisplaySize(150, 150);
+    meats = this.physics.add.image(250, 523, "meat");
+    meats.setDisplaySize(70, 120);
     meats.setCollideWorldBounds(true);
+    meats.setSize(meats.width, meats.height);
   
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
-    wolf.setSize(wolf.width, wolf.height);
-    wolfImage.setDisplaySize(213, 102);
+    wolfImage.setDisplaySize(128, 61);
     wolfImage.setCollideWorldBounds(true);
+    wolfImage.setSize(wolfImage.width,wolfImage.height);
   
     const humanImage = this.physics.add.sprite(250, 200, "human");
     humanImage.setDisplaySize(70, 135);
@@ -142,10 +147,6 @@ export const pinstage2 = {
     let wolf = 1; //狼がいるかどうか
     let meat = 1; //肉があるかどうか
 
-    //肉と狼がぶつかったときの処理
-    function hitmeat(wolfImage, meat) {
-      meat.destroy();
-    }
     let escapeKey;
     let spaceKey;
     //escキーを押すとホームに戻る処理
@@ -181,25 +182,25 @@ export const pinstage2 = {
     graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
     graphics.setDepth(-1); //通常時は背面に置く
   
-    //狼と人間がぶつかったときの処理
-    function hithuman(humanImage, wolfImage) {
-      humanImage.destroy();
-      gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
-      gameoverText.setDepth(1);
-      restartText = this.add.text(390, 200, "リトライ", whiteText);
-      returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
-      restartText.setInteractive(); // テキストをクリック可能にする
-      returnMenuText.setInteractive();
-      restartText.on("pointerdown", () => {
-        this.scene.restart(); // ゲームの初期状態に戻す処理
-      });
-      returnMenuText.on("pointerdown", () => {
-        this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
-      });
-      restartText.setDepth(1);
-      graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
-      returnMenuText.setDepth(1);
-    }
+  //狼と人間がぶつかったときの処理
+  function hithuman(humanImage, wolfImage) {
+    humanImage.destroy();
+    gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+    gameoverText.setDepth(1);
+    restartText = this.add.text(390, 200, "リトライ", whiteText);
+    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+    restartText.setInteractive(); // テキストをクリック可能にする
+    returnMenuText.setInteractive();
+    restartText.on("pointerdown", () => {
+      this.scene.restart(); // ゲームの初期状態に戻す処理
+    });
+    returnMenuText.on("pointerdown", () => {
+      this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+    });
+    restartText.setDepth(1);
+    graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
+    returnMenuText.setDepth(1);
+  }
     //人間と宝がぶつかったときの処理
     function hittreasure(humanImage, treasure) {
       gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
@@ -213,21 +214,14 @@ export const pinstage2 = {
       returnMenuText.setDepth(1);
     }
 
-    //オオカミと肉がぶつかったときの処理
-    function hitmeat(wolfImage,meat){
-      if (pin2Clicked === 1 && meats === 0) {
-        //pin1とpin2が両方消えたら人間を右に移動
-        this.tweens.add({
-          targets: wolfImage,
-          x: 100, // 移動先のx座標
-          duration: 3000, // アニメーションの時間（ミリ秒）
-        });
-      }
+    //肉と狼がぶつかったときの処理
+    function hitmeat(wolfImage, meat) {
+      meats.destroy();
     }
   
-    let pin1Clicked = 0; //pin1のクリック
-    let pin2Clicked = 0; //pin2のクリック
-    let pin3Clicked = 0; //pin3のクリック
+    let pin1Clicked = 0; //pin1(右側のピン)のクリック
+    let pin2Clicked = 0; //pin2(左側のピン)のクリック
+    let pin3Clicked = 0; //pin3(上側のピン)のクリック
   
     // pin1がクリックされたときの処理
     pin1.on("pointerdown", () => {
@@ -240,14 +234,6 @@ export const pinstage2 = {
         onComplete: () => {
           // アニメーションが完了したら画像を消す
           pin1.destroy();
-          if (pin1Clicked === 1 && pin3Clicked === 1 && meat === 0) {
-            //pin1とpin2とpin3が両方消えたら人間を右に移動
-            this.tweens.add({
-              targets: humanImage,
-              x: 700, // 移動先のx座標
-              duration: 3000, // アニメーションの時間（ミリ秒）
-            });
-          }
         },
       });
     });
@@ -268,40 +254,59 @@ export const pinstage2 = {
           //狼を左にアニメーションで動かす
           this.tweens.add({
             targets: wolfImage,
-            x: 100, //移動先のx座標
+            x: 250, //移動先のx座標
             duration: 1000, //アニメーションの時間（ミリ秒）
           });
         },
       });
     });
   
-    //pin3がクリックされたときの処理
-    pin3.on("pointerdown", () => {
-      pin3Clicked++;//カウンターを増やす
-      //画像を右にアニメーションで動かす
-      this.tweens.add({
-        targets: pin3,
-        x: 1200, //移動先のx座標
-        duration: 1000, //アニメーションの時間（ミリ秒）
-        onComplete: function () {
-          //アニメーションが完了したら画像を消す
-          pin3.destroy();
-        },
-        targets:humanImage,
-        x: 800, //移動先のx座標
-        duration: 1000, //アニメーションに時間（ミリ秒）
-      });
+  //pin3がクリックされたときの処理
+  pin3.on("pointerdown", () => {
+    //画像を右にアニメーションで動かす
+    this.tweens.add({
+      targets: pin3,
+      x: 1200, //移動先のx座標
+      duration: 1000, //アニメーションの時間（ミリ秒）
+      onComplete: function () {
+        //アニメーションが完了したら画像を消す
+        pin3.destroy();
+      },
     });
+
+    if (pin1Clicked === 1 && pin3Clicked === 1 && meat === 0) {
+      //pin1とpin2とpin3が両方消えたら人間を右に移動
+      this.tweens.add({
+        targets: humanImage,
+        x: 700, // 移動先のx座標
+        duration: 3000, // アニメーションの時間（ミリ秒）
+      });
+    }
+
+    this.tweens.add({
+      targets: humanImage,
+      x: 700, // 移動先のx座標
+      duration: 3000, // アニメーションの時間（ミリ秒）
+    });
+  });
   
     // アニメーションを設定
     this.anims.create({
-      key: "wolfAnimation", // アニメーションの名前
+      key: "wolfAnimation1", // アニメーションの名前
       frames: this.anims.generateFrameNumbers("wolf", { start: 0, end: 1 }), // フレームの範囲
       frameRate: 3, // アニメーションの速度（フレーム/秒）
       repeat: -1, // -1に設定すると無限ループ
     });
-    wolfImage.play("wolfAnimation"); // アニメーションを再生
+    wolfImage.play("wolfAnimation1"); // アニメーションを再生
   
+    this.anims.create({
+      key: "wolfAnimation2", // アニメーションの名前
+      frames: this.anims.generateFrameNumbers("wolf2", { start: 0, end: 1 }), // フレームの範囲
+      frameRate: 3, // アニメーションの速度（フレーム/秒）
+      repeat: -1, // -1に設定すると無限ループ
+    });
+    wolfImage.play("wolfAnimation2"); // アニメーションを再生
+
     this.anims.create({
       key: "humanAnimation", // アニメーションの名前
       frames: this.anims.generateFrameNumbers("human", { start: 0, end: 7 }), // フレームの範囲
