@@ -23,7 +23,7 @@ export const pinstage2 = {
       frameHeight: 204, // 1フレームの高さ
     });
 
-    this.load.spritesheet("wolf2", "/img/pin/ wolf2.png", {
+    this.load.spritesheet("wolf2", "/img/pin/wolf2.png", {
       frameWidth: 427, // 1フレームの幅
       frameHeight: 204, // 1フレームの高さ
     });
@@ -39,6 +39,8 @@ export const pinstage2 = {
   var wolfImage;
   var wolf2Image;
   var pins;
+  let wolf = 1;
+  let meat = 1;
   
   function create() {
     const sabakuImage = this.add.image(500, 300, "sabaku");
@@ -124,10 +126,17 @@ export const pinstage2 = {
     meats.setCollideWorldBounds(true);
     meats.setSize(meats.width, meats.height);
   
+    if(meat === 0 && pin3Clicked === 1){
+    wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
+    wolf2Image.setDisplaySize(128, 61);
+    wolf2Image.setCollideWorldBounds(true);
+    wolf2Image.setSize(wolf2Image.width,wolf2Image.height);
+    } else {
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
     wolfImage.setDisplaySize(128, 61);
     wolfImage.setCollideWorldBounds(true);
     wolfImage.setSize(wolfImage.width,wolfImage.height);
+   }
   
     const humanImage = this.physics.add.sprite(250, 200, "human");
     humanImage.setDisplaySize(70, 135);
@@ -142,10 +151,6 @@ export const pinstage2 = {
     this.physics.add.collider(humanImage, walls);
     this.physics.add.collider(treasure, walls);
     this.physics.add.collider(treasure, humanImage, hittreasure, null, this);
-  
-  
-    let wolf = 1; //狼がいるかどうか
-    let meat = 1; //肉があるかどうか
 
     let escapeKey;
     let spaceKey;
@@ -217,6 +222,7 @@ export const pinstage2 = {
     //肉と狼がぶつかったときの処理
     function hitmeat(wolfImage, meat) {
       meats.destroy();
+      meat = 0;
     }
   
     let pin1Clicked = 0; //pin1(右側のピン)のクリック
@@ -263,52 +269,78 @@ export const pinstage2 = {
   
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
-    if (pin3Clicked === 1 && pin1Clicked === 1 && meat === 0) {
-      //pin1が残っていたらヒトが止まる処理
-      this.tweens.add({
-        targets: humanImage,
-        x: 640, // 移動先のx座標
-        duration: 3000, // アニメーションの時間（ミリ秒）
-              onComplete: function () {
+    pin3Clicked++;
+     //画像を右にアニメーションで動かす
+     this.tweens.add({
+      targets: pin3,
+      x: 1200, //移動先のx座標
+      duration: 1000, //アニメーションの時間（ミリ秒）
+      onComplete: function () {
         //アニメーションが完了したら画像を消す
         pin3.destroy();
+        if (pin1Clicked === 0 && meat === 1) {
+          //pin1が残っていたらヒトがピンの前で止まる処理
+          this.tweens.add({
+            targets: humanImage,
+            x: 640, // 移動先のx座標
+            duration: 3000, // アニメーションの時間（ミリ秒）
+                  onComplete: function () {
+              this.tweens.add({
+              targets: wolf2Image,
+              x: 640,
+              duration: 3000,
+                    onComplete: function () {
+              humanImage.destroy();
+             },
+            });
+          },
+        });
+      } else if (pin1Clicked === 1 && meat === 0) {
+        //pinがすべてなかったらヒトが逃げ切る処理
+        this.tweens.add({
+          targets: humanImage,
+          x: 700, // 移動先のx座標
+          duration: 3000, // アニメーションの時間（ミリ秒）
+          onComplete: function () {
+            //アニメーションが完了したら画像を消す
+            pin3.destroy();
+            this.tweens.add({
+              targets: wolf2Image,
+              x: 640,
+              duration: 3000,
+                    onComplete: function () {
+             },
+            });
+          },
+        });
+      };
       },
-    });
-  }
-
-    if (pin3Clicked === 1 && pin1Clicked === 0 && meat === 0) {
-      //pinがすべてなかったらヒトが逃げ切る処理
-      this.tweens.add({
-        targets: humanImage,
-        x: 700, // 移動先のx座標
-        duration: 3000, // アニメーションの時間（ミリ秒）
-        onComplete: function () {
-          //アニメーションが完了したら画像を消す
-          pin3.destroy();
-      },
-    });
-  };
+   });
 });
 
 
+  
 
-  
-    // アニメーションを設定
-    this.anims.create({
-      key: "wolfAnimation1", // アニメーションの名前
-      frames: this.anims.generateFrameNumbers("wolf", { start: 0, end: 1 }), // フレームの範囲
-      frameRate: 3, // アニメーションの速度（フレーム/秒）
-      repeat: -1, // -1に設定すると無限ループ
-    });
-    wolfImage.play("wolfAnimation1"); // アニメーションを再生
-  
-    this.anims.create({
+
+    if(pin3Clicked === 1 && meat === 0){
+      wolfImage.destroy();
+      this.anims.create({
       key: "wolfAnimation2", // アニメーションの名前
       frames: this.anims.generateFrameNumbers("wolf2", { start: 0, end: 1 }), // フレームの範囲
       frameRate: 3, // アニメーションの速度（フレーム/秒）
       repeat: -1, // -1に設定すると無限ループ
     });
     wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+  } else {
+      // アニメーションを設定
+      this.anims.create({
+        key: "wolfAnimation1", // アニメーションの名前
+        frames: this.anims.generateFrameNumbers("wolf", { start: 0, end: 1 }), // フレームの範囲
+        frameRate: 3, // アニメーションの速度（フレーム/秒）
+        repeat: -1, // -1に設定すると無限ループ
+      });
+      wolfImage.play("wolfAnimation1"); // アニメーションを再生
+  }
 
     this.anims.create({
       key: "humanAnimation", // アニメーションの名前
