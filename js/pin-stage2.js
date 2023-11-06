@@ -50,8 +50,8 @@ export const pinstage2 = {
         image.setScale(0.09);
       }
     }
-    const treasure = this.physics.add.image(800, 520, "treasure");
-    treasure.setDisplaySize(150, 150);
+    const treasure = this.physics.add.image(750, 520, "treasure");
+    treasure.setDisplaySize(100, 100);
     treasure.setCollideWorldBounds(true);
     treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
   
@@ -111,16 +111,16 @@ export const pinstage2 = {
       pin3 を擬似的に 90 度回転
       setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
      */
-    pin3.setSize(pin3.height, pin3.width);
+    pin3.setSize(pin3.height*0.9, pin3.width*0.9);
     pin3.setRotation((1 / 2) * halfRotationDegree);
-    pin3.setDisplaySize(50, 300);
+    pin3.setDisplaySize(40, 270);
     // 画像をクリック可能にする
     pin3.setInteractive();
     pin3.setImmovable(true);
     pin3.body.setAllowGravity(false);
   
     meats = this.physics.add.image(250, 523, "meat");
-    meats.setDisplaySize(70, 120);
+    meats.setDisplaySize(120, 70);
     meats.setCollideWorldBounds(true);
     meats.setSize(meats.width, meats.height);
   
@@ -263,32 +263,35 @@ export const pinstage2 = {
   
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
-    //画像を右にアニメーションで動かす
-    this.tweens.add({
-      targets: pin3,
-      x: 1200, //移動先のx座標
-      duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: function () {
+    if (pin3Clicked === 1 && pin1Clicked === 1 && meat === 0) {
+      //pin1が残っていたらヒトが止まる処理
+      this.tweens.add({
+        targets: humanImage,
+        x: 640, // 移動先のx座標
+        duration: 3000, // アニメーションの時間（ミリ秒）
+              onComplete: function () {
         //アニメーションが完了したら画像を消す
         pin3.destroy();
       },
     });
+  }
 
-    if (pin1Clicked === 1 && pin3Clicked === 1 && meat === 0) {
-      //pin1とpin2とpin3が両方消えたら人間を右に移動
+    if (pin3Clicked === 1 && pin1Clicked === 0 && meat === 0) {
+      //pinがすべてなかったらヒトが逃げ切る処理
       this.tweens.add({
         targets: humanImage,
         x: 700, // 移動先のx座標
         duration: 3000, // アニメーションの時間（ミリ秒）
-      });
-    }
-
-    this.tweens.add({
-      targets: humanImage,
-      x: 700, // 移動先のx座標
-      duration: 3000, // アニメーションの時間（ミリ秒）
+        onComplete: function () {
+          //アニメーションが完了したら画像を消す
+          pin3.destroy();
+      },
     });
-  });
+  };
+});
+
+
+
   
     // アニメーションを設定
     this.anims.create({
@@ -305,7 +308,7 @@ export const pinstage2 = {
       frameRate: 3, // アニメーションの速度（フレーム/秒）
       repeat: -1, // -1に設定すると無限ループ
     });
-    wolfImage.play("wolfAnimation2"); // アニメーションを再生
+    wolf2Image.play("wolfAnimation2"); // アニメーションを再生
 
     this.anims.create({
       key: "humanAnimation", // アニメーションの名前
