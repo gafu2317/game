@@ -13,6 +13,7 @@ function preload() {
   this.load.image("background-menu", "/img/background_menu.jpg");
   this.load.image("pingame", "/img/pingame.png");
   this.load.image("question", "/img/question.png");
+  this.load.image("towergame", "/img/towergame.png");
 }
 
 function create() {
@@ -35,14 +36,19 @@ function create() {
     .setFontSize(30)
     .setColor("#ff0")
     .setFontStyle("bold"); // テキストの太さを設定
+  pintext.setInteractive();
+  pintext.on("pointerdown", () => {
+    this.sence.start("towerstage1");
+  });
 
-  //タワーゲームスタートボタン
-  const graphics2 = this.add.graphics();
-  graphics2.fillStyle(0x800000, 1).fillRect(500, 250, 300, 300); //いったん図形いれときます
-  // graphics2.setInteractive();
-  // graphics2.on("pointerdown", () => {
-  //   this.scene.start("towerstage1");
-  // });
+  // タワーゲームスタートボタン
+  const TowerGameStart = this.add
+    .image(650, 400, "towergame")
+    .setDisplaySize(300, 300);
+  TowerGameStart.setInteractive();
+  TowerGameStart.on("pointerdown", () => {
+    this.scene.start("towerstage1");
+  });
 
   const towertext = this.add
     .text(500, 300, "タワーゲームスタート")
@@ -54,13 +60,9 @@ function create() {
     this.scene.start("towerstage1");
   });
 
-  // const question = this.add.image(910, 40, "question").setInteractive();
-  const questiontext = this.add
-    .text(910, 40, "?")
-    .setFontSize(75)
-    .setInteractive();
+  const question = this.add.image(910, 40, "question").setInteractive();
   // ボタンがクリックされたときの処理
-  questiontext.on(
+  question.on(
     "pointerdown",
     function () {
       const popupgraphics = this.add.graphics();
