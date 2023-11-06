@@ -38,7 +38,7 @@ function create() {
     .setFontStyle("bold"); // テキストの太さを設定
   pintext.setInteractive();
   pintext.on("pointerdown", () => {
-    this.sence.start("pinstage1");
+    this.scene.start("pinstage1");
   });
 
   // タワーゲームスタートボタン
