@@ -1,5 +1,5 @@
 /**
- * @type {Phaser.Types.Core.GameConfig}
+ * @type  {Phaser.Types.Scenes.SettingsConfig}
  */
 export const startMenu = {
   preload: preload,
