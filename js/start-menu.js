@@ -54,9 +54,13 @@ function create() {
     this.scene.start("towerstage1");
   });
 
-  const question = this.add.image(910, 40, "question").setInteractive();
+  // const question = this.add.image(910, 40, "question").setInteractive();
+  const questiontext = this.add
+    .text(910, 40, "?")
+    .setFontSize(75)
+    .setInteractive();
   // ボタンがクリックされたときの処理
-  question.on(
+  questiontext.on(
     "pointerdown",
     function () {
       const popupgraphics = this.add.graphics();
