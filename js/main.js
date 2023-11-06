@@ -4,7 +4,6 @@ import { pinstage2 } from "./pin-stage2";
 import { towerstage1 } from "./tower-stage1";
 import { startMenu } from "./start-menu";
 
-
 const D_WIDTH = 1000;
 const D_HEIGHT = 600;
 // 1, Phaser3の設定データ
@@ -15,9 +14,8 @@ export const config = {
   type: Phaser.AUTO,
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
-  antialias: false, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: [pinstage1,towerstage1,startMenu,pinstage2 ],
-
+  antialias: true, // アンチエイリアスを無効にするらしい（分ってない）
+  scene: [startMenu, pinstage1, pinstage2, towerstage1],
 
   fps: {
     target: 24, // フレームレート
