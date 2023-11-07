@@ -47,6 +47,16 @@ let golem2;
 let golem3;
 let dragon;
 
+//実際に配置されている画像の配列
+// let towerArray = [
+//   [],
+//   [slime1, whiteItem],
+//   [poisonItem, slime2, swordItem1],
+//   [golem1, golem2, gunItem, slime3],
+//   [blackItem, swordItem2, golem3, stickItem, dragon],
+// ];
+const towerArray = [{ object: slime1 }, whiteItem];
+
 let humanPoint = 10; //人間の攻撃力
 let blackItemPoint = 100; //プラス
 let whiteItemPoint = 200; //プラス
@@ -82,7 +92,7 @@ let dragonDestroyed = false;
 //クリックの許可
 let clickEnabled1 = false;
 
-//
+//人間の攻撃力
 let humantext;
 
 function create() {
@@ -373,147 +383,67 @@ function checkET1() {
 }
 //humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
 function update() {
-  const movehuman = (i,j) => {
+  const movehuman = (i, j) => {
     this.tweens.add({
       targets: human,
-      x: 320 + 200 * (i - 1),
-      y: 555 - 108 * (j - 1),
+      x: -80 + 200 * i,
+      y: 663 - 108 * j,
       duration: 0, // 移動にかかる時間（ミリ秒）
     });
     this.tweens.add({
       targets: humantext,
-      x: 320 + 200 * (i - 1),
-      y: 515 - 108 * (j - 1),
+      x: -80 + 200 * i,
+      y: 623 - 108 * j,
       duration: 0, // 移動にかかる時間（ミリ秒）
     });
-  }
-
+  };
   slime1.on("pointerdown", () => {
-    movehuman(1,1);
+    movehuman(2,1);
   });
   whiteItem.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 0,
-      y: 555 - 108 * 1, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(2, 2);
   });
   poisonItem.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
     if (clickEnabled1) {
-      this.tweens.add({
-        targets: human,
-        x: 320 + 200 * 1,
-        y: 555 - 108 * 0, // 移動先のy座標
-        duration: 0, // アニメーションの時間（ミリ秒）
-      });
+    movehuman(3,1);
     }
   });
   slime2.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
     if (clickEnabled1) {
-      this.tweens.add({
-        targets: human,
-        x: 320 + 200 * 1,
-        y: 555 - 108 * 1, // 移動先のy座標
-        duration: 0, // アニメーションの時間（ミリ秒）
-      });
+    movehuman(3, 2);
     }
   });
   swordItem1.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
     if (clickEnabled1) {
-      this.tweens.add({
-        targets: human,
-        x: 320 + 200 * 1,
-        y: 555 - 108 * 2, // 移動先のy座標
-        duration: 0, // アニメーションの時間（ミリ秒）
-      });
+    movehuman(3,3);
     }
   });
   golem1.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 2,
-      y: 555 - 108 * 0, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(4, 1);
   });
   golem2.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 2,
-      y: 555 - 108 * 1, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(4, 2);
   });
   gunItem.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 2,
-      y: 555 - 108 * 2, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(4, 3);
   });
   slime3.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 2,
-      y: 555 - 108 * 3, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(4, 4);
   });
   blackItem.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 3,
-      y: 555 - 108 * 0, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(5, 1);
   });
   swordItem2.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 3,
-      y: 555 - 108 * 1, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(5, 2);
   });
   golem3.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 3,
-      y: 555 - 108 * 2, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(5, 3);
   });
   stickItem.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 3,
-      y: 555 - 108 * 3, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(5, 4);
   });
   dragon.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 3,
-
-      y: 555 - 108 * 4, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    });
+    movehuman(5, 5);
   });
 
   let redtext = {
