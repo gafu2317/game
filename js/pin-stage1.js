@@ -152,14 +152,19 @@ function create() {
   escapeKey.on("down", () => {
     this.scene.start("start-menu");
   });
-//spaceキーを押すとやり直しができる処理
+  //spaceキーを押すとやり直しができる処理
   spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   spaceKey.on("down", () => {
-this.scene.restart();
-  })
+    this.scene.restart();
+  });
   var redtext = {
     fontSize: "100px", // フォントサイズ
     fill: "#FF0000", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
+  let yellowtext = {
+    fontSize: "100px", // フォントサイズ
+    fill: "#FFFF00", // テキストの色
     fontStyle: "bold", // 太文字のスタイル
   };
   var whiteText = {
@@ -182,10 +187,15 @@ this.scene.restart();
   //狼と人間がぶつかったときの処理
   function hithuman(humanImage, wolfImage) {
     humanImage.destroy();
-    gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+    gameoverText = this.add.text(500, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+    gameoverText.setOrigin(0.5);
     gameoverText.setDepth(1);
-    restartText = this.add.text(390, 200, "リトライ", whiteText);
-    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+    restartText = this.add.text(500, 200, "リトライ", whiteText);
+    restartText.setPadding(0, 4, 0, 0);
+    restartText.setOrigin(0.5);
+    returnMenuText = this.add.text(500, 300, "ホーム", whiteText);
+    returnMenuText.setPadding(0, 4, 0, 0);
+    returnMenuText.setOrigin(0.5);
     restartText.setInteractive(); // テキストをクリック可能にする
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
@@ -200,14 +210,19 @@ this.scene.restart();
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-    gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
+    gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
+    gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);
-    nextText = this.add.text(390,200,"次へ",whiteText);
-    returnMenuText = this.add.text(420,300,"ホーム",whiteText);
+    nextText = this.add.text(500, 200, "次へ", whiteText);
+    nextText.setPadding(0, 4, 0, 0);
+    nextText.setOrigin(0.5);
     nextText.setInteractive();
+    returnMenuText = this.add.text(500, 300, "ホーム", whiteText);
+    returnMenuText.setPadding(0, 4, 0, 0);
+    returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
-    nextText.on("pointerdown",() => {
-      this.scene.start("pinstage2");//次のステージへ移動する処理
+    nextText.on("pointerdown", () => {
+      this.scene.start("pinstage2"); //次のステージへ移動する処理
     });
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
