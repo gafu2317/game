@@ -82,6 +82,9 @@ let dragonDestroyed = false;
 //クリックの許可
 let clickEnabled1 = false;
 
+//
+let humantext;
+
 function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
@@ -104,7 +107,7 @@ function create() {
   human = this.physics.add.sprite(120, 555, "human");
   human.setScale(0.35);
   human.body.setAllowGravity(false);
-  const humantext = this.add.text(120, 555 - human.width / 3.5, humanPoint, {
+  humantext = this.add.text(120, 555 - human.width / 3.5, humanPoint, {
     fontSize: "20px",
     fill: "#000000",
   });
@@ -132,8 +135,8 @@ function create() {
     { fontSize: "20px", fill: "#000000" }
   );
   whiteItemtext.setOrigin(0.5, 0.5);
-   //三段タワー
-  poisonItem = this.physics.add.image(520, 550,"item-d-poison");
+  //三段タワー
+  poisonItem = this.physics.add.image(520, 550, "item-d-poison");
   poisonItem.setScale(0.07);
   poisonItem.setInteractive();
   poisonItem.body.setAllowGravity(false);
@@ -167,7 +170,7 @@ function create() {
     { fontSize: "20px", fill: "#000000" }
   );
   swordItem1text.setOrigin(0.5, 0.5);
-  
+
   //四段タワー
   golem1 = this.physics.add.image(720, 551, "enemy-golem");
   golem1.setScale(0.55);
@@ -272,112 +275,121 @@ function create() {
   );
   dragontext.setOrigin(0.5, 0.5);
 
-      //アイテムと人間があたったときの処理
-      this.physics.add.collider(human, blackItem, function () {
-        humanPoint += blackItemPoint;
-        blackItem.destroy();
-        blackItemtext.destroy();
-        blackItemDestroyed = true;
-      });
-      this.physics.add.collider(human, whiteItem, function () {
-        humanPoint = humanPoint + whiteItemPoint;
-        whiteItem.destroy();
-        whiteItemtext.destroy();
-        whiteItemDestroyed = true;
-        checkET1();
-      });
-      this.physics.add.collider(human, gunItem, function () {
-        humanPoint = humanPoint * gunItemPoint;
-        gunItem.destroy();
-        gunItemtext.destroy();
-        gunItemDestroyed = true;
-      });
-      this.physics.add.collider(human, stickItem, function () {
-        humanPoint = humanPoint * stickItemPoint;
-        stickItem.destroy();
-        stickItemtext.destroy();
-        stickItemDestroyed = true;
-      });
-      this.physics.add.collider(human, swordItem1, function () {
-        humanPoint = humanPoint * swordItem1Point;
-        swordItem1.destroy();
-        swordItem1text.destroy();
-        swordItem1Destroyed = true;
-      });
-      this.physics.add.collider(human, swordItem2, function () {
-        humanPoint = humanPoint * swordItem2Point;
-        swordItem2.destroy();
-        swordItem2text.destroy();
-        swordItem2Destroyed = true;
-      });
-      this.physics.add.collider(human, poisonItem, function () {
-        humanPoint = humanPoint - poisonItemPoint;
-        poisonItem.destroy();
-        poisonItemtext.destroy();
-        poisonItemDestroyed = true;
-      });
-      this.physics.add.collider(human, slime1, function () {
-        humanPoint = humanPoint - slime1Point;
-        slime1.destroy();
-        slime1text.destroy();
-        slime1Destroyed = true;
-        checkET1();
-      });
-      this.physics.add.collider(human, slime2, function () {
-        humanPoint = humanPoint - slime2Point;
-        slime2.destroy();
-        slime2text.destroy();
-        slime2Destroyed = true;
-      });
-      this.physics.add.collider(human, slime3, function () {
-        humanPoint = humanPoint - slime3Point;
-        slime3.destroy();
-        slime3text.destroy();
-        slime3Destroyed = true;
-      });
-      this.physics.add.collider(human, golem1, function () {
-        humanPoint = humanPoint - golem1Point;
-        golem1.destroy();
-        golem1text.destroy();
-        golem1Destroyed = true;
-      });
-      this.physics.add.collider(human, golem2, function () {
-        humanPoint = humanPoint - golem2Point;
-        golem2.destroy();
-        golem2text.destroy();
-        golem2Destroyed = true;
-      });
-      this.physics.add.collider(human, golem3, function () {
-        humanPoint = humanPoint - golem3Point;
-        golem3.destroy();
-        golem3text.destroy();
-        golem3Destroyed = true;
-      });
-      this.physics.add.collider(human, dragon, function () {
-        humanPoint = humanPoint - dragonPoint;
-        if(humanPoint > dragonPoint){dragon.destroy();
-        dragontext.destroy();
-        dragonDestroyed = true;
-        }
-      });
+  //アイテムと人間があたったときの処理
+  this.physics.add.collider(human, blackItem, function () {
+    humanPoint += blackItemPoint;
+    blackItem.destroy();
+    blackItemtext.destroy();
+    blackItemDestroyed = true;
+  });
+  this.physics.add.collider(human, whiteItem, function () {
+    humanPoint = humanPoint + whiteItemPoint;
+    whiteItem.destroy();
+    whiteItemtext.destroy();
+    whiteItemDestroyed = true;
+    checkET1();
+  });
+  this.physics.add.collider(human, gunItem, function () {
+    humanPoint = humanPoint * gunItemPoint;
+    gunItem.destroy();
+    gunItemtext.destroy();
+    gunItemDestroyed = true;
+  });
+  this.physics.add.collider(human, stickItem, function () {
+    humanPoint = humanPoint * stickItemPoint;
+    stickItem.destroy();
+    stickItemtext.destroy();
+    stickItemDestroyed = true;
+  });
+  this.physics.add.collider(human, swordItem1, function () {
+    humanPoint = humanPoint * swordItem1Point;
+    swordItem1.destroy();
+    swordItem1text.destroy();
+    swordItem1Destroyed = true;
+  });
+  this.physics.add.collider(human, swordItem2, function () {
+    humanPoint = humanPoint * swordItem2Point;
+    swordItem2.destroy();
+    swordItem2text.destroy();
+    swordItem2Destroyed = true;
+  });
+  this.physics.add.collider(human, poisonItem, function () {
+    humanPoint = humanPoint - poisonItemPoint;
+    poisonItem.destroy();
+    poisonItemtext.destroy();
+    poisonItemDestroyed = true;
+  });
+  this.physics.add.collider(human, slime1, function () {
+    humanPoint = humanPoint - slime1Point;
+    slime1.destroy();
+    slime1text.destroy();
+    slime1Destroyed = true;
+    checkET1();
+  });
+  this.physics.add.collider(human, slime2, function () {
+    humanPoint = humanPoint - slime2Point;
+    slime2.destroy();
+    slime2text.destroy();
+    slime2Destroyed = true;
+  });
+  this.physics.add.collider(human, slime3, function () {
+    humanPoint = humanPoint - slime3Point;
+    slime3.destroy();
+    slime3text.destroy();
+    slime3Destroyed = true;
+  });
+  this.physics.add.collider(human, golem1, function () {
+    humanPoint = humanPoint - golem1Point;
+    golem1.destroy();
+    golem1text.destroy();
+    golem1Destroyed = true;
+  });
+  this.physics.add.collider(human, golem2, function () {
+    humanPoint = humanPoint - golem2Point;
+    golem2.destroy();
+    golem2text.destroy();
+    golem2Destroyed = true;
+  });
+  this.physics.add.collider(human, golem3, function () {
+    humanPoint = humanPoint - golem3Point;
+    golem3.destroy();
+    golem3text.destroy();
+    golem3Destroyed = true;
+  });
+  this.physics.add.collider(human, dragon, function () {
+    humanPoint = humanPoint - dragonPoint;
+    if (humanPoint > dragonPoint) {
+      dragon.destroy();
+      dragontext.destroy();
+      dragonDestroyed = true;
+    }
+  });
 }
 
-function checkET1(){
-  if(whiteItemDestroyed && slime1Destroyed){
+function checkET1() {
+  if (whiteItemDestroyed && slime1Destroyed) {
     clickEnabled1 = true;
   }
 }
-
-
+//humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
 function update() {
-  slime1.on("pointerdown", () => {
-    // 画像を下にアニメーションで動かす
+  const movehuman = (i,j) => {
     this.tweens.add({
       targets: human,
-      x: 320 + 200 * 0,
-      y: 555 - 108 * 0, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
+      x: 320 + 200 * (i - 1),
+      y: 555 - 108 * (j - 1),
+      duration: 0, // 移動にかかる時間（ミリ秒）
     });
+    this.tweens.add({
+      targets: humantext,
+      x: 320 + 200 * (i - 1),
+      y: 515 - 108 * (j - 1),
+      duration: 0, // 移動にかかる時間（ミリ秒）
+    });
+  }
+
+  slime1.on("pointerdown", () => {
+    movehuman(1,1);
   });
   whiteItem.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
@@ -390,37 +402,37 @@ function update() {
   });
   poisonItem.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
-    if (clickEnabled1){
+    if (clickEnabled1) {
       this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 1,
-      y: 555 - 108 * 0, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    })
-   }
-  })
+        targets: human,
+        x: 320 + 200 * 1,
+        y: 555 - 108 * 0, // 移動先のy座標
+        duration: 0, // アニメーションの時間（ミリ秒）
+      });
+    }
+  });
   slime2.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
-    if (clickEnabled1){
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 1,
-      y: 555 - 108 * 1, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    })
-   }
-  })
+    if (clickEnabled1) {
+      this.tweens.add({
+        targets: human,
+        x: 320 + 200 * 1,
+        y: 555 - 108 * 1, // 移動先のy座標
+        duration: 0, // アニメーションの時間（ミリ秒）
+      });
+    }
+  });
   swordItem1.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
-    if (clickEnabled1){
-    this.tweens.add({
-      targets: human,
-      x: 320 + 200 * 1,
-      y: 555 - 108 * 2, // 移動先のy座標
-      duration: 0, // アニメーションの時間（ミリ秒）
-    })
-   }
-  })
+    if (clickEnabled1) {
+      this.tweens.add({
+        targets: human,
+        x: 320 + 200 * 1,
+        y: 555 - 108 * 2, // 移動先のy座標
+        duration: 0, // アニメーションの時間（ミリ秒）
+      });
+    }
+  });
   golem1.on("pointerdown", () => {
     // 画像を下にアニメーションで動かす
     this.tweens.add({

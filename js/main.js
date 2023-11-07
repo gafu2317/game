@@ -15,7 +15,7 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: true, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: [startMenu, pinstage1, pinstage2, towerstage1],
+  scene: [towerstage1, startMenu, pinstage1, pinstage2],
 
   fps: {
     target: 24, // フレームレート
