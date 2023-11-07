@@ -152,14 +152,19 @@ function create() {
   escapeKey.on("down", () => {
     this.scene.start("start-menu");
   });
-//spaceキーを押すとやり直しができる処理
+  //spaceキーを押すとやり直しができる処理
   spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   spaceKey.on("down", () => {
-this.scene.restart();
-  })
+    this.scene.restart();
+  });
   var redtext = {
     fontSize: "100px", // フォントサイズ
     fill: "#FF0000", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
+  let yellowtext = {
+    fontSize: "100px", // フォントサイズ
+    fill: "#FFFF00", // テキストの色
     fontStyle: "bold", // 太文字のスタイル
   };
   var whiteText = {
@@ -200,14 +205,14 @@ this.scene.restart();
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-    gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
+    gameclearText = this.add.text(220, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setDepth(1);
-    nextText = this.add.text(390,200,"次へ",whiteText);
-    returnMenuText = this.add.text(420,300,"ホーム",whiteText);
+    nextText = this.add.text(390, 200, "次へ", whiteText);
+    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
     nextText.setInteractive();
     returnMenuText.setInteractive();
-    nextText.on("pointerdown",() => {
-      this.scene.start("pinstage2");//次のステージへ移動する処理
+    nextText.on("pointerdown", () => {
+      this.scene.start("pinstage2"); //次のステージへ移動する処理
     });
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
