@@ -185,11 +185,16 @@ function create() {
   //狼と人間がぶつかったときの処理
   function hithuman(humanImage, wolfImage) {
     humanImage.destroy();
-    gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+    gameoverText = this.add.text(500, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+    gameoverText.setOrigin(0.5);
     gameoverText.setDepth(1);
-    restartText = this.add.text(390, 200, "リトライ", whiteText);
-    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+    restartText = this.add.text(500, 200, "リトライ", whiteText);
+    restartText.setPadding(0, 4, 0, 0);
+    restartText.setOrigin(0.5);
     restartText.setInteractive(); // テキストをクリック可能にする
+    returnMenuText = this.add.text(500, 300, "ホーム", whiteText);
+    returnMenuText.setPadding(0, 4, 0, 0);
+    returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
@@ -203,7 +208,8 @@ function create() {
   }
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-    var gameclearText = this.add.text(220, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
+    var gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
+    gameclearText.setOrigin(0.5);
   }
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）

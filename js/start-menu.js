@@ -37,6 +37,7 @@ function create() {
     .setColor("#ff0")
     .setFontStyle("bold"); // テキストの太さを設定
   pintext.setInteractive();
+  pintext.setPadding(0, 4, 0, 0);
   pintext.on("pointerdown", () => {
     this.sence.start("towerstage1");
   });
@@ -56,6 +57,7 @@ function create() {
     .setColor("#ff0")
     .setFontStyle("bold"); // テキストの太さを設定
   towertext.setInteractive();
+  towertext.setPadding(0, 4, 0, 0);
   towertext.on("pointerdown", () => {
     this.scene.start("towerstage1");
   });
@@ -70,6 +72,7 @@ function create() {
       const popuptitle = this.add
         .text(210, 130, "ハイパーカジュアルゲームとは？")
         .setFontSize(35);
+      popuptitle.setPadding(0, 4, 0, 0);
       const popupmain = this.add
         .text(
           210,
@@ -77,6 +80,7 @@ function create() {
           "  ユーザーの性別や年齢、国籍を問わず\n誰でも遊べるゲームのことです。\n\n\n\nENJOY THESE GAMES!!!"
         )
         .setFontSize(25);
+      popupmain.setPadding(0, 4, 0, 0);
       const closeButton = this.add
         .text(780, 100, "X")
         .setFontSize(30)
