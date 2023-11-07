@@ -126,18 +126,11 @@ export const pinstage2 = {
     meats.setCollideWorldBounds(true);
     meats.setSize(meats.width, meats.height);
   
-    if(meat === 0 && pin3Clicked === 1){
-    wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
-    wolf2Image.setDisplaySize(128, 61);
-    wolf2Image.setCollideWorldBounds(true);
-    wolf2Image.setSize(wolf2Image.width,wolf2Image.height);
-    } else {
     wolfImage = this.physics.add.sprite(500, 523, "wolf");
     wolfImage.setDisplaySize(128, 61);
     wolfImage.setCollideWorldBounds(true);
     wolfImage.setSize(wolfImage.width,wolfImage.height);
-   }
-  
+   
     const humanImage = this.physics.add.sprite(250, 200, "human");
     humanImage.setDisplaySize(70, 135);
     humanImage.setCollideWorldBounds(true);
@@ -284,43 +277,30 @@ export const pinstage2 = {
             targets: humanImage,
             x: 640, // 移動先のx座標
             duration: 3000, // アニメーションの時間（ミリ秒）
-                  onComplete: function () {
+            onComplete: function () {
               this.tweens.add({
               targets: wolf2Image,
               x: 640,
               duration: 3000,
-                    onComplete: function () {
+              onComplete: function () {
               humanImage.destroy();
-             },
+              },
             });
-          },
-        });
-      } else if (pin1Clicked === 1 && meat === 0) {
+           },
+         });
+       } else if (pin1Clicked === 1 && meat === 0) {
         //pinがすべてなかったらヒトが逃げ切る処理
         this.tweens.add({
           targets: humanImage,
           x: 700, // 移動先のx座標
           duration: 3000, // アニメーションの時間（ミリ秒）
           onComplete: function () {
-            //アニメーションが完了したら画像を消す
-            pin3.destroy();
-            this.tweens.add({
-              targets: wolf2Image,
-              x: 640,
-              duration: 3000,
-                    onComplete: function () {
-             },
-            });
           },
         });
       };
       },
    });
-});
-
-
-  
-
+  });
 
     if(pin3Clicked === 1 && meat === 0){
       wolfImage.destroy();
