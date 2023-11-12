@@ -135,6 +135,7 @@ function create() {
   wolf2Image.setDisplaySize(128, 61);
   wolf2Image.setCollideWorldBounds(true);
   wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+  wolf2Image.destroy();
 
   const humanImage = this.physics.add.sprite(250, 200, "human");
   humanImage.setDisplaySize(70, 135);
@@ -295,7 +296,7 @@ function create() {
       targets: pin3,
       x: 1200, //移動先のx座標
       duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: ()=> {
+      onComplete: () => {
         //アニメーションが完了したら画像を消す
         pin3.destroy();
         if (pin1Clicked === 0 && meat === 1) {
@@ -306,9 +307,17 @@ function create() {
             duration: 3000,
             onComplete: () => {
               wolfImage.destroy();
+              wolf2Image = this.physics.add.sprite(200, 523, "wolf2");
+              wolf2Image.setDisplaySize(128, 61);
+              wolf2Image.setCollideWorldBounds(true);
+              wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+              this.physics.add.collider(wolf2Image, walls);
               this.anims.create({
                 key: "wolfAnimation2", // アニメーションの名前
-                frames: this.anims.generateFrameNumbers("wolf2", { start: 0, end: 1 }), // フレームの範囲
+                frames: this.anims.generateFrameNumbers("wolf2", {
+                  start: 0,
+                  end: 1,
+                }), // フレームの範囲
                 frameRate: 3, // アニメーションの速度（フレーム/秒）
                 repeat: -1, // -1に設定すると無限ループ
               });
@@ -327,27 +336,27 @@ function create() {
             duration: 1000,
             onComplete: () => {
               this.tweens.add({
-              targets: wolf2Image,
-              x: 620,
-              duration: 1000,
+                targets: wolf2Image,
+                x: 620,
+                duration: 1000,
               });
             },
           });
-        } else if (pin1Clicked === 1 && meat === 1){
+        } else if (pin1Clicked === 1 && meat === 1) {
           //pin1　無　meat 有
           this.tweens.add({
             targets: humanImage,
             x: 700,
             duration: 1000,
           });
-        } else if(pin1Clicked === 0 && meat === 0){
+        } else if (pin1Clicked === 0 && meat === 0) {
           // pin1　有　meat　無
           this.tweens.add({
             targets: humanImage,
             x: 620,
             duration: 1000,
           });
-        };
+        }
       },
     });
   });
