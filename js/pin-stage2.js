@@ -140,7 +140,6 @@ function create() {
   this.physics.add.collider(wolfImage, walls);
   this.physics.add.collider(meats, walls);
   this.physics.add.collider(humanImage, wolfImage, hithuman, null, this);
-  this.physics.add.collider(humanImage, wolf2Image, hithuman2, null, this);
   this.physics.add.collider(humanImage, walls);
   this.physics.add.collider(treasure, walls);
   this.physics.add.collider(treasure, humanImage, hittreasure, null, this);
@@ -183,27 +182,6 @@ function create() {
   //狼と人間がぶつかったときの処理
   function hithuman() {
     console.log("hit");
-    humanImage.destroy();
-    gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
-    gameoverText.setDepth(1);
-    restartText = this.add.text(390, 200, "リトライ", whiteText);
-    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
-    restartText.setInteractive(); // テキストをクリック可能にする
-    returnMenuText.setInteractive();
-    restartText.on("pointerdown", () => {
-      this.scene.restart(); // ゲームの初期状態に戻す処理
-    });
-    returnMenuText.on("pointerdown", () => {
-      this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
-    });
-    restartText.setDepth(1);
-    graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
-    returnMenuText.setDepth(1);
-  }
-
-  //狼2と人間がぶつかったときの処理
-    function hithuman2() {
-    console.log("hit2");
     humanImage.destroy();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
@@ -326,44 +304,70 @@ function create() {
             targets: humanImage,
             x: 620,
             duration: 3000,
-          onComplete: () =>{
-          wolfImage.destroy();
-          wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
-          wolf2Image.setDisplaySize(128, 61);
-          wolf2Image.setCollideWorldBounds(true);
-          wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
-          this.physics.add.collider(wolf2Image, walls);
-          this.anims.create({
-            key: "wolfAnimation2", // アニメーションの名前
-            frames: this.anims.generateFrameNumbers("wolf2", {
-              start: 0,
-              end: 1,
-            }), // フレームの範囲
-            frameRate: 3, // アニメーションの速度（フレーム/秒）
-            repeat: -1, // -1に設定すると無限ループ
+            onComplete: () => {
+              wolfImage.destroy();
+              wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
+              wolf2Image.setDisplaySize(128, 61);
+              wolf2Image.setCollideWorldBounds(true);
+              wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+              this.physics.add.collider(wolf2Image, walls);
+              this.anims.create({
+                key: "wolfAnimation2", // アニメーションの名前
+                frames: this.anims.generateFrameNumbers("wolf2", {
+                  start: 0,
+                  end: 1,
+                }), // フレームの範囲
+                frameRate: 3, // アニメーションの速度（フレーム/秒）
+                repeat: -1, // -1に設定すると無限ループ
+              });
+              wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+              this.tweens.add({
+                targets: wolf2Image,
+                x: 590,
+                duration: 2000,
+              });
+              this.physics.add.collider(
+                humanImage,
+                wolf2Image,
+                hithuman2,
+                null,
+                this
+              );
+              //狼2と人間がぶつかったときの処理
+              function hithuman2() {
+                console.log("hit2");
+                humanImage.destroy();
+                gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+                gameoverText.setDepth(1);
+                restartText = this.add.text(390, 200, "リトライ", whiteText);
+                returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+                restartText.setInteractive(); // テキストをクリック可能にする
+                returnMenuText.setInteractive();
+                restartText.on("pointerdown", () => {
+                  this.scene.restart(); // ゲームの初期状態に戻す処理
+                });
+                returnMenuText.on("pointerdown", () => {
+                  this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+                });
+                restartText.setDepth(1);
+                graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
+                returnMenuText.setDepth(1);
+              }
+            },
           });
-          wolf2Image.play("wolfAnimation2"); // アニメーションを再生
-          this.tweens.add({
-            targets: wolf2Image,
-            x: 590,
-            duration: 2000,
-          });
-        },
-      });
-      };
+        }
       },
     });
   });
 
-    // アニメーションを設定
-    this.anims.create({
-      key: "wolfAnimation1", // アニメーションの名前
-      frames: this.anims.generateFrameNumbers("wolf", { start: 0, end: 1 }), // フレームの範囲
-      frameRate: 3, // アニメーションの速度（フレーム/秒）
-      repeat: -1, // -1に設定すると無限ループ
-    });
-    wolfImage.play("wolfAnimation1"); // アニメーションを再生
-  
+  // アニメーションを設定
+  this.anims.create({
+    key: "wolfAnimation1", // アニメーションの名前
+    frames: this.anims.generateFrameNumbers("wolf", { start: 0, end: 1 }), // フレームの範囲
+    frameRate: 3, // アニメーションの速度（フレーム/秒）
+    repeat: -1, // -1に設定すると無限ループ
+  });
+  wolfImage.play("wolfAnimation1"); // アニメーションを再生
 
   this.anims.create({
     key: "humanAnimation", // アニメーションの名前
@@ -372,7 +376,6 @@ function create() {
     repeat: -1, // -1に設定すると無限ループ
   });
   humanImage.play("humanAnimation"); // アニメーションを再生
-
 }
 
 function update() {}
