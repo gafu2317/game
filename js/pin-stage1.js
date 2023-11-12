@@ -204,7 +204,7 @@ function create() {
   graphics.setDepth(-1); //通常時は背面に置く
 
   //狼と人間がぶつかったときの処理
-  function hithuman(humanImage, wolfImage) {
+  function hithuman() {
     humanImage.destroy();
     const humanDeath = this.sound.add('humanDeath');
     humanDeath.play();
@@ -232,7 +232,7 @@ function create() {
     returnMenuText.setDepth(1);
   }
   //人間と宝がぶつかったときの処理
-  function hittreasure(humanImage, treasure) {
+  function hittreasure() {
     treasure.destroy();
     const treasureGet = this.sound.add("treasureGet");
     treasureGet.play();
