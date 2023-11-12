@@ -221,6 +221,9 @@ function create() {
     returnMenuText.setPadding(0, 4, 0, 0);
     returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
+    returnMenuText.on("pointerdown", () => {
+      this.scene.start("start-menu");
+    });
     nextText.on("pointerdown", () => {
       this.scene.start("pinstage2"); //次のステージへ移動する処理
     });
