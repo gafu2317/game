@@ -39,7 +39,7 @@ function create() {
   pintext.setInteractive();
   pintext.setPadding(0, 4, 0, 0);
   pintext.on("pointerdown", () => {
-    this.sence.start("towerstage1");
+    this.scene.start("pinstage1");
   });
 
   // タワーゲームスタートボタン
