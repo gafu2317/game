@@ -14,6 +14,8 @@ function preload() {
   this.load.image("pingame", "/img/pingame.png");
   this.load.image("question", "/img/question.png");
   this.load.image("towergame", "/img/towergame.png");
+
+  this.load.audio("stageStart", "./public/sounds/stageStart.MP3");
 }
 
 function create() {
@@ -21,7 +23,7 @@ function create() {
   sougenImage.setDisplaySize(1000, 600);
 
   const titleImage = this.add.image(500, 145, "title");
-
+  const stageStart = this.sound.add("stageStart");
   //ピンゲームスタートボタン
   const PinGameStart = this.add
     .image(300, 400, "pingame")
@@ -29,6 +31,7 @@ function create() {
   PinGameStart.setInteractive();
   PinGameStart.on("pointerdown", () => {
     this.scene.start("pinstage1");
+    stageStart.play();
   });
 
   const pintext = this.add
@@ -40,6 +43,7 @@ function create() {
   pintext.setPadding(0, 4, 0, 0);
   pintext.on("pointerdown", () => {
     this.scene.start("pinstage1");
+    stageStart.play();
   });
 
   // タワーゲームスタートボタン
@@ -49,6 +53,7 @@ function create() {
   TowerGameStart.setInteractive();
   TowerGameStart.on("pointerdown", () => {
     this.scene.start("towerstage1");
+    stageStart.play();
   });
 
   const towertext = this.add
@@ -60,6 +65,7 @@ function create() {
   towertext.setPadding(0, 4, 0, 0);
   towertext.on("pointerdown", () => {
     this.scene.start("towerstage1");
+    stageStart.play();
   });
 
   const question = this.add.image(910, 40, "question").setInteractive();
