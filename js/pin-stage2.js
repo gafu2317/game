@@ -110,9 +110,9 @@ function create() {
    */
   const pin3 = pins.create(500, 400, "pin"); //上のピン
   /*
-      pin3 を擬似的に 90 度回転
-      setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
-     */
+  pin3 を擬似的に 90 度回転
+  setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
+  */
   pin3.setSize(pin3.height * 0.9, pin3.width * 0.9);
   pin3.setRotation((1 / 2) * halfRotationDegree);
   pin3.setDisplaySize(40, 270);
@@ -131,12 +131,6 @@ function create() {
   wolfImage.setCollideWorldBounds(true);
   wolfImage.setSize(wolfImage.width, wolfImage.height);
 
-  wolf2Image = this.physics.add.sprite(200, 523, "wolf2");
-  wolf2Image.setDisplaySize(128, 61);
-  wolf2Image.setCollideWorldBounds(true);
-  wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
-  wolf2Image.destroy();
-
   const humanImage = this.physics.add.sprite(250, 200, "human");
   humanImage.setDisplaySize(70, 135);
   humanImage.setCollideWorldBounds(true);
@@ -144,7 +138,6 @@ function create() {
 
   this.physics.add.collider(wolfImage, meats, hitmeat, null, this);
   this.physics.add.collider(wolfImage, walls);
-  this.physics.add.collider(wolf2Image, walls);
   this.physics.add.collider(meats, walls);
   this.physics.add.collider(humanImage, wolfImage, hithuman, null, this);
   this.physics.add.collider(humanImage, wolf2Image, hithuman2, null, this);
@@ -188,7 +181,8 @@ function create() {
   graphics.setDepth(-1); //通常時は背面に置く
 
   //狼と人間がぶつかったときの処理
-  function hithuman(humanImage, wolfImage) {
+  function hithuman() {
+    console.log("hit");
     humanImage.destroy();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
@@ -208,7 +202,8 @@ function create() {
   }
 
   //狼2と人間がぶつかったときの処理
-  function hithuman2(humanImage, wolf2Image) {
+    function hithuman2() {
+    console.log("hit2");
     humanImage.destroy();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
@@ -241,7 +236,7 @@ function create() {
   }
 
   //肉と狼がぶつかったときの処理
-  function hitmeat(wolfImage, meat) {
+  function hitmeat(wolfImage, meats) {
     meats.destroy();
     meat = 0;
   }
@@ -264,8 +259,6 @@ function create() {
       },
     });
   });
-
-  console.log(pin1Clicked);
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
@@ -300,45 +293,23 @@ function create() {
         //アニメーションが完了したら画像を消す
         pin3.destroy();
         if (pin1Clicked === 0 && meat === 1) {
-          //pin1　有　meat 無
+          //pin1　有　meat 有
           this.tweens.add({
             targets: humanImage,
             x: 620,
             duration: 3000,
-            onComplete: () => {
-              wolfImage.destroy();
-              wolf2Image = this.physics.add.sprite(200, 523, "wolf2");
-              wolf2Image.setDisplaySize(128, 61);
-              wolf2Image.setCollideWorldBounds(true);
-              wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
-              this.physics.add.collider(wolf2Image, walls);
-              this.anims.create({
-                key: "wolfAnimation2", // アニメーションの名前
-                frames: this.anims.generateFrameNumbers("wolf2", {
-                  start: 0,
-                  end: 1,
-                }), // フレームの範囲
-                frameRate: 3, // アニメーションの速度（フレーム/秒）
-                repeat: -1, // -1に設定すると無限ループ
-              });
-              this.tweens.add({
-                targets: wolf2Image,
-                x: 620,
-                duration: 1000,
-              });
-            },
           });
         } else if (pin1Clicked === 1 && meat === 0) {
           //pin1 無　meat 無
           this.tweens.add({
             targets: humanImage,
             x: 700,
-            duration: 1000,
+            duration: 3000,
             onComplete: () => {
               this.tweens.add({
                 targets: wolf2Image,
-                x: 620,
-                duration: 1000,
+                x: 600,
+                duration: 3000,
               });
             },
           });
@@ -347,30 +318,43 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700,
-            duration: 1000,
+            duration: 3000,
           });
         } else if (pin1Clicked === 0 && meat === 0) {
           // pin1　有　meat　無
           this.tweens.add({
             targets: humanImage,
             x: 620,
-            duration: 1000,
+            duration: 3000,
+          onComplete: () =>{
+          wolfImage.destroy();
+          wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
+          wolf2Image.setDisplaySize(128, 61);
+          wolf2Image.setCollideWorldBounds(true);
+          wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+          this.physics.add.collider(wolf2Image, walls);
+          this.anims.create({
+            key: "wolfAnimation2", // アニメーションの名前
+            frames: this.anims.generateFrameNumbers("wolf2", {
+              start: 0,
+              end: 1,
+            }), // フレームの範囲
+            frameRate: 3, // アニメーションの速度（フレーム/秒）
+            repeat: -1, // -1に設定すると無限ループ
           });
-        }
+          wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+          this.tweens.add({
+            targets: wolf2Image,
+            x: 590,
+            duration: 2000,
+          });
+        },
+      });
+      };
       },
     });
   });
 
-  if (pin3Clicked === 1 && meat === 0) {
-    wolfImage.destroy();
-    this.anims.create({
-      key: "wolfAnimation2", // アニメーションの名前
-      frames: this.anims.generateFrameNumbers("wolf2", { start: 0, end: 1 }), // フレームの範囲
-      frameRate: 3, // アニメーションの速度（フレーム/秒）
-      repeat: -1, // -1に設定すると無限ループ
-    });
-    wolf2Image.play("wolfAnimation2"); // アニメーションを再生
-  } else {
     // アニメーションを設定
     this.anims.create({
       key: "wolfAnimation1", // アニメーションの名前
@@ -379,7 +363,7 @@ function create() {
       repeat: -1, // -1に設定すると無限ループ
     });
     wolfImage.play("wolfAnimation1"); // アニメーションを再生
-  }
+  
 
   this.anims.create({
     key: "humanAnimation", // アニメーションの名前
@@ -388,6 +372,7 @@ function create() {
     repeat: -1, // -1に設定すると無限ループ
   });
   humanImage.play("humanAnimation"); // アニメーションを再生
+
 }
 
 function update() {}
