@@ -255,7 +255,7 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },
@@ -286,7 +286,7 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },

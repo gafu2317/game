@@ -162,6 +162,11 @@ function create() {
     fill: "#FF0000", // テキストの色
     fontStyle: "bold", // 太文字のスタイル
   };
+    let yellowtext = {
+      fontSize: "100px", // フォントサイズ
+      fill: "#FFFF00", // テキストの色
+      fontStyle: "bold", // 太文字のスタイル
+    };
   var whiteText = {
     fontSize: "60px", // フォントサイズ
     fill: "#FFFFFF", // テキストの色
@@ -181,7 +186,6 @@ function create() {
 
   //狼と人間がぶつかったときの処理
   function hithuman() {
-    console.log("hit");
     humanImage.destroy();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
@@ -202,7 +206,7 @@ function create() {
 
   //人間と宝がぶつかったときの処理
   function hittreasure(humanImage, treasure) {
-    gameclearText = this.add.text(220, 70, "GAME CLEAR", redtext); //ゲームクリアの表示
+    gameclearText = this.add.text(220, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setDepth(1);
     returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
     returnMenuText.setInteractive();
@@ -253,7 +257,7 @@ function create() {
         this.tweens.add({
           targets: wolfImage,
           x: 250, //移動先のx座標
-          duration: 1000, //アニメーションの時間（ミリ秒）
+          duration: 500, //アニメーションの時間（ミリ秒）
         });
       },
     });
