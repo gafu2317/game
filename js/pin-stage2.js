@@ -131,6 +131,11 @@ function create() {
   wolfImage.setCollideWorldBounds(true);
   wolfImage.setSize(wolfImage.width, wolfImage.height);
 
+  wolf2Image = this.physics.add.sprite(200, 523, "wolf2");
+  wolf2Image.setDisplaySize(128, 61);
+  wolf2Image.setCollideWorldBounds(true);
+  wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+
   const humanImage = this.physics.add.sprite(250, 200, "human");
   humanImage.setDisplaySize(70, 135);
   humanImage.setCollideWorldBounds(true);
@@ -139,7 +144,6 @@ function create() {
   this.physics.add.collider(wolfImage, meats, hitmeat, null, this);
   this.physics.add.collider(wolfImage, walls);
   this.physics.add.collider(wolf2Image, walls);
-  this.physics.add.collider(meats, pins);
   this.physics.add.collider(meats, walls);
   this.physics.add.collider(humanImage, wolfImage, hithuman, null, this);
   this.physics.add.collider(humanImage, wolf2Image, hithuman2, null, this);
@@ -302,10 +306,6 @@ function create() {
             duration: 3000,
             onComplete: () => {
               wolfImage.destroy();
-              wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
-              wolf2Image.setDisplaySize(128, 61);
-              wolf2Image.setCollideWorldBounds(true);
-              wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
               this.anims.create({
                 key: "wolfAnimation2", // アニメーションの名前
                 frames: this.anims.generateFrameNumbers("wolf2", { start: 0, end: 1 }), // フレームの範囲
@@ -346,17 +346,6 @@ function create() {
             targets: humanImage,
             x: 620,
             duration: 1000,
-            onComplete: () => {
-              wolfImage.destroy();
-              this.tweens.add({
-                targets: wolf2Image,
-                x: 620,
-                duration: 1000,
-                onComplete: () => {
-                  humanImage.destroy();
-                }
-              });
-            },
           });
         };
       },
