@@ -58,6 +58,7 @@ function create() {
   }
   
 
+  //静的グループの作成
   walls = this.physics.add.staticGroup();
 
   for (var j = 3; j < 10; j++) {
@@ -129,13 +130,14 @@ function create() {
   treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
 
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
+  rocks.setSize(rocks.width, rocks.height);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
-  wolfImage.setDisplaySize(213, 102);
+  wolfImage.setDisplaySize(128, 61);
   wolfImage.setCollideWorldBounds(true);
+  wolfImage.setSize(wolfImage.width,wolfImage.height);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
@@ -256,6 +258,9 @@ function create() {
       this.scene.start("pinstage2"); //次のステージへ移動する処理
       BGM.stop();
     });
+    returnMenuText.on("pointrdown",() => {
+      this.scene.start("start-menu");//ホーム画面に移動する処理
+    })
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
@@ -282,7 +287,7 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },
@@ -319,7 +324,7 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },
