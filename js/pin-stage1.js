@@ -209,7 +209,8 @@ function create() {
     returnMenuText.setDepth(1);
   }
   //人間と宝がぶつかったときの処理
-  function hittreasure(humanImage, treasure) {
+  function hittreasure() {
+    humanImage.destroy();
     gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);

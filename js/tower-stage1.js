@@ -474,12 +474,6 @@ function create() {
       }
     }
   });
-}
-
-//humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
-function update() {
-  humantext.setText(humanPoint);
-
   let redtext = {
     fontSize: "100px", // フォントサイズ
     fill: "#FF0000", // テキストの色
@@ -639,4 +633,11 @@ function update() {
   });
 
   console.log(humanPoint); //テスト用
+}
+
+//humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
+function update() {
+  humantext.setText(humanPoint);
+
+
 }
