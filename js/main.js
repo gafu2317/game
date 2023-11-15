@@ -15,7 +15,7 @@ export const config = {
   width: D_WIDTH, // ゲーム画面の横幅
   height: D_HEIGHT, // ゲーム画面の高さ
   antialias: true, // アンチエイリアスを無効にするらしい（分ってない）
-  scene: [pinstage2, startMenu, pinstage1, towerstage1],
+  scene: [startMenu, pinstage1, pinstage2, towerstage1],
 
   fps: {
     target: 24, // フレームレート
@@ -28,7 +28,7 @@ export const config = {
   physics: {
     default: "arcade",
     arcade: {
-      debug: true, // スプライトに緑の枠を表示しない
+      debug: false, // スプライトに緑の枠を表示しない
       gravity: { y: 300 }, // 重力の方向とその強さ
     },
   },

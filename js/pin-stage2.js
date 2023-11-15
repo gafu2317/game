@@ -162,11 +162,11 @@ function create() {
     fill: "#FF0000", // テキストの色
     fontStyle: "bold", // 太文字のスタイル
   };
-    let yellowtext = {
-      fontSize: "100px", // フォントサイズ
-      fill: "#FFFF00", // テキストの色
-      fontStyle: "bold", // 太文字のスタイル
-    };
+  let yellowtext = {
+    fontSize: "100px", // フォントサイズ
+    fill: "#FFFF00", // テキストの色
+    fontStyle: "bold", // 太文字のスタイル
+  };
   var whiteText = {
     fontSize: "60px", // フォントサイズ
     fill: "#FFFFFF", // テキストの色
@@ -205,10 +205,13 @@ function create() {
   }
 
   //人間と宝がぶつかったときの処理
-  function hittreasure(humanImage, treasure) {
-    gameclearText = this.add.text(220, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
+  function hittreasure() {
+    gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
+    gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);
-    returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+    returnMenuText = this.add.text(500, 300, "ホーム", whiteText);
+    returnMenuText.setPadding(0, 4, 0, 0);
+    returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
     returnMenuText.on("pointrdown", () => {
       this.scene.start("start-menu"); //ホーム画面に移動する処理
