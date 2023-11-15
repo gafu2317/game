@@ -115,7 +115,7 @@ function create() {
     setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
    */
   pin3.setSize(pin3.height, pin3.width * 0.2);
-  pin3.setRotation((1 / 2) * halfRotationDegree);
+  pin3.setRotation((1 / 2) * halfRotationDegree + 0.015);
 
   pin3.setDisplaySize(50, 310);
   // 画像をクリック可能にする
