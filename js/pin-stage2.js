@@ -227,7 +227,7 @@ const humanDeath = this.sound.add('humanDeath');
     treasure.destroy();
     const treasureGet = this.sound.add("treasureGet");
     treasureGet.play();
-    treasureGet.setVolume(1);
+    treasureGet.setVolume(0.5);
     gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);
@@ -255,12 +255,13 @@ const humanDeath = this.sound.add('humanDeath');
   let pin3Clicked = 0; //pin3(上側のピン)のクリック
 
   const pullPin = this.sound.add('pullPin');
+  pullPin.setVolume(0.5);
   const barkDog = this.sound.add('barkDog');
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
     pullPin.play();
-    pullPin.setVolume(0.5);
+    
     pin1Clicked++; //カウンターを増やす
     // 画像を下にアニメーションで動かす
     this.tweens.add({
@@ -277,7 +278,6 @@ const humanDeath = this.sound.add('humanDeath');
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
     pullPin.play();
-    pullPin.setVolume(0.5);
     pin2Clicked++; //カウンターを増やす
     //画像を下にアニメーションで動かす
     this.tweens.add({
@@ -313,7 +313,6 @@ const humanDeath = this.sound.add('humanDeath');
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
     pullPin.play();
-    pullPin.setVolume(0.5);
     pin3Clicked++;
     //画像を右にアニメーションで動かす
     this.tweens.add({
