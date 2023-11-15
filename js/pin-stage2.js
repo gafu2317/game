@@ -18,6 +18,12 @@ function preload() {
   this.load.image("pin", "./img/pin/pin.png");
   this.load.image("meat", "./img/pin/meat.png");
 
+  this.load.audio("pinBGM", "./public/sounds/pinBGM.MP3");
+  this.load.audio("pullPin", "./public/sounds/pullingPin.MP3");
+  this.load.audio("humanDeath", "./public/sounds/humanDeath.MP3");
+  this.load.audio("treasureGet", "./public/sounds/treasureGet.MP3");
+  this.load.audio("barkDog", "./public/sounds/barkingDog.MP3");
+
   this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
     frameHeight: 204, // 1フレームの高さ
@@ -45,6 +51,11 @@ let meat = 1;
 function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
+
+  const BGM = this.sound.add("pinBGM");
+  BGM.play();
+  BGM.setVolume(0.1); // 音量を0.5に設定
+  BGM.setLoop(true); // ループ再生を有効にする
 
   for (var i = 3.2; i < 10; i++) {
     for (var j = 3; j < 10; j++) {
@@ -81,7 +92,7 @@ function create() {
   /**
    * @type {Phaser.Physics.Arcade.Image}
    */
-  const pin1 = pins.create(640, 465, "pin"); //右のピン
+  const pin1 = pins.create(640, 500, "pin");
   pin1.setDisplaySize(33, 200);
   // 他の物体と衝突しても動かないようにした
   pin1.setImmovable(true);
@@ -98,7 +109,7 @@ function create() {
   /**
    * @type {Phaser.Physics.Arcade.Image}
    */
-  const pin2 = pins.create(360, 465, "pin"); //左のピン
+  const pin2 = pins.create(360, 500, "pin"); //左のピン
   pin2.setDisplaySize(33, 200);
   pin2.setInteractive(); // 画像をクリック可能にする
   pin2.setImmovable(true);
@@ -114,7 +125,7 @@ function create() {
   setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
   */
   pin3.setSize(pin3.height * 0.9, pin3.width * 0.9);
-  pin3.setRotation((1 / 2) * halfRotationDegree);
+  pin3.setRotation((1 / 2) * halfRotationDegree + 0.015);
   pin3.setDisplaySize(40, 270);
   // 画像をクリック可能にする
   pin3.setInteractive();
@@ -151,11 +162,13 @@ function create() {
   escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
   escapeKey.on("down", () => {
     this.scene.start("start-menu");
+    BGM.stop();
   });
   //spaceキーを押すとやり直しができる処理
   spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   spaceKey.on("down", () => {
     this.scene.restart();
+    BGM.stop();
   });
   var redtext = {
     fontSize: "100px", // フォントサイズ
@@ -184,9 +197,12 @@ function create() {
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
   graphics.setDepth(-1); //通常時は背面に置く
 
+const humanDeath = this.sound.add('humanDeath');
+
   //狼と人間がぶつかったときの処理
   function hithuman() {
     humanImage.destroy();
+    humanDeath.play();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
     restartText = this.add.text(390, 200, "リトライ", whiteText);
@@ -195,9 +211,11 @@ function create() {
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
+      BGM.stop();
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+      BGM.stop();
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
@@ -206,6 +224,10 @@ function create() {
 
   //人間と宝がぶつかったときの処理
   function hittreasure() {
+    treasure.destroy();
+    const treasureGet = this.sound.add("treasureGet");
+    treasureGet.play();
+    treasureGet.setVolume(1);
     gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);
@@ -215,23 +237,30 @@ function create() {
     returnMenuText.setInteractive();
     returnMenuText.on("pointrdown", () => {
       this.scene.start("start-menu"); //ホーム画面に移動する処理
+      BGM.stop();
     });
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
-    returnMenuText.setDepth(1);
+    returnMenuText.setDepth(2);
   }
 
   //肉と狼がぶつかったときの処理
   function hitmeat(wolfImage, meats) {
     meats.destroy();
     meat = 0;
+    humanDeath.play();//肉を食べたときに流用
   }
 
   let pin1Clicked = 0; //pin1(右側のピン)のクリック
   let pin2Clicked = 0; //pin2(左側のピン)のクリック
   let pin3Clicked = 0; //pin3(上側のピン)のクリック
 
+  const pullPin = this.sound.add('pullPin');
+  const barkDog = this.sound.add('barkDog');
+
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
+    pullPin.play();
+    pullPin.setVolume(0.5);
     pin1Clicked++; //カウンターを増やす
     // 画像を下にアニメーションで動かす
     this.tweens.add({
@@ -247,6 +276,8 @@ function create() {
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
+    pullPin.play();
+    pullPin.setVolume(0.5);
     pin2Clicked++; //カウンターを増やす
     //画像を下にアニメーションで動かす
     this.tweens.add({
@@ -259,15 +290,30 @@ function create() {
         //狼を左にアニメーションで動かす
         this.tweens.add({
           targets: wolfImage,
-          x: 250, //移動先のx座標
-          duration: 500, //アニメーションの時間（ミリ秒）
+          x: 300, //移動先のx座標
+          duration: 1000, //アニメーションの時間（ミリ秒）
+          delay: 800,
         });
+        if(wolf == 1){
+          
+        barkDog.play();
+        }
+        if (pinsClicked === 2 && wolf === 0) {
+          // pin1とpin2が両方消えたら人間を右に移動
+          this.tweens.add({
+            targets: humanImage,
+            x: 700, // 移動先のx座標
+            duration: 3000, // アニメーションの時間（ミリ秒）
+          });
+        }
       },
     });
   });
 
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
+    pullPin.play();
+    pullPin.setVolume(0.5);
     pin3Clicked++;
     //画像を右にアニメーションで動かす
     this.tweens.add({
@@ -327,6 +373,7 @@ function create() {
                 frameRate: 3, // アニメーションの速度（フレーム/秒）
                 repeat: -1, // -1に設定すると無限ループ
               });
+              barkDog.play();
               wolf2Image.play("wolfAnimation2"); // アニメーションを再生
               this.tweens.add({
                 targets: wolf2Image,
@@ -344,6 +391,7 @@ function create() {
               function hithuman2() {
                 console.log("hit2");
                 humanImage.destroy();
+                humanDeath.play();
                 gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
                 gameoverText.setDepth(1);
                 restartText = this.add.text(390, 200, "リトライ", whiteText);
@@ -352,9 +400,11 @@ function create() {
                 returnMenuText.setInteractive();
                 restartText.on("pointerdown", () => {
                   this.scene.restart(); // ゲームの初期状態に戻す処理
+                  BGM.stop();
                 });
                 returnMenuText.on("pointerdown", () => {
                   this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+                  BGM.stop();
                 });
                 restartText.setDepth(1);
                 graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示

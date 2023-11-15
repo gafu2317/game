@@ -116,7 +116,7 @@ function create() {
     setRotation は bouding box の位置は不変なため、setSize によって bounding box の位置調整をする必要あり
    */
   pin3.setSize(pin3.height, pin3.width * 0.2);
-  pin3.setRotation((1 / 2) * halfRotationDegree);
+  pin3.setRotation((1 / 2) * halfRotationDegree + 0.015);
 
   pin3.setDisplaySize(50, 310);
   // 画像をクリック可能にする
@@ -130,12 +130,12 @@ function create() {
   treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
 
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width, rocks.height);
+  rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
-  wolfImage.setDisplaySize(128, 61);
+  wolfImage.setDisplaySize(213, 102);
   wolfImage.setCollideWorldBounds(true);
   wolfImage.setSize(wolfImage.width,wolfImage.height);
 
