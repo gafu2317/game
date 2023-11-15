@@ -238,7 +238,7 @@ function create() {
     treasure.destroy();
     const treasureGet = this.sound.add("treasureGet");
     treasureGet.play();
-    treasureGet.setVolume(1); // 音量を0.5に設定
+    treasureGet.setVolume(0.5); // 音量を0.5に設定
     gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);
@@ -268,12 +268,12 @@ function create() {
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
   const pullPin = this.sound.add('pullPin');
-
+  pullPin.setVolume(0.5);
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
     pinsClicked++; //カウンターを増やす  
     pullPin.play();
-    pullPin.setVolume(0.5); // 音量を0.5に設定
+     // 音量を0.5に設定
     // 画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
