@@ -273,7 +273,6 @@ function create() {
   pin1.on("pointerdown", () => {
     pinsClicked++; //カウンターを増やす  
     pullPin.play();
-     // 音量を0.5に設定
     // 画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
