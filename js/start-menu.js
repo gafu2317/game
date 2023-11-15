@@ -14,14 +14,22 @@ function preload() {
   this.load.image("pingame", "/img/pingame.png");
   this.load.image("question", "/img/question.png");
   this.load.image("towergame", "/img/towergame.png");
+
+  this.load.audio("stageStart", "./public/sounds/stageStart.MP3");
+  this.load.audio("menuBGM", "./public/sounds/menuBGM.MP3");
 }
 
 function create() {
   const sougenImage = this.add.image(500, 300, "background-menu");
   sougenImage.setDisplaySize(1000, 600);
 
-  const titleImage = this.add.image(500, 145, "title");
+  const menuBGM = this.sound.add("menuBGM");
+  menuBGM.play();
+  menuBGM.setVolume(0.3); // 音量を0.5に設定
+  menuBGM.setLoop(true); // ループ再生を有効にする
 
+  const titleImage = this.add.image(500, 145, "title");
+  const stageStart = this.sound.add("stageStart");
   //ピンゲームスタートボタン
   const PinGameStart = this.add
     .image(300, 400, "pingame")
@@ -29,6 +37,8 @@ function create() {
   PinGameStart.setInteractive();
   PinGameStart.on("pointerdown", () => {
     this.scene.start("pinstage1");
+    stageStart.play();
+    menuBGM.stop();
   });
 
   const pintext = this.add
@@ -39,7 +49,9 @@ function create() {
   pintext.setInteractive();
   pintext.setPadding(0, 4, 0, 0);
   pintext.on("pointerdown", () => {
-    this.sence.start("towerstage1");
+    this.scene.start("pinstage1");
+    stageStart.play();
+    menuBGM.stop();
   });
 
   // タワーゲームスタートボタン
@@ -49,6 +61,8 @@ function create() {
   TowerGameStart.setInteractive();
   TowerGameStart.on("pointerdown", () => {
     this.scene.start("towerstage1");
+    stageStart.play();
+    menuBGM.stop();
   });
 
   const towertext = this.add
@@ -60,6 +74,8 @@ function create() {
   towertext.setPadding(0, 4, 0, 0);
   towertext.on("pointerdown", () => {
     this.scene.start("towerstage1");
+    stageStart.play();
+    menuBGM.stop();
   });
 
   const question = this.add.image(910, 40, "question").setInteractive();

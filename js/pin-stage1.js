@@ -18,6 +18,13 @@ function preload() {
   this.load.image("background", "/img/pin/wall3.png"); // 建物内の背景
   this.load.image("pin", "./img/pin/pin.png");
 
+  this.load.audio("pinBGM", "./public/sounds/pinBGM.MP3");
+  this.load.audio("barkDog", "./public/sounds/barkingDog.MP3");
+  this.load.audio("pullPin", "./public/sounds/pullingPin.MP3");
+  this.load.audio("breakRock", "./public/sounds/rockSound.MP3");
+  this.load.audio("humanDeath", "./public/sounds/humanDeath.MP3");
+  this.load.audio("treasureGet", "./public/sounds/treasureGet.MP3");
+
   this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
     frameHeight: 204, // 1フレームの高さ
@@ -38,17 +45,20 @@ function create() {
   const sabakuImage = this.add.image(500, 300, "sabaku");
   sabakuImage.setDisplaySize(1000, 600);
 
+  const BGM = this.sound.add("pinBGM");
+  BGM.play();
+  BGM.setVolume(0.1); // 音量を0.5に設定
+  BGM.setLoop(true); // ループ再生を有効にする
+
   for (var i = 3.2; i < 10; i++) {
     for (var j = 3; j < 10; j++) {
       var image = this.add.image(i * 80, j * 60, "background"); //背景
       image.setScale(0.09);
     }
   }
-  const treasure = this.physics.add.image(720, 520, "treasure");
-  treasure.setDisplaySize(150, 150);
-  treasure.setCollideWorldBounds(true);
-  treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
+  
 
+  //静的グループの作成
   walls = this.physics.add.staticGroup();
 
   for (var j = 3; j < 10; j++) {
@@ -114,14 +124,20 @@ function create() {
   pin3.setImmovable(true);
   pin3.body.setAllowGravity(false);
 
+  const treasure = this.physics.add.image(720, 520, "treasure");
+  treasure.setDisplaySize(150, 150);
+  treasure.setCollideWorldBounds(true);
+  treasure.setSize(treasure.width * 0.7, treasure.height * 0.7);
+
   rocks = this.physics.add.image(500, 200, "rock");
-  rocks.setSize(rocks.width * 0.9, rocks.height * 0.9);
+  rocks.setSize(rocks.width, rocks.height);
   rocks.setDisplaySize(150, 150);
   rocks.setCollideWorldBounds(true);
 
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
-  wolfImage.setDisplaySize(213, 102);
+  wolfImage.setDisplaySize(128, 61);
   wolfImage.setCollideWorldBounds(true);
+  wolfImage.setSize(wolfImage.width,wolfImage.height);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
@@ -143,6 +159,9 @@ function create() {
     wolfImage.destroy();
     rocks.destroy();
     wolf = 0;
+    const breakRock = this.sound.add('breakRock');
+    breakRock.play();
+    breakRock.setVolume(0.5); // 音量を0.5に設定
   }
   let escapeKey;
   let spaceKey;
@@ -151,11 +170,13 @@ function create() {
   escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
   escapeKey.on("down", () => {
     this.scene.start("start-menu");
+    BGM.stop();
   });
   //spaceキーを押すとやり直しができる処理
   spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   spaceKey.on("down", () => {
     this.scene.restart();
+    BGM.stop();
   });
   var redtext = {
     fontSize: "100px", // フォントサイズ
@@ -185,8 +206,10 @@ function create() {
   graphics.setDepth(-1); //通常時は背面に置く
 
   //狼と人間がぶつかったときの処理
-  function hithuman(humanImage, wolfImage) {
+  function hithuman() {
     humanImage.destroy();
+    const humanDeath = this.sound.add('humanDeath');
+    humanDeath.play();
     gameoverText = this.add.text(500, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setOrigin(0.5);
     gameoverText.setDepth(1);
@@ -200,9 +223,11 @@ function create() {
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
+      BGM.stop();
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+      BGM.stop();
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
@@ -222,19 +247,30 @@ function create() {
     returnMenuText.setPadding(0, 4, 0, 0);
     returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
+    returnMenuText.on("pointerdown", () => {
+      this.scene.start("start-menu");
+      BGM.stop();
+    });
     nextText.on("pointerdown", () => {
       this.scene.start("pinstage2"); //次のステージへ移動する処理
+      BGM.stop();
     });
+    returnMenuText.on("pointrdown",() => {
+      this.scene.start("start-menu");//ホーム画面に移動する処理
+    })
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
   }
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
+  const pullPin = this.sound.add('pullPin');
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
-    pinsClicked++; //カウンターを増やす
+    pinsClicked++; //カウンターを増やす  
+    pullPin.play();
+    pullPin.setVolume(0.5); // 音量を0.5に設定
     // 画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin1,
@@ -248,7 +284,7 @@ function create() {
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },
@@ -260,6 +296,7 @@ function create() {
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
     pinsClicked++; //カウンターを増やす
+    pullPin.play();
     //画像を下にアニメーションで動かす
     this.tweens.add({
       targets: pin2,
@@ -273,13 +310,18 @@ function create() {
           targets: wolfImage,
           x: 300, //移動先のx座標
           duration: 1000, //アニメーションの時間（ミリ秒）
+          delay: 500, // 500ミリ秒（0.5秒）の待ち時間
         });
+        if(wolf == 1){
+          const barkDog = this.sound.add('barkDog');
+        barkDog.play();
+        }
         if (pinsClicked === 2 && wolf === 0) {
           // pin1とpin2が両方消えたら人間を右に移動
           this.tweens.add({
             targets: humanImage,
             x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            duration: 2000, // アニメーションの時間（ミリ秒）
           });
         }
       },
@@ -288,6 +330,7 @@ function create() {
 
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
+    pullPin.play();
     //画像を右にアニメーションで動かす
     this.tweens.add({
       targets: pin3,

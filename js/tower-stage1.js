@@ -25,6 +25,8 @@ function preload() {
   this.load.image("enemy-golem", "/img/tower/golem.png");
   this.load.image("enemy-slime", "/img/tower/slime.png");
 
+  this.load.audio("towerBGM", "./public/sounds/towerBGM.MP3");
+
   this.load.spritesheet("human", "/img/tower/human.png", {
     frameWidth: 146, // 1フレームの幅
     frameHeight: 286, // 1フレームの高さ
@@ -101,9 +103,16 @@ let golem3text;
 let stickItemtext;
 let dragontext;
 
+let towerBGM;
+
 function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
+
+ towerBGM = this.sound.add("towerBGM");
+  towerBGM.play();
+  towerBGM.setVolume(0.1); // 音量を0.5に設定
+  towerBGM.setLoop(true); // ループ再生を有効にする
 
   const towers = this.physics.add.staticGroup();
 
@@ -474,6 +483,12 @@ function create() {
       }
     }
   });
+}
+
+//humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
+function update() {
+  humantext.setText(humanPoint);
+
   let redtext = {
     fontSize: "100px", // フォントサイズ
     fill: "#FF0000", // テキストの色
@@ -510,9 +525,13 @@ function create() {
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
+      humanPoint = 10;
+      towerBGM.stop();
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+      humanPoint = 10;
+      towerBGM.stop();
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
@@ -549,9 +568,11 @@ function create() {
     returnMenuText.setInteractive();
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
+      towerBGM.stop();
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+      towerBGM.stop();
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
@@ -579,60 +600,7 @@ function create() {
     clickEnabled4 = false;
   }
 
-  let escapeKey;
-  let spaceKey;
-  //escキーを押すとホームに戻る処理
-  const input = this.input;
-  escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-  escapeKey.on("down", () => {
-    this.scene.start("start-menu");
-    humanPoint = 10;
-
-    blackItemDestroyed = false;
-    whiteItemDestroyed = false;
-    gunItemDestroyed = false;
-    stickItemDestroyed = false;
-    swordItem1Destroyed = false;
-    swordItem2Destroyed = false;
-    poisonItemDestroyed = false;
-    slime1Destroyed = false;
-    slime2Destroyed = false;
-    slime3Destroyed = false;
-    golem1Destroyed = false;
-    golem2Destroyed = false;
-    golem3Destroyed = false;
-    dragonDestroyed = false;
-
-    clickEnabled2 = false;
-    clickEnabled3 = false;
-    clickEnabled4 = false;
-  });
-  //spaceキーを押すとやり直しができる処理
-  spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-  spaceKey.on("down", () => {
-    this.scene.restart();
-    humanPoint = 10;
-    blackItemDestroyed = false;
-    whiteItemDestroyed = false;
-    gunItemDestroyed = false;
-    stickItemDestroyed = false;
-    swordItem1Destroyed = false;
-    swordItem2Destroyed = false;
-    poisonItemDestroyed = false;
-    slime1Destroyed = false;
-    slime2Destroyed = false;
-    slime3Destroyed = false;
-    golem1Destroyed = false;
-    golem2Destroyed = false;
-    golem3Destroyed = false;
-    dragonDestroyed = false;
-
-    clickEnabled2 = false;
-    clickEnabled3 = false;
-    clickEnabled4 = false;
-  });
-
-  console.log(humanPoint); //テスト用
+  
 }
 
 //humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
