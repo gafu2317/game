@@ -35,6 +35,7 @@ function preload() {
   this.load.audio("portion", "./public/sounds/portion.MP3");
   this.load.audio("sword", "./public/sounds/sword.MP3");
   this.load.audio("magic", "./public/sounds/magic.MP3");
+  this.load.image("question", "/img/question.png");
 
   this.load.spritesheet("human", "/img/tower/human.png", {
     frameWidth: 146, // 1フレームの幅
@@ -115,7 +116,6 @@ let dragontext;
 let towerBGM;
 let humanDeath;
 
-
 function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
@@ -125,15 +125,15 @@ function create() {
   towerBGM.setVolume(0.1); // 音量を0.5に設定
   towerBGM.setLoop(true); // ループ再生を有効にする
 
-  humanDeath = this.sound.add('humanDeath');
-  const slimeDeath = this.sound.add('slimeDeath');
-  const golemDeath = this.sound.add('golemDeath');
-  const dragonVoice = this.sound.add('dragonVoice');
-  const gun = this.sound.add('gun');
-  const poison = this.sound.add('poison');
-  const portion = this.sound.add('portion');
-  const sword = this.sound.add('sword');
-  const magic = this.sound.add("magic")
+  humanDeath = this.sound.add("humanDeath");
+  const slimeDeath = this.sound.add("slimeDeath");
+  const golemDeath = this.sound.add("golemDeath");
+  const dragonVoice = this.sound.add("dragonVoice");
+  const gun = this.sound.add("gun");
+  const poison = this.sound.add("poison");
+  const portion = this.sound.add("portion");
+  const sword = this.sound.add("sword");
+  const magic = this.sound.add("magic");
   magic.setVolume(0.3);
 
   // 同じ画像を何回も配置する
@@ -710,7 +710,6 @@ function update() {
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
     console.log(gameoverText);
-    
 
     blackItemDestroyed = false;
     whiteItemDestroyed = false;
@@ -732,5 +731,3 @@ function update() {
     clickEnabled4 = false;
   }
 }
-
-

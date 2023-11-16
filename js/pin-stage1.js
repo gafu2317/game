@@ -24,6 +24,7 @@ function preload() {
   this.load.audio("breakRock", "./public/sounds/rockSound.MP3");
   this.load.audio("humanDeath", "./public/sounds/humanDeath.MP3");
   this.load.audio("treasureGet", "./public/sounds/treasureGet.MP3");
+  this.load.image("question", "/img/question.png");
 
   this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
@@ -56,7 +57,6 @@ function create() {
       image.setScale(0.09);
     }
   }
-  
 
   //静的グループの作成
   walls = this.physics.add.staticGroup();
@@ -137,7 +137,7 @@ function create() {
   wolfImage = this.physics.add.sprite(500, 523, "wolf");
   wolfImage.setDisplaySize(213, 102);
   wolfImage.setCollideWorldBounds(true);
-  wolfImage.setSize(wolfImage.width,wolfImage.height);
+  wolfImage.setSize(wolfImage.width, wolfImage.height);
 
   const humanImage = this.physics.add.sprite(250, 523, "human");
   humanImage.setDisplaySize(70, 135);
@@ -159,7 +159,7 @@ function create() {
     wolfImage.destroy();
     rocks.destroy();
     wolf = 0;
-    const breakRock = this.sound.add('breakRock');
+    const breakRock = this.sound.add("breakRock");
     breakRock.play();
     breakRock.setVolume(0.5); // 音量を0.5に設定
   }
@@ -208,7 +208,7 @@ function create() {
   //狼と人間がぶつかったときの処理
   function hithuman() {
     humanImage.destroy();
-    const humanDeath = this.sound.add('humanDeath');
+    const humanDeath = this.sound.add("humanDeath");
     humanDeath.play();
     gameoverText = this.add.text(500, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setOrigin(0.5);
@@ -258,91 +258,106 @@ function create() {
       this.scene.start("pinstage2"); //次のステージへ移動する処理
       BGM.stop();
     });
-    returnMenuText.on("pointrdown",() => {
-      this.scene.start("start-menu");//ホーム画面に移動する処理
-    })
+    returnMenuText.on("pointrdown", () => {
+      this.scene.start("start-menu"); //ホーム画面に移動する処理
+    });
     nextText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
   }
 
   let pinsClicked = 0; //クリックされた画像の数（pin1とpin2のみ）
-  const pullPin = this.sound.add('pullPin');
+  // クリック可能な状態かどうかを示すフラグ
+  let canClick = true;
+
+  const pullPin = this.sound.add("pullPin");
   pullPin.setVolume(0.5);
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
-    pinsClicked++; //カウンターを増やす  
-    pullPin.play();
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: pin1,
-      y: 800, // 移動先のy座標
-      duration: 1000, // アニメーションの時間（ミリ秒）
-      onComplete: () => {
-        // アニメーションが完了したら画像を消す
-        pin1.destroy();
-        if (pinsClicked === 2 && wolf === 0) {
-          //pin1とpin2が両方消えたら人間を右に移動
-          this.tweens.add({
-            targets: humanImage,
-            x: 700, // 移動先のx座標
-            duration: 2000, // アニメーションの時間（ミリ秒）
-          });
-        }
-      },
-    });
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pinsClicked++; //カウンターを増やす
+      pullPin.play();
+      // 画像を下にアニメーションで動かす
+      this.tweens.add({
+        targets: pin1,
+        y: 800, // 移動先のy座標
+        duration: 1000, // アニメーションの時間（ミリ秒）
+        onComplete: () => {
+          // アニメーションが完了したら画像を消す
+          pin1.destroy();
+          if (pinsClicked === 2 && wolf === 0) {
+            //pin1とpin2が両方消えたら人間を右に移動
+            this.tweens.add({
+              targets: humanImage,
+              x: 700, // 移動先のx座標
+              duration: 2000, // アニメーションの時間（ミリ秒）
+            });
+          }
+          canClick = true; // クリック可能に設定
+        },
+      });
+    }
   });
 
   console.log(pinsClicked);
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
-    pinsClicked++; //カウンターを増やす
-    pullPin.play();
-    //画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: pin2,
-      y: 800, //移動先のy座標
-      duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: () => {
-        //アニメーションが完了したら画像を消す
-        pin2.destroy();
-        //狼を左にアニメーションで動かす
-        this.tweens.add({
-          targets: wolfImage,
-          x: 300, //移動先のx座標
-          duration: 1000, //アニメーションの時間（ミリ秒）
-          delay: 500, // 500ミリ秒（0.5秒）の待ち時間
-        });
-        if(wolf == 1){
-          const barkDog = this.sound.add('barkDog');
-        barkDog.play();
-        }
-        if (pinsClicked === 2 && wolf === 0) {
-          // pin1とpin2が両方消えたら人間を右に移動
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pinsClicked++; //カウンターを増やす
+      pullPin.play();
+      //画像を下にアニメーションで動かす
+      this.tweens.add({
+        targets: pin2,
+        y: 800, //移動先のy座標
+        duration: 1000, //アニメーションの時間（ミリ秒）
+        onComplete: () => {
+          //アニメーションが完了したら画像を消す
+          pin2.destroy();
+          //狼を左にアニメーションで動かす
           this.tweens.add({
-            targets: humanImage,
-            x: 700, // 移動先のx座標
-            duration: 2000, // アニメーションの時間（ミリ秒）
+            targets: wolfImage,
+            x: 300, //移動先のx座標
+            duration: 1000, //アニメーションの時間（ミリ秒）
+            delay: 500, // 500ミリ秒（0.5秒）の待ち時間
           });
-        }
-      },
-    });
+          if (wolf == 1) {
+            const barkDog = this.sound.add("barkDog");
+            barkDog.play();
+          }
+          if (pinsClicked === 2 && wolf === 0) {
+            // pin1とpin2が両方消えたら人間を右に移動
+            this.tweens.add({
+              targets: humanImage,
+              x: 700, // 移動先のx座標
+              duration: 2000, // アニメーションの時間（ミリ秒）
+            });
+          }
+          canClick = true; // クリック可能に設定
+        },
+      });
+    }
   });
 
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
-    pullPin.play();
-    //画像を右にアニメーションで動かす
-    this.tweens.add({
-      targets: pin3,
-      x: 1200, //移動先のx座標
-      duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: function () {
-        //アニメーションが完了したら画像を消す
-        pin3.destroy();
-      },
-    });
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pullPin.play();
+      //画像を右にアニメーションで動かす
+      this.tweens.add({
+        targets: pin3,
+        x: 1200, //移動先のx座標
+        duration: 1000, //アニメーションの時間（ミリ秒）
+        onComplete: function () {
+          //アニメーションが完了したら画像を消す
+          pin3.destroy();
+          canClick = true; // クリック可能に設定
+        },
+      });
+    }
   });
 
   // アニメーションを設定
@@ -361,6 +376,46 @@ function create() {
     repeat: -1, // -1に設定すると無限ループ
   });
   humanImage.play("humanAnimation"); // アニメーションを再生
+
+  // ゲーム説明ボタン;
+  // const graphics = this.add.graphics();
+  // graphics.fillStyle(0xffffff, 1); // 白い色
+  // graphics.fillCircle(58, 40, 20); // 円の中心座標と半径
+  const question = this.add.image(60, 40, "question").setInteractive();
+  // ボタンがクリックされたときの処理
+  question.on(
+    "pointerdown",
+    function () {
+      const popupgraphics = this.add.graphics();
+      popupgraphics.fillStyle(0x87ceeb, 1).fillRect(200, 100, 600, 350);
+      const popuptitle = this.add
+        .text(500, 130, "ゲーム説明")
+        .setOrigin(0.5)
+        .setFontSize(35);
+      popuptitle.setPadding(0, 4, 0, 0);
+      const popupmain = this.add
+        .text(
+          210,
+          210,
+          "  宝箱を獲得するとゲームクリア\n  狼に食われるとゲームオーバーです。\n  ピンをクリックするとピンが抜けます。\n  ピンを正しい順で抜くと、宝箱が取れます。\n  ただし、ピンが抜けて無くなるまで\n  次のピンを動かせません。"
+        )
+        .setFontSize(25);
+      popupmain.setPadding(0, 4, 0, 0);
+      const closeButton = this.add
+        .text(780, 100, "X")
+        .setFontSize(30)
+        .setColor(0xffffff, 1);
+      closeButton.setInteractive();
+      closeButton.on("pointerdown", function () {
+        // 閉じるボタンがクリックされたときの処理
+        popuptitle.destroy(); // ポップアップを破棄して閉じる
+        popupmain.destroy();
+        popupgraphics.destroy();
+        closeButton.destroy();
+      });
+    },
+    this
+  );
 }
 
 function update() {}

@@ -23,6 +23,7 @@ function preload() {
   this.load.audio("humanDeath", "./public/sounds/humanDeath.MP3");
   this.load.audio("treasureGet", "./public/sounds/treasureGet.MP3");
   this.load.audio("barkDog", "./public/sounds/barkingDog.MP3");
+  this.load.image("question", "/img/question.png");
 
   this.load.spritesheet("wolf", "/img/pin/transparentWolf.png", {
     frameWidth: 427, // 1フレームの幅
@@ -197,7 +198,7 @@ function create() {
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
   graphics.setDepth(-1); //通常時は背面に置く
 
-const humanDeath = this.sound.add('humanDeath');
+  const humanDeath = this.sound.add("humanDeath");
 
   //狼と人間がぶつかったときの処理
   function hithuman() {
@@ -247,173 +248,199 @@ const humanDeath = this.sound.add('humanDeath');
   function hitmeat(wolfImage, meats) {
     meats.destroy();
     meat = 0;
-    humanDeath.play();//肉を食べたときに流用
+    humanDeath.play(); //肉を食べたときに流用
   }
 
   let pin1Clicked = 0; //pin1(右側のピン)のクリック
   let pin2Clicked = 0; //pin2(左側のピン)のクリック
   let pin3Clicked = 0; //pin3(上側のピン)のクリック
 
-  const pullPin = this.sound.add('pullPin');
+  const pullPin = this.sound.add("pullPin");
   pullPin.setVolume(0.5);
-  const barkDog = this.sound.add('barkDog');
+  const barkDog = this.sound.add("barkDog");
+
+  //クリック可能かどうかの判定
+  let canClick = true;
 
   // pin1がクリックされたときの処理
   pin1.on("pointerdown", () => {
-    pullPin.play();
-    
-    pin1Clicked++; //カウンターを増やす
-    // 画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: pin1,
-      y: 800, // 移動先のy座標
-      duration: 1000, // アニメーションの時間（ミリ秒）
-      onComplete: () => {
-        // アニメーションが完了したら画像を消す
-        pin1.destroy();
-      },
-    });
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pullPin.play();
+      pin1Clicked++; //カウンターを増やす
+      // 画像を下にアニメーションで動かす
+      this.tweens.add({
+        targets: pin1,
+        y: 800, // 移動先のy座標
+        duration: 1000, // アニメーションの時間（ミリ秒）
+        onComplete: () => {
+          canClick = true; // クリック可能に設定
+          // アニメーションが完了したら画像を消す
+          pin1.destroy();
+          if(pin3Clicked ===1){
+            this.tweens.add({
+              targets: humanImage,
+              x: 700, // 移動先のx座標
+              duration: 1000, // アニメーションの時間（ミリ秒）
+            });
+          }
+        },
+      });
+    }
   });
 
   //pin2がクリックされたときの処理
   pin2.on("pointerdown", () => {
-    pullPin.play();
-    pin2Clicked++; //カウンターを増やす
-    //画像を下にアニメーションで動かす
-    this.tweens.add({
-      targets: pin2,
-      y: 800, //移動先のy座標
-      duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: () => {
-        //アニメーションが完了したら画像を消す
-        pin2.destroy();
-        //狼を左にアニメーションで動かす
-        this.tweens.add({
-          targets: wolfImage,
-          x: 300, //移動先のx座標
-          duration: 1000, //アニメーションの時間（ミリ秒）
-          delay: 800,
-        });
-        if(wolf == 1){
-          
-        barkDog.play();
-        }
-        if (pinsClicked === 2 && wolf === 0) {
-          // pin1とpin2が両方消えたら人間を右に移動
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pullPin.play();
+      pin2Clicked++; //カウンターを増やす
+      //画像を下にアニメーションで動かす
+      this.tweens.add({
+        targets: pin2,
+        y: 800, //移動先のy座標
+        duration: 1000, //アニメーションの時間（ミリ秒）
+        onComplete: () => {
+          canClick = true; // クリック可能に設定
+          //アニメーションが完了したら画像を消す
+          pin2.destroy();
+          //狼を左にアニメーションで動かす
           this.tweens.add({
-            targets: humanImage,
-            x: 700, // 移動先のx座標
-            duration: 3000, // アニメーションの時間（ミリ秒）
+            targets: wolfImage,
+            x: 300, //移動先のx座標
+            duration: 1000, //アニメーションの時間（ミリ秒）
+            delay: 800,
           });
-        }
-      },
-    });
+          if (wolf == 1) {
+            barkDog.play();
+          }
+          // if (pinsClicked === 2 && wolf === 0) {
+          //   // pin1とpin2が両方消えたら人間を右に移動
+          //   this.tweens.add({
+          //     targets: humanImage,
+          //     x: 700, // 移動先のx座標
+          //     duration: 3000, // アニメーションの時間（ミリ秒）
+          //   });
+          // }
+        },
+      });
+    }
   });
 
   //pin3がクリックされたときの処理
   pin3.on("pointerdown", () => {
-    pullPin.play();
-    pin3Clicked++;
-    //画像を右にアニメーションで動かす
-    this.tweens.add({
-      targets: pin3,
-      x: 1200, //移動先のx座標
-      duration: 1000, //アニメーションの時間（ミリ秒）
-      onComplete: () => {
-        //アニメーションが完了したら画像を消す
-        pin3.destroy();
-        if (pin1Clicked === 0 && meat === 1) {
-          //pin1　有　meat 有
-          this.tweens.add({
-            targets: humanImage,
-            x: 620,
-            duration: 3000,
-          });
-        } else if (pin1Clicked === 1 && meat === 0) {
-          //pin1 無　meat 無
-          this.tweens.add({
-            targets: humanImage,
-            x: 700,
-            duration: 3000,
-            onComplete: () => {
-              this.tweens.add({
-                targets: wolf2Image,
-                x: 600,
-                duration: 3000,
-              });
-            },
-          });
-        } else if (pin1Clicked === 1 && meat === 1) {
-          //pin1　無　meat 有
-          this.tweens.add({
-            targets: humanImage,
-            x: 700,
-            duration: 3000,
-          });
-        } else if (pin1Clicked === 0 && meat === 0) {
-          // pin1　有　meat　無
-          this.tweens.add({
-            targets: humanImage,
-            x: 620,
-            duration: 3000,
-            onComplete: () => {
-              wolfImage.destroy();
-              wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
-              wolf2Image.setDisplaySize(128, 61);
-              wolf2Image.setCollideWorldBounds(true);
-              wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
-              this.physics.add.collider(wolf2Image, walls);
-              this.anims.create({
-                key: "wolfAnimation2", // アニメーションの名前
-                frames: this.anims.generateFrameNumbers("wolf2", {
-                  start: 0,
-                  end: 1,
-                }), // フレームの範囲
-                frameRate: 3, // アニメーションの速度（フレーム/秒）
-                repeat: -1, // -1に設定すると無限ループ
-              });
-              wolf2Image.play("wolfAnimation2"); // アニメーションを再生
-              barkDog.play();
-              this.tweens.add({
-                targets: wolf2Image,
-                x: 590,
-                duration: 2000,
-              });
-              this.physics.add.collider(
-                humanImage,
-                wolf2Image,
-                hithuman2,
-                null,
-                this
-              );
-              //狼2と人間がぶつかったときの処理
-              function hithuman2() {
-                console.log("hit2");
-                humanImage.destroy();
-                humanDeath.play();
-                gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
-                gameoverText.setDepth(1);
-                restartText = this.add.text(390, 200, "リトライ", whiteText);
-                returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
-                restartText.setInteractive(); // テキストをクリック可能にする
-                returnMenuText.setInteractive();
-                restartText.on("pointerdown", () => {
-                  this.scene.restart(); // ゲームの初期状態に戻す処理
-                  BGM.stop();
+    if (canClick) {
+      canClick = false; // クリック不可に設定
+      pullPin.play();
+      pin3Clicked++;
+      //画像を右にアニメーションで動かす
+      this.tweens.add({
+        targets: pin3,
+        x: 1200, //移動先のx座標
+        duration: 1000, //アニメーションの時間（ミリ秒）
+        onComplete: () => {
+          //アニメーションが完了したら画像を消す
+          pin3.destroy();
+          if (pin1Clicked === 0 && meat === 1) {
+            //pin1　有　meat 有
+            this.tweens.add({
+              targets: humanImage,
+              x: 620,
+              duration: 3000,
+              onComplete: () => {
+                canClick = true; // クリック可能に設定
+              },
+            });
+          } else if (pin1Clicked === 1 && meat === 0) {
+            //pin1 無　meat 無
+            this.tweens.add({
+              targets: humanImage,
+              x: 700,
+              duration: 3000,
+              onComplete: () => {
+                this.tweens.add({
+                  targets: wolf2Image,
+                  x: 600,
+                  duration: 3000,
+                  onComplete: () => {
+                    canClick = true; // クリック可能に設定
+                  },
                 });
-                returnMenuText.on("pointerdown", () => {
-                  this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
-                  BGM.stop();
+              },
+            });
+          } else if (pin1Clicked === 1 && meat === 1) {
+            //pin1　無　meat 有
+            this.tweens.add({
+              targets: humanImage,
+              x: 700,
+              duration: 3000,
+            });
+          } else if (pin1Clicked === 0 && meat === 0) {
+            // pin1　有　meat　無
+            this.tweens.add({
+              targets: humanImage,
+              x: 620,
+              duration: 3000,
+              onComplete: () => {
+                canClick = true; // クリック可能に設定
+                wolfImage.destroy();
+                wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
+                wolf2Image.setDisplaySize(128, 61);
+                wolf2Image.setCollideWorldBounds(true);
+                wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+                this.physics.add.collider(wolf2Image, walls);
+                this.anims.create({
+                  key: "wolfAnimation2", // アニメーションの名前
+                  frames: this.anims.generateFrameNumbers("wolf2", {
+                    start: 0,
+                    end: 1,
+                  }), // フレームの範囲
+                  frameRate: 3, // アニメーションの速度（フレーム/秒）
+                  repeat: -1, // -1に設定すると無限ループ
                 });
-                restartText.setDepth(1);
-                graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
-                returnMenuText.setDepth(1);
-              }
-            },
-          });
-        }
-      },
-    });
+                barkDog.play();
+                wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+                this.tweens.add({
+                  targets: wolf2Image,
+                  x: 590,
+                  duration: 2000,
+                });
+                this.physics.add.collider(
+                  humanImage,
+                  wolf2Image,
+                  hithuman2,
+                  null,
+                  this
+                );
+                //狼2と人間がぶつかったときの処理
+                function hithuman2() {
+                  console.log("hit2");
+                  humanImage.destroy();
+                  humanDeath.play();
+                  gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
+                  gameoverText.setDepth(1);
+                  restartText = this.add.text(390, 200, "リトライ", whiteText);
+                  returnMenuText = this.add.text(420, 300, "ホーム", whiteText);
+                  restartText.setInteractive(); // テキストをクリック可能にする
+                  returnMenuText.setInteractive();
+                  restartText.on("pointerdown", () => {
+                    this.scene.restart(); // ゲームの初期状態に戻す処理
+                    BGM.stop();
+                  });
+                  returnMenuText.on("pointerdown", () => {
+                    this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
+                    BGM.stop();
+                  });
+                  restartText.setDepth(1);
+                  graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
+                  returnMenuText.setDepth(1);
+                }
+              },
+            });
+          }
+        },
+      });
+    }
   });
 
   // アニメーションを設定
@@ -432,6 +459,47 @@ const humanDeath = this.sound.add('humanDeath');
     repeat: -1, // -1に設定すると無限ループ
   });
   humanImage.play("humanAnimation"); // アニメーションを再生
+
+  // ゲーム説明ボタン
+  // const graphics = this.add.graphics();
+  // graphics.fillStyle(0xffffff, 1); // 白い色
+  // graphics.fillCircle(58, 40, 20); // 円の中心座標と半径
+  const question = this.add.image(60, 40, "question").setInteractive();
+  // ボタンがクリックされたときの処理
+  question.on(
+    "pointerdown",
+    function () {
+      const popupgraphics = this.add.graphics();
+      popupgraphics.fillStyle(0x87ceeb, 1).fillRect(200, 100, 600, 350);
+      const popuptitle = this.add
+        .text(500, 130, "ゲーム説明")
+        .setOrigin(0.5)
+        .setFontSize(35);
+      popuptitle.setPadding(0, 4, 0, 0);
+      const popupmain = this.add
+        .text(
+          210,
+          210,
+          "  宝箱を獲得するとゲームクリア\n  狼に食われるとゲームオーバーです。\n  ピンをクリックするとピンが抜けます。\n  ピンを正しい順で抜くと、宝箱が取れます。\n  ただし、ピンが抜けて無くなるまで\n  次のピンを動かせません。 "
+        )
+        .setFontSize(25);
+      popupmain.setPadding(0, 4, 0, 0);
+      const closeButton = this.add
+        .text(780, 100, "X")
+        .setFontSize(30)
+        .setColor(0xffffff, 1);
+      closeButton.setInteractive();
+      closeButton.on("pointerdown", function () {
+        // 閉じるボタンがクリックされたときの処理
+        popuptitle.destroy(); // ポップアップを破棄して閉じる
+        popupmain.destroy();
+        popupgraphics.destroy();
+        closeButton.destroy();
+      });
+    },
+    this
+  );
 }
+
 
 function update() {}
