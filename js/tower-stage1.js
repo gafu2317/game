@@ -554,8 +554,62 @@ function create() {
         closeButton.destroy();
       });
     },
-    this
   );
+  let escapeKey;
+  let spaceKey;
+  //escキーを押すとホームに戻る処理
+  const input = this.input;
+  escapeKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+  escapeKey.on("down", () => {
+    this.scene.start("start-menu");
+    humanPoint = 10;
+    towerBGM.stop();
+
+    blackItemDestroyed = false;
+    whiteItemDestroyed = false;
+    gunItemDestroyed = false;
+    stickItemDestroyed = false;
+    swordItem1Destroyed = false;
+    swordItem2Destroyed = false;
+    poisonItemDestroyed = false;
+    slime1Destroyed = false;
+    slime2Destroyed = false;
+    slime3Destroyed = false;
+    golem1Destroyed = false;
+    golem2Destroyed = false;
+    golem3Destroyed = false;
+    dragonDestroyed = false;
+
+    clickEnabled2 = false;
+    clickEnabled3 = false;
+    clickEnabled4 = false;
+  });
+  //spaceキーを押すとやり直しができる処理
+  spaceKey = input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  spaceKey.on("down", () => {
+    this.scene.restart();
+    humanPoint = 10;
+    towerBGM.stop();
+
+    blackItemDestroyed = false;
+    whiteItemDestroyed = false;
+    gunItemDestroyed = false;
+    stickItemDestroyed = false;
+    swordItem1Destroyed = false;
+    swordItem2Destroyed = false;
+    poisonItemDestroyed = false;
+    slime1Destroyed = false;
+    slime2Destroyed = false;
+    slime3Destroyed = false;
+    golem1Destroyed = false;
+    golem2Destroyed = false;
+    golem3Destroyed = false;
+    dragonDestroyed = false;
+
+    clickEnabled2 = false;
+    clickEnabled3 = false;
+    clickEnabled4 = false;
+  });
 }
 
 //humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
