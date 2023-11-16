@@ -235,7 +235,10 @@ function create() {
   }
   //人間と宝がぶつかったときの処理
   function hittreasure() {
-    humanImage.destroy();
+    treasure.destroy();
+    const treasureGet = this.sound.add("treasureGet");
+    treasureGet.play();
+    treasureGet.setVolume(0.5); // 音量を0.5に設定
     gameclearText = this.add.text(500, 70, "GAME CLEAR", yellowtext); //ゲームクリアの表示
     gameclearText.setOrigin(0.5);
     gameclearText.setDepth(1);

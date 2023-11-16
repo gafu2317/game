@@ -372,8 +372,8 @@ const humanDeath = this.sound.add('humanDeath');
                 frameRate: 3, // アニメーションの速度（フレーム/秒）
                 repeat: -1, // -1に設定すると無限ループ
               });
-              barkDog.play();
               wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+              barkDog.play();
               this.tweens.add({
                 targets: wolf2Image,
                 x: 590,
