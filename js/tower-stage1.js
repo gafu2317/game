@@ -26,6 +26,15 @@ function preload() {
   this.load.image("enemy-slime", "/img/tower/slime.png");
 
   this.load.audio("towerBGM", "./public/sounds/towerBGM.MP3");
+  this.load.audio("slimeDeath", "./public/sounds/slimeDeath.MP3");
+  this.load.audio("humanDeath", "./public/sounds/humanDeath.MP3");
+  this.load.audio("golemDeath", "./public/sounds/golemDeath.MP3");
+  this.load.audio("dragonVoice", "./public/sounds/dragonVoice.MP3");
+  this.load.audio("gun", "./public/sounds/gun.MP3");
+  this.load.audio("poison", "./public/sounds/poison.MP3");
+  this.load.audio("portion", "./public/sounds/portion.MP3");
+  this.load.audio("sword", "./public/sounds/sword.MP3");
+  this.load.audio("magic", "./public/sounds/magic.MP3");
 
   this.load.spritesheet("human", "/img/tower/human.png", {
     frameWidth: 146, // 1フレームの幅
@@ -104,6 +113,8 @@ let stickItemtext;
 let dragontext;
 
 let towerBGM;
+let humanDeath;
+
 
 function create() {
   const background = this.add.image(500, 300, "yozora");
@@ -114,7 +125,16 @@ function create() {
   towerBGM.setVolume(0.1); // 音量を0.5に設定
   towerBGM.setLoop(true); // ループ再生を有効にする
 
-  const towers = this.physics.add.staticGroup();
+  humanDeath = this.sound.add('humanDeath');
+  const slimeDeath = this.sound.add('slimeDeath');
+  const golemDeath = this.sound.add('golemDeath');
+  const dragonVoice = this.sound.add('dragonVoice');
+  const gun = this.sound.add('gun');
+  const poison = this.sound.add('poison');
+  const portion = this.sound.add('portion');
+  const sword = this.sound.add('sword');
+  const magic = this.sound.add("magic")
+  magic.setVolume(0.3);
 
   // 同じ画像を何回も配置する
   for (let i = 0; i < 6; i++) {
@@ -332,6 +352,7 @@ function create() {
       slime1text.destroy();
       slime1Destroyed = true;
       checkET2();
+      slimeDeath.play();
     } else {
       humanPoint = humanPoint - slime1Point;
     }
@@ -344,6 +365,7 @@ function create() {
     whiteItemtext.destroy();
     whiteItemDestroyed = true;
     checkET2();
+    portion.play();
   });
   poisonItem.on("pointerdown", () => {
     if (clickEnabled2) {
@@ -353,6 +375,7 @@ function create() {
       poisonItemtext.destroy();
       poisonItemDestroyed = true;
       checkET3();
+      poison.play();
     }
   });
   slime2.on("pointerdown", () => {
@@ -364,6 +387,7 @@ function create() {
         slime2text.destroy();
         slime2Destroyed = true;
         checkET3();
+        slimeDeath.play();
       } else {
         humanPoint = humanPoint - slime2Point;
       }
@@ -377,6 +401,7 @@ function create() {
       swordItem1text.destroy();
       swordItem1Destroyed = true;
       checkET3();
+      sword.play();
     }
   });
   golem1.on("pointerdown", () => {
@@ -388,6 +413,7 @@ function create() {
         golem1text.destroy();
         golem1Destroyed = true;
         checkET4();
+        golemDeath.play();
       } else {
         humanPoint = humanPoint - golem1Point;
       }
@@ -402,6 +428,7 @@ function create() {
         golem2text.destroy();
         golem2Destroyed = true;
         checkET4();
+        golemDeath.play();
       } else {
         humanPoint = humanPoint - golem2Point;
       }
@@ -415,6 +442,7 @@ function create() {
       gunItemtext.destroy();
       gunItemDestroyed = true;
       checkET4();
+      gun.play();
     }
   });
   slime3.on("pointerdown", () => {
@@ -426,6 +454,7 @@ function create() {
         slime3text.destroy();
         slime3Destroyed = true;
         checkET4();
+        slimeDeath.play();
       } else {
         humanPoint = humanPoint - slime3Point;
       }
@@ -438,6 +467,7 @@ function create() {
       blackItem.destroy();
       blackItemtext.destroy();
       blackItemDestroyed = true;
+      portion.play();
     }
   });
   swordItem2.on("pointerdown", () => {
@@ -447,6 +477,7 @@ function create() {
       swordItem2.destroy();
       swordItem2text.destroy();
       swordItem2Destroyed = true;
+      sword.play();
     }
   });
   golem3.on("pointerdown", () => {
@@ -457,6 +488,7 @@ function create() {
         golem3.destroy();
         golem3text.destroy();
         golem3Destroyed = true;
+        golemDeath.play();
       } else {
         humanPoint = humanPoint - golem3Point;
       }
@@ -469,6 +501,7 @@ function create() {
       stickItem.destroy();
       stickItemtext.destroy();
       stickItemDestroyed = true;
+      magic.play();
     }
   });
   dragon.on("pointerdown", () => {
@@ -478,6 +511,7 @@ function create() {
         dragon.destroy();
         dragontext.destroy();
         dragonDestroyed = true;
+        dragonVoice.play();
       } else {
         humanPoint = humanPoint - dragonPoint;
       }
@@ -556,6 +590,9 @@ function update() {
   graphics.fillRect(0, 0, this.cameras.main.width, this.cameras.main.height);
   graphics.setDepth(-1); //通常時は背面に置く
   if (humanPoint <= 0) {
+    humanDeath.play();
+    human.destroy();
+    humantext.destroy();
     gameoverText = this.add.text(230, 70, "GAME OVER", redtext); //ゲームオーバーの表示
     gameoverText.setDepth(1);
     restartText = this.add.text(390, 200, "リトライ", whiteText);
@@ -608,16 +645,18 @@ function update() {
     restartText.on("pointerdown", () => {
       this.scene.restart(); // ゲームの初期状態に戻す処理
       towerBGM.stop();
+      humanPoint = 10;
     });
     returnMenuText.on("pointerdown", () => {
       this.scene.start("start-menu"); // ゲームのホーム画面に移動する処理
       towerBGM.stop();
+      humanPoint = 10;
     });
     restartText.setDepth(1);
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(1);
     console.log(gameoverText);
-    humanPoint = 10;
+    
 
     blackItemDestroyed = false;
     whiteItemDestroyed = false;
