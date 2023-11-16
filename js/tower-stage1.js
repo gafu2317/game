@@ -109,7 +109,7 @@ function create() {
   const background = this.add.image(500, 300, "yozora");
   background.setDisplaySize(1000, 600);
 
- towerBGM = this.sound.add("towerBGM");
+  towerBGM = this.sound.add("towerBGM");
   towerBGM.play();
   towerBGM.setVolume(0.1); // 音量を0.5に設定
   towerBGM.setLoop(true); // ループ再生を有効にする
@@ -483,6 +483,45 @@ function create() {
       }
     }
   });
+  // ゲーム説明ボタン
+  const graphics = this.add.graphics();
+  graphics.fillStyle(0xffffff, 1); // 白い色
+  graphics.fillCircle(58, 40, 20); // 円の中心座標と半径
+  const question = this.add.image(60, 40, "question").setInteractive();
+  // ボタンがクリックされたときの処理
+  question.on(
+    "pointerdown",
+    function () {
+      const popupgraphics = this.add.graphics();
+      popupgraphics.fillStyle(0x87ceeb, 1).fillRect(200, 100, 600, 350);
+      const popuptitle = this.add
+        .text(500, 130, "ゲーム説明")
+        .setOrigin(0.5)
+        .setFontSize(35);
+      popuptitle.setPadding(0, 4, 0, 0);
+      const popupmain = this.add
+        .text(
+          210,
+          210,
+          "  塔の中にいる敵やアイテムをクリックすると\n  その位置に人間が動きます。\n  塔の敵をすべて倒しアイテムをすべて回収すると\n  次の塔をクリックできるようになります。\n  "
+        )
+        .setFontSize(25);
+      popupmain.setPadding(0, 4, 0, 0);
+      const closeButton = this.add
+        .text(780, 100, "X")
+        .setFontSize(30)
+        .setColor(0xffffff, 1);
+      closeButton.setInteractive();
+      closeButton.on("pointerdown", function () {
+        // 閉じるボタンがクリックされたときの処理
+        popuptitle.destroy(); // ポップアップを破棄して閉じる
+        popupmain.destroy();
+        popupgraphics.destroy();
+        closeButton.destroy();
+      });
+    },
+    this
+  );
 }
 
 //humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
@@ -599,13 +638,6 @@ function update() {
     clickEnabled3 = false;
     clickEnabled4 = false;
   }
-
-  
 }
 
-//humanを動かす処理。iには左から何番目か、jには下から何段目かを入れる。
-function update() {
-  humantext.setText(humanPoint);
 
-
-}
