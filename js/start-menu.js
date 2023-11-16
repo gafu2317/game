@@ -78,6 +78,10 @@ function create() {
     menuBGM.stop();
   });
 
+  // 白い円を描画
+  const graphics = this.add.graphics();
+  graphics.fillStyle(0xffffff, 1); // 白い色
+  graphics.fillCircle(908, 40, 20); // 円の中心座標と半径
   const question = this.add.image(910, 40, "question").setInteractive();
   // ボタンがクリックされたときの処理
   question.on(
