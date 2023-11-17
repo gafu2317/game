@@ -236,9 +236,12 @@ function create() {
     returnMenuText.setPadding(0, 4, 0, 0);
     returnMenuText.setOrigin(0.5);
     returnMenuText.setInteractive();
+    returnMenuText.on("pointerdown", () => {
+      this.scene.start("start-menu");
+      BGM.stop();
+    });
     returnMenuText.on("pointrdown", () => {
       this.scene.start("start-menu"); //ホーム画面に移動する処理
-      BGM.stop();
     });
     graphics.setDepth(1); // 暗転用のグラフィックスを前面に表示
     returnMenuText.setDepth(2);
@@ -353,29 +356,27 @@ function create() {
                 canClick = true; // クリック可能に設定
               },
             });
-          } else if (pin1Clicked === 1 && meat === 0) {
-            //pin1 無　meat 無
-            this.tweens.add({
-              targets: humanImage,
-              x: 700,
-              duration: 3000,
-              onComplete: () => {
-                this.tweens.add({
-                  targets: wolf2Image,
-                  x: 600,
-                  duration: 3000,
-                  onComplete: () => {
-                    canClick = true; // クリック可能に設定
-                  },
-                });
-              },
-            });
           } else if (pin1Clicked === 1 && meat === 1) {
             //pin1　無　meat 有
             this.tweens.add({
               targets: humanImage,
               x: 700,
               duration: 3000,
+            });
+          } else if (pin1Clicked === 1 && meat === 0) {
+            //pin1 無　meat 無(成功)
+            this.tweens.add({
+              targets: humanImage,
+              x: 700,
+              duration: 3000,
+            });
+            this.tweens.add({
+              targets: wolf2Image,
+              x: 600,
+              duration: 3000,
+              onComplete: () => {
+                canClick = true; // クリック可能に設定
+              },
             });
           } else if (pin1Clicked === 0 && meat === 0) {
             // pin1　有　meat　無
