@@ -277,7 +277,7 @@ function create() {
           canClick = true; // クリック可能に設定
           // アニメーションが完了したら画像を消す
           pin1.destroy();
-          if(pin3Clicked ===1){
+          if (pin3Clicked === 1) {
             this.tweens.add({
               targets: humanImage,
               x: 700, // 移動先のx座標
@@ -301,15 +301,17 @@ function create() {
         y: 800, //移動先のy座標
         duration: 1000, //アニメーションの時間（ミリ秒）
         onComplete: () => {
-          canClick = true; // クリック可能に設定
           //アニメーションが完了したら画像を消す
           pin2.destroy();
           //狼を左にアニメーションで動かす
           this.tweens.add({
             targets: wolfImage,
             x: 300, //移動先のx座標
-            duration: 1000, //アニメーションの時間（ミリ秒）
+            duration: 700, //アニメーションの時間（ミリ秒）
             delay: 800,
+            onComplete: () => {
+              canClick = true; // クリック可能に設定
+            },
           });
           if (wolf == 1) {
             barkDog.play();
@@ -500,6 +502,5 @@ function create() {
     this
   );
 }
-
 
 function update() {}
