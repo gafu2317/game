@@ -367,15 +367,37 @@ function create() {
             //pin1 無　meat 無(成功)
             this.tweens.add({
               targets: humanImage,
-              x: 700,
-              duration: 3000,
-            });
-            this.tweens.add({
-              targets: wolf2Image,
               x: 600,
               duration: 3000,
               onComplete: () => {
                 canClick = true; // クリック可能に設定
+                this.tweens.add({
+                  targets: humanImage,
+                  x: 700,
+                  duration: 1000,
+                });
+                wolfImage.destroy();
+                wolf2Image = this.physics.add.sprite(250, 523, "wolf2");
+                wolf2Image.setDisplaySize(128, 61);
+                wolf2Image.setCollideWorldBounds(true);
+                wolf2Image.setSize(wolf2Image.width, wolf2Image.height);
+                this.physics.add.collider(wolf2Image, walls);
+                this.anims.create({
+                  key: "wolfAnimation2", // アニメーションの名前
+                  frames: this.anims.generateFrameNumbers("wolf2", {
+                    start: 0,
+                    end: 1,
+                  }), // フレームの範囲
+                  frameRate: 3, // アニメーションの速度（フレーム/秒）
+                  repeat: -1, // -1に設定すると無限ループ
+                });
+                barkDog.play();
+                wolf2Image.play("wolfAnimation2"); // アニメーションを再生
+                this.tweens.add({
+                  targets: wolf2Image,
+                  x: 590,
+                  duration: 1500,
+                });
               },
             });
           } else if (pin1Clicked === 0 && meat === 0) {
@@ -406,7 +428,7 @@ function create() {
                 this.tweens.add({
                   targets: wolf2Image,
                   x: 590,
-                  duration: 2000,
+                  duration: 1500,
                 });
                 this.physics.add.collider(
                   humanImage,

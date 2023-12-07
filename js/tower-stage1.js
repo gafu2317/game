@@ -525,7 +525,7 @@ function create() {
   // ボタンがクリックされたときの処理
   question.on(
     "pointerdown",
-    function () {
+    () =>{
       const popupgraphics = this.add.graphics();
       popupgraphics.fillStyle(0x87ceeb, 1).fillRect(200, 100, 600, 350);
       const popuptitle = this.add
